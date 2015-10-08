@@ -1,0 +1,49 @@
+﻿html, 
+body, 
+.dx-viewport {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.delete-button {
+    text-align: center;
+}
+.delete-button div {
+    width: 98%;
+}
+.msg {
+    width: 100%;
+    padding-bottom: 10px;
+}
+.dx-theme-ios .msg-button-left {
+    width: 44%;
+    margin: 0 4% 0 0;    
+    float: left;
+}
+.dx-theme-ios .msg-button-right {
+    width: 44%;
+    margin: 0 0 0 4%;    
+    float: left;
+}
+
+.dx-theme-ios #deleteConfirmation {
+    height: 135px !important;
+}
+
+.dx-theme-android .msg-button-left {
+    width: 42%;
+    margin: 0 3% 0 0;    
+    float: left;
+}
+.dx-theme-android .msg-button-right {
+    width: 42%;
+    margin: 0 0 0 3%;    
+    float: left;
+}
+.dx-theme-android #deleteConfirmation {
+    height: 150px !important;
+}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widget
+  xmlns="http://www.w3.org/ns/widgets"
+  xmlns:gap="http://phonegap.com/ns/1.0"
+  id="com.devexpress.apptemplate"
+  version="1.0"
+  versionCode="1">
+  <name>ApplicationTemplate</name>
+
+  <preference name="phonegap-version" value="3.7.0" />
+  <preference name="permissions" value="none" />
+  <preference name="prerendered-icon" value="true" />
+  <preference name="android-windowSoftInputMode" value="adjustPan" />
+  <preference name="SplashScreen" value="splash" />
+  <preference name="SplashScreenDelay" value="60000" />
+  <preference name="AutoHideSplashScreen" value="false" />
+  <preference name="DisallowOverscroll" value="true" />
+
+  <preference name="StatusBarOverlaysWebView" value="false" />
+  <preference name="StatusBarBackgroundColor" value="#000000" />
+
+  <access origin="*" />
+
+  <feature name="http://api.phonegap.com/1.0/network" />
+
+  <gap:plugin name="org.apache.cordova.splashscreen" version="0.3.4" onload="true" />
+  <gap:plugin name="com.phonegap.plugin.statusbar" version="1.1.0" onload="true"/>
+  <gap:plugin name="com.devexpress.plugins.devextremeaddon" version="1.0.1" />
+</widget>

@@ -1,0 +1,1 @@
+﻿Use this folder as a place for the project's views. To learn how to define views, refer to the http://phonejs.devexpress.com/Howto/Views_and_Layouts section in the PhoneJS documentation.

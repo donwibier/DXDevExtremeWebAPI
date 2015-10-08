@@ -1,0 +1,1 @@
+﻿Use this folder as a place for the project's views. To learn how to define views, refer to the http://js.devexpress.com/Documentation/Howto/SPA_Framework/Views_and_Layouts section in the documentation.

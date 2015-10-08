@@ -1,0 +1,28 @@
+<div data-options="dxView : { name: 'Register', title: 'Register' } " >
+    <div  data-options="dxContent : { targetPlaceholder: 'content' } " >
+        <p style="padding: 5px">Register a new account</p>
+        <div class="dx-fieldset">
+            <div class="dx-field">
+                <div class="dx-field-label">E-mail address</div>
+                <div class="dx-field-value">
+                    <div data-bind="dxTextBox:{ value: username }"></div>
+                </div>
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-label">Password</div>
+                <div class="dx-field-value">
+                    <div data-bind="dxTextBox: { value: password, mode: 'password' }"></div>
+                </div>
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-label">Retype Password</div>
+                <div class="dx-field-value">
+                    <div data-bind="dxTextBox: { value: passwordRetype, mode: 'password' }"></div>
+                </div>
+            </div>
+        </div>
+        <div style="float:right">
+            <div data-bind="dxButton: { onClick: registerClick, text: 'Register' }"></div>
+        </div>
+    </div>
+</div>
