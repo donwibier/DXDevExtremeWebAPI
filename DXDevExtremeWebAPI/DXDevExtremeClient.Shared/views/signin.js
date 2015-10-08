@@ -44,12 +44,12 @@
 
     function onSuccess(data) {
         DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-        DXDevExtremeClient.app.navigate('home', { root: true });
+        DXDevExtremeClient.app.navigate('Home', { root: true });
     }
 
     function onExternalSuccess(data) {
         DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-        DXDevExtremeClient.app.navigate('home', { root: true });
+        DXDevExtremeClient.app.navigate('Home', { root: true });
     }
 
     function onFail(data) {
