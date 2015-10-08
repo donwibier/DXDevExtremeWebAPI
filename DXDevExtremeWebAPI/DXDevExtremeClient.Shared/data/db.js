@@ -85,8 +85,8 @@
             //if (!this.isCordova) {
 
             //    url = (this._baseUrl + url).replace(/((?:.*)redirect_uri=)(.+)((?:[\&|\s]).*)/, "$1" + encodeURIComponent(window.location) + "$3");                
-            //    debugger;
-            //    window.location.replace(url);
+                //debugger;
+                //window.location.replace(url);
             //}
         },
         logout: function (redirectView) {
@@ -106,8 +106,8 @@
         }
 
     }    
-
-    client.get("Account", "ExternalLogins?returnUrl=%2F&generateState=true", null,
+    //api%2FAccount%2FExternalLoginCallback
+    client.get("Account", "ExternalLogins?returnUrl=%2F", null,
         function (data) {
             client.hasExternalLogins(data.length > 0);
             if (client.hasExternalLogins) {

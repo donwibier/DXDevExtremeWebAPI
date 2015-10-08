@@ -51,13 +51,13 @@ namespace WebAPIServer
             //    clientId: "",
             //    clientSecret: "");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            app.UseTwitterAuthentication(
+               consumerKey: "ujBJf6SlNxvE7PDQPOHu62uo1",
+               consumerSecret: "JA2WRDxQvpAzUfvrQlerBX3xpBPxQ8tChRBsD1jwxNTTgmvxQI");
 
-            //app.UseFacebookAuthentication(
-            //    appId: "",
-            //    appSecret: "");
+            app.UseFacebookAuthentication(
+                appId: "1430818973893850",
+                appSecret: "7342ab8e4669dd12d81bc1196b9cceaa");
 
             //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             //{
