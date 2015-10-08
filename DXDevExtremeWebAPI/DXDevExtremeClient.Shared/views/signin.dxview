@@ -17,15 +17,18 @@
                             </div>
                         </div>
                         <div class="dx-field">
+                            <div class="dx-field-label"></div>
+                            <div class="dx-field-value">
+                                <div data-bind="dxButton: { onClick: $root.loginClick, text: 'Sign in' }"></div>
+                            </div>
+                        </div>
+
+
+                        <div class="dx-field">
                             <div class="dx-field-label">No account yet?</div>
                             <div class="dx-field-value">
                                 <div data-bind="dxButton: { onClick: $root.registerClick, text: 'Register' }"></div>
                             </div>
-                        </div>
-                    </div>
-                    <div style="padding-bottom: 10px">
-                        <div style="float:right">
-                            <div data-bind="dxButton: { onClick: $root.loginClick, text: 'Sign In' }"></div>
                         </div>
                     </div>
                 </div>
@@ -40,7 +43,7 @@
                     </div>
                 </div>
             </div>
-              
+
         </div>
     </div>
 </div>
