@@ -41,9 +41,6 @@
         _loginView: 'Signin',
         _username: '',
         isCordova: !!window.cordova,
-        /*_oauthRef: null,*/
-        externalLogins: ko.observableArray(),
-        hasExternalLogins: ko.observable(false),
 
         ajax: function (method, controllerName, actionMethod, dataObj, onSuccess, onFailure) {
             var ajaxObj = {
@@ -107,17 +104,16 @@
 
     }    
     //api%2FAccount%2FExternalLoginCallback
-    client.get("Account", "ExternalLogins?returnUrl=%2F", null,
-        function (data) {
-            client.hasExternalLogins(data.length > 0);
-            if (client.hasExternalLogins) {
-                client.externalLogins = ko.observableArray(data);
-            }
-        },
-        function (data) {
-            client.hasExternalLogins(false);
-            //client.externalLogins = [];
-        }
-    );
+    //client.get("Account", "ExternalLogins?returnUrl=%2F", null,
+    //    function (data) {
+    //        client.hasExternalLogins(data.length > 0);
+    //        if (client.hasExternalLogins) {
+    //            client.externalLogins = ko.observableArray(data);
+    //        }
+    //    },
+    //    function (data) {
+    //        client.hasExternalLogins(false);            
+    //    }
+    //);
     DXDevExtremeClient.db = client;
 }());
