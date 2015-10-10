@@ -8,6 +8,7 @@
     <UploadPluginsToTheCourier>True</UploadPluginsToTheCourier>
     <Name>Shared</Name>
     <RootNamespace>DXDevExtremeClient</RootNamespace>
+    <UpgradeNotifyShown>15.1.7</UpgradeNotifyShown>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,6 +20,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="data\db.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="data\oauthcomplete.js">
       <SubType>Content</SubType>
     </Content>
     <Content Include="dxdevextremeclient.shared.config.js">
@@ -52,6 +56,9 @@
     <Content Include="css\icons\dxiconsios.eot" />
     <Content Include="css\icons\dxiconsios.ttf" />
     <Content Include="css\icons\dxiconsios.woff" />
+    <Content Include="oauthcomplete.html">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="views\about.html" />
     <Content Include="views\blank.html" />
     <Content Include="views\home.dxview">

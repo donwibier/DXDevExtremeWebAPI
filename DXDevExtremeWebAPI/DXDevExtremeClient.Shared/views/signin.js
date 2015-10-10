@@ -8,9 +8,9 @@
     var _loginProviders = ko.observableArray();
     var _hasProviders = ko.observable(false);
     
-    //var _redirectUri = location.protocol + '//' + location.host + '/index.html';
+    var _redirectUri = location.protocol + '//' + location.host + '/oauthcomplete.html';
     
-    db.get("Account", "ExternalLogins?returnUrl=/"/* + encodeURIComponent(window.location)*/, null,
+    db.get("Account", "ExternalLogins?returnUrl=" + _redirectUri, null,
         function (data) {
             _hasProviders(data.length > 0);
             if (_hasProviders) {
@@ -55,9 +55,10 @@
         var result = db._baseUrl + url;    
         return result;
     }
-    //function externalLogin(args) {
-    //    DXDevExtremeClient.db.externalLogin(args.model.Url, args.model.Name, onExternalSuccess, onFail);
-    //}
+
+    function externalLogin(args) {
+        DXDevExtremeClient.db.externalLogin(args.model.Name, args.model.Url);
+    }
 
     function onSuccess(data) {
         DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
@@ -84,20 +85,7 @@
         password: _password,
         registerClick: register,
         loginClick: login,
-        /*externalLoginClick: externalLogin,*/
-        boxOptions: {
-            screenByWidth: function(width) {
-                if( width < 768 )
-                    return 'xs';
-                if( width < 992 )
-                    return 'sm';
-                if( width < 1200 )
-                    return 'md';
-                return 'lg';
-            },
-            singleColumnScreen: 'xs sm'
-        },
-        prepLoginProviderUrl: prepLoginProviderUrl
+        externalLoginClick: externalLogin
     };
     return viewModel;
 };

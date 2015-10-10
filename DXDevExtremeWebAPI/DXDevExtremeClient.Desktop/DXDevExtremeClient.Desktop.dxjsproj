@@ -8,6 +8,7 @@
     <ApplicationPage>index.html</ApplicationPage>
     <RootNamespace>DXDevExtremeClient</RootNamespace>
     <Name>DXDevExtremeClient.Desktop</Name>
+    <UpgradeNotifyShown>15.1.7</UpgradeNotifyShown>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,6 +46,9 @@
       <Project>{93d050e9-f4c9-40c9-9b74-8e11a4751d9f}</Project>
       <Private>True</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <Target Name="ResolveReferences">

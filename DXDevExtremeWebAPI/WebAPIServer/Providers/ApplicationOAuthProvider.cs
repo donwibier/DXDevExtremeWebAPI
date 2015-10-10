@@ -82,7 +82,10 @@ namespace WebAPIServer.Providers
             //        context.Validated();
             //    }
             //}
-            context.Validated();
+            if (context.ClientId == _publicClientId)
+            {
+                context.Validated();
+            }
             return Task.FromResult<object>(null);
         }
 

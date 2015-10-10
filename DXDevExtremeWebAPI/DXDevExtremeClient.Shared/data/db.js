@@ -77,7 +77,48 @@
             }).fail(onFailure);
 
         },
-        externalLogin: function (url, provider, onSuccess, onFailure) {
+        //==
+        oauthCompletedCB : function (fragment, onSuccess, onFailure) {
+            debugger;
+
+            var loginData = {
+                provider: fragment.provider,
+                externalAccessToken: fragment.access_token
+            };
+
+            post('Account', 'AddExternalLogin', loginData,
+                function (data) {
+                    debugger;
+                    if (onSuccess)
+                        onSuccess(data)
+            }, onFailure);
+            
+
+
+            //if (fragment.haslocalaccount === 'False') {
+
+                //authService.logOut();
+
+                //authService.externalAuthData = {
+                //    provider: fragment.provider,
+                //    userName: fragment.external_user_name,
+                //    externalAccessToken: fragment.external_access_token
+                //};
+
+                    
+
+            //}
+            //else {
+                //Obtain access token and redirect to orders
+                //var externalData = { provider: fragment.provider, externalAccessToken: fragment.external_access_token };
+                //authService.obtainAccessToken(externalData).then(function (response) {
+            //}
+        },
+
+        //==
+        externalLogin: function (provider, url) {
+            //var u = this._baseUrl + url;
+            var oauthWindow = window.open(this._baseUrl+url, "Authenticate Account", "location=0,status=0,width=600,height=750");
             // under construction !!!
             //if (!this.isCordova) {
 
@@ -115,5 +156,6 @@
     //        client.hasExternalLogins(false);            
     //    }
     //);
+    window.oauthCompletedCB = client.oauthCompletedCB;
     DXDevExtremeClient.db = client;
 }());

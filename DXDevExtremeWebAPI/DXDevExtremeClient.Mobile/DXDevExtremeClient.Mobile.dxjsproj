@@ -9,6 +9,7 @@
     <RootNamespace>DXDevExtremeClient</RootNamespace>
     <ApplicationPage>index.html</ApplicationPage>
     <Name>DXDevExtremeClient.Mobile</Name>
+    <UpgradeNotifyShown>15.1.7</UpgradeNotifyShown>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

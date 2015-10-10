@@ -1,53 +1,46 @@
 <div data-options="dxView : { name: 'Signin', title: 'Signin' } ">
     <div data-options="dxContent : { targetPlaceholder: 'content' } ">
-        <div data-bind="dxResponsiveBox: boxOptions ">
-            <div data-options="dxItem: { location:  [ { row: 0, col: 0, screen: 'md lg' }, { row: 0, col: 0, colspan: 2, screen: 'xs sm' } ] }">
-                <div>
-                    <div class="dx-fieldset">
-                        <div class="dx-fieldset-header">Your credentials</div>
-                        <div class="dx-field">
-                            <div class="dx-field-label">E-mail address</div>
-                            <div class="dx-field-value">
-                                <div data-bind="dxTextBox:{ value: $root.username }"></div>
-                            </div>
-                        </div>
-                        <div class="dx-field">
-                            <div class="dx-field-label">Password</div>
-                            <div class="dx-field-value">
-                                <div data-bind="dxTextBox: { value: $root.password, mode: 'password' }"></div>
-                            </div>
-                        </div>
-                        <div class="dx-field">
-                            <div class="dx-field-label"></div>
-                            <div class="dx-field-value">
-                                <div data-bind="dxButton: { onClick: $root.loginClick, text: 'Sign in' }"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dx-fieldset">
-                        <div class="dx-fieldset-header">Register</div>
-                        <div class="dx-field">
-                            <div class="dx-field-label">No account yet?</div>
-                            <div class="dx-field-value">
-                                <div data-bind="dxButton: { onClick: $root.registerClick, text: 'Register' }"></div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="dx-fieldset">
+            <div class="dx-fieldset-header">Your credentials</div>
+            <div class="dx-field">
+                <div class="dx-field-label">E-mail address</div>
+                <div class="dx-field-value">
+                    <div data-bind="dxTextBox:{ value: username }"></div>
                 </div>
-                <div data-options="dxItem: { location: [{ row: 0, col: 1, screen: 'md lg' }, { row: 1, col: 0, colspan: 2 , screen: 'xs sm' }] }">
-                    <div class="dx-fieldset">
-                        <div class="dx-fieldset-header">Use another account</div>
-                        <div class="dx-field-label"></div>
-                        <div class="dx-field-value">
-                            <div data-bind="dxList: { dataSource: $root.loginProviders, noDataText: $root.noProvidersText }">
-                                <div data-options="dxTemplate : { name: 'item' } ">
-                                    <a data-bind="attr: { href: $root.prepLoginProviderUrl(Url), title: Name }"><span data-bind="text: Name"></span></a><br />
-                                </div>
-                            </div>
-                        </div>
-
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-label">Password</div>
+                <div class="dx-field-value">
+                    <div data-bind="dxTextBox: { value: password, mode: 'password' }"></div>
+                </div>
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-label"></div>
+                <div class="dx-field-value">
+                    <div data-bind="dxButton: { onClick: loginClick, text: 'Sign in' }"></div>
+                </div>
+            </div>
+        </div>
+        <div class="dx-fieldset">
+            <div class="dx-fieldset-header">Register</div>
+            <div class="dx-field">
+                <div class="dx-field-label">No account yet?</div>
+                <div class="dx-field-value">
+                    <div data-bind="dxButton: { onClick: registerClick, text: 'Register' }"></div>
+                </div>
+            </div>
+        </div>
+        <div class="dx-fieldset">
+            <div class="dx-fieldset-header">Use another account</div>
+            <div class="dx-field-label"></div>
+            <div class="dx-field-value">
+                <div data-bind="dxList: { dataSource: loginProviders, noDataText: noProvidersText }">
+                    <div data-options="dxTemplate : { name: 'item' } ">
+                        <div data-bind="dxButton: { text: Name, onClick: $root.externalLoginClick }"></div>
                     </div>
                 </div>
             </div>
+
+        </div>
         </div>
     </div>
