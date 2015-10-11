@@ -47,6 +47,8 @@ var fragment = common.getFragment();
 
 window.location.hash = fragment.state || '';
 
-window.opener.oauthCompletedCB(fragment);
+if ((window.opener) && (window.opener.oauthCompletedCB)) {
+    window.opener.oauthCompletedCB(fragment);
+}
 
 window.close();

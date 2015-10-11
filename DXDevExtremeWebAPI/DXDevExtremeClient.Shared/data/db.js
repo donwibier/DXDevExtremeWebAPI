@@ -80,18 +80,26 @@
         //==
         oauthCompletedCB : function (fragment, onSuccess, onFailure) {
             debugger;
-
+            var db = this.DXDevExtremeClient.db;
             var loginData = {
-                provider: fragment.provider,
-                externalAccessToken: fragment.access_token
+                /*provider: fragment.provider,*/
+                ExternalAccessToken: fragment.access_token
             };
-
-            post('Account', 'AddExternalLogin', loginData,
+            db.post('Account', 'AddExternalLogin', loginData,
                 function (data) {
                     debugger;
-                    if (onSuccess)
-                        onSuccess(data)
-            }, onFailure);
+                    this._username = data.userName;
+                    sessionStorage.setItem('USRTOKEN', data.access_token);
+                    if (onSuccess) {
+                        onSuccess(data);
+                    }
+                },
+                function (data) {
+                    debugger;
+                    if (onFailure) {
+                        onFailure(data);
+                    }
+                });
             
 
 

@@ -376,6 +376,41 @@ namespace WebAPIServer.Controllers
             return Ok();
         }
 
+        //added
+        //[AllowAnonymous]
+        //[HttpGet]
+        //[Route("ObtainLocalAccessToken")]
+        //public async Task<IHttpActionResult> ObtainLocalAccessToken(string provider, string externalAccessToken)
+        //{
+
+        //    if (string.IsNullOrWhiteSpace(provider) || string.IsNullOrWhiteSpace(externalAccessToken))
+        //    {
+        //        return BadRequest("Provider or external access token is not sent");
+        //    }
+
+        //    var verifiedAccessToken = await VerifyExternalAccessToken(provider, externalAccessToken);
+        //    if (verifiedAccessToken == null)
+        //    {
+        //        return BadRequest("Invalid Provider or External Access Token");
+        //    }
+
+        //    IdentityUser user = await _repo.FindAsync(new UserLoginInfo(provider, verifiedAccessToken.user_id));
+
+        //    bool hasRegistered = user != null;
+
+        //    if (!hasRegistered)
+        //    {
+        //        return BadRequest("External user is not registered");
+        //    }
+
+        //    //generate access token response
+        //    var accessTokenResponse = GenerateLocalAccessTokenResponse(user.UserName);
+
+        //    return Ok(accessTokenResponse);
+
+        //}
+        //== end added
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)
