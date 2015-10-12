@@ -81,4 +81,19 @@ namespace WebAPIServer.Models
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+
+    //added
+    public class ExchangeExternalTokenBindingModel : AddExternalLoginBindingModel
+    {
+        [Required]
+        [Display(Name = "External Provider")]
+        public string Provider { get; set; }
+
+    }
+    public class ParsedExternalAccessToken
+    {
+        public string user_id { get; set; }
+        public string app_id { get; set; }
+    }
+
 }

@@ -10,6 +10,7 @@
     };
 
     function parseQueryString(queryString) {
+
         var data = {},
             pairs, pair, separatorIndex, escapedKey, escapedValue, key, value;
 
@@ -42,13 +43,13 @@
 
     return common;
 })();
-debugger;
+
 var fragment = common.getFragment();
 
 window.location.hash = fragment.state || '';
 
-if ((window.opener) && (window.opener.oauthCompletedCB)) {
-    window.opener.oauthCompletedCB(fragment);
+if ((window.opener) && (window.opener.db) && (window.opener.db.oauthCompletedCB)) {
+    window.opener.db.oauthCompletedCB(fragment);
 }
 
 window.close();

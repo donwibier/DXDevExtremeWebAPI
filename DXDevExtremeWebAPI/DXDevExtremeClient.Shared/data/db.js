@@ -80,12 +80,12 @@
         //==
         oauthCompletedCB : function (fragment, onSuccess, onFailure) {
             debugger;
-            var db = this.DXDevExtremeClient.db;
+            //var db = this.DXDevExtremeClient.db;
             var loginData = {
-                /*provider: fragment.provider,*/
+                Provider: fragment.provider,
                 ExternalAccessToken: fragment.access_token
             };
-            db.post('Account', 'AddExternalLogin', loginData,
+            this.get('Account', 'ExternalLogin?provider=' + fragment.provider, null,
                 function (data) {
                     debugger;
                     this._username = data.userName;
@@ -164,6 +164,7 @@
     //        client.hasExternalLogins(false);            
     //    }
     //);
-    window.oauthCompletedCB = client.oauthCompletedCB;
+    //window.oauthCompletedCB = client.oauthCompletedCB;
+    window.db = client;
     DXDevExtremeClient.db = client;
 }());

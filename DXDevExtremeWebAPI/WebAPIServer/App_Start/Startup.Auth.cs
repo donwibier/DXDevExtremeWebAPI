@@ -16,6 +16,19 @@ namespace WebAPIServer
     public partial class Startup
     {
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
+        //added
+        public const string MicrosoftClientID = "";
+        public const string MicrosoftSecret = "";
+
+        public const string FacebookAppID = "1430818973893850";
+        public const string FacebookSecret = "7342ab8e4669dd12d81bc1196b9cceaa";
+
+        public const string TwitterKey = "ujBJf6SlNxvE7PDQPOHu62uo1";
+        public const string TwitterSecret = "JA2WRDxQvpAzUfvrQlerBX3xpBPxQ8tChRBsD1jwxNTTgmvxQI";
+
+        public const string GoogleClientID = "";
+        public const string GoogleSecret = "";
+        //==
 
         public static string PublicClientId { get; private set; }
 
@@ -47,23 +60,23 @@ namespace WebAPIServer
             app.UseOAuthBearerTokens(OAuthOptions);
 
             // Uncomment the following lines to enable logging in with third party login providers
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "",
-            //    clientSecret: "");
+            if (!String.IsNullOrEmpty(MicrosoftClientID) && !String.IsNullOrEmpty(MicrosoftSecret))
+                app.UseMicrosoftAccountAuthentication(clientId: MicrosoftClientID, clientSecret: MicrosoftSecret);
 
-            app.UseTwitterAuthentication(
-               consumerKey: "ujBJf6SlNxvE7PDQPOHu62uo1",
-               consumerSecret: "JA2WRDxQvpAzUfvrQlerBX3xpBPxQ8tChRBsD1jwxNTTgmvxQI");
+            if (!String.IsNullOrEmpty(TwitterSecret) && !String.IsNullOrEmpty(TwitterSecret))
+                app.UseTwitterAuthentication(consumerKey: TwitterKey,consumerSecret: TwitterSecret);
 
-            app.UseFacebookAuthentication(
-                appId: "1430818973893850",
-                appSecret: "7342ab8e4669dd12d81bc1196b9cceaa");
+            if (!String.IsNullOrEmpty(FacebookAppID) && !String.IsNullOrEmpty(FacebookSecret))
+                app.UseFacebookAuthentication(appId: FacebookAppID,appSecret: FacebookSecret);
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            if (!String.IsNullOrEmpty(GoogleClientID) && !String.IsNullOrEmpty(GoogleSecret))
+            {
+                app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+                {
+                    ClientId = GoogleClientID,
+                    ClientSecret = GoogleSecret
+                });
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿DXDevExtremeClient.Signin = function (params) {
-    
-    var db = DXDevExtremeClient.db;
+
+    var app = DXDevExtremeClient;
+    var db = app.db;
     var _username = ko.observable('');
     var _password = ko.observable('');
     
@@ -10,10 +11,12 @@
     
     var _redirectUri = location.protocol + '//' + location.host + '/oauthcomplete.html';
     
-    db.get("Account", "ExternalLogins?returnUrl=" + _redirectUri, null,
+    app.db.get("Account", "ExternalLogins?returnUrl=" + _redirectUri, null,
         function (data) {
-            _hasProviders(data.length > 0);
-            if (_hasProviders) {
+            debugger;
+            if (data.length > 0) {            
+                for (var i = 0; i < data.length; i++)
+                    data[i].Url = data[i].Url + "%3Fprovider=" + data[i].Name; 
                 _loginProviders(data);
             }
         },
@@ -44,30 +47,30 @@
     }*/
 
     function register() {
-        DXDevExtremeClient.app.navigate("Register");
+        app.navigate("Register");
     }
 
     function login(args) {
-        DXDevExtremeClient.db.login(_username(), _password(), onSuccess, onFail)
+        app.db.login(_username(), _password(), onSuccess, onFail)
     }
 
     function prepLoginProviderUrl(url) {        
-        var result = db._baseUrl + url;    
+        var result = app.db._baseUrl + url;    
         return result;
     }
 
     function externalLogin(args) {
-        DXDevExtremeClient.db.externalLogin(args.model.Name, args.model.Url);
+        app.db.externalLogin(args.model.Name, args.model.Url);
     }
 
     function onSuccess(data) {
         DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-        DXDevExtremeClient.app.navigate('Home', { root: true });
+        app.navigate('Home', { root: true });
     }
 
     function onExternalSuccess(data) {
         DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-        DXDevExtremeClient.app.navigate('Home', { root: true });
+        app.navigate('Home', { root: true });
     }
 
     function onFail(data) {
