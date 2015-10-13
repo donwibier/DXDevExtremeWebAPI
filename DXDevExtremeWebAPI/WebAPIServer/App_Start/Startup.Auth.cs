@@ -13,6 +13,7 @@ using WebAPIServer.Models;
 using Microsoft.Owin.Security.Facebook;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.Owin.Security.Twitter;
 
 namespace WebAPIServer
 {
@@ -75,7 +76,26 @@ namespace WebAPIServer
                 app.UseMicrosoftAccountAuthentication(clientId: MicrosoftClientID, clientSecret: MicrosoftSecret);
 
             if (!String.IsNullOrEmpty(TwitterSecret) && !String.IsNullOrEmpty(TwitterSecret))
-                app.UseTwitterAuthentication(consumerKey: TwitterKey,consumerSecret: TwitterSecret);
+            {
+                //app.UseTwitterAuthentication(consumerKey: TwitterKey, consumerSecret: TwitterSecret);
+                var twitterProvider = new TwitterAuthenticationProvider()
+                {
+                    OnAuthenticated = (context) =>
+                    {
+                        // Add the email id to the claim                        
+                        context.Identity.AddClaim(new Claim(ClaimTypes.Email, context.UserId + "@twitter.local"));
+                        return Task.FromResult(0);
+                    }
+                };
+                var options = new TwitterAuthenticationOptions()
+                {
+                    ConsumerKey = TwitterKey,
+                    ConsumerSecret = TwitterSecret,
+                    Provider = twitterProvider
+                };
+                //options.Scope.Add("email");
+                app.UseTwitterAuthentication(options);
+            }
 
             if (!String.IsNullOrEmpty(FacebookAppID) && !String.IsNullOrEmpty(FacebookSecret))
             {
