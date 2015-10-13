@@ -61,6 +61,12 @@
     </Content>
     <Content Include="views\about.html" />
     <Content Include="views\blank.html" />
+    <Content Include="views\confirmexternal.dxview">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="views\confirmexternal.js">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="views\home.dxview">
       <SubType>Content</SubType>
     </Content>

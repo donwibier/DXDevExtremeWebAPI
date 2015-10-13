@@ -12,8 +12,7 @@
     var _redirectUri = location.protocol + '//' + location.host + '/oauthcomplete.html';
     
     app.db.get("Account", "ExternalLogins?returnUrl=" + _redirectUri, null,
-        function (data) {
-            debugger;
+        function (data) {            
             if (data.length > 0) {            
                 for (var i = 0; i < data.length; i++)
                     data[i].Url = data[i].Url + "%3Fprovider=" + data[i].Name; 
@@ -37,14 +36,6 @@
         _password('');
     }
 
-    function viewShown() {
-        clear();        
-        updateProviders();
-    }
-    
-    /*function viewHidden() {
-        
-    }*/
 
     function register() {
         app.navigate("Register");
@@ -79,8 +70,11 @@
 
 
     var viewModel = {
-        viewShown: viewShown,
-        /*viewHidden: viewHidden,*/
+        viewShown: function () {
+            clear();
+            updateProviders();
+        },
+        //viewHidden: function () { },
         hasProviders: _hasProviders,
         loginProviders: _loginProviders,
         noProvidersText: _noProvidersText,

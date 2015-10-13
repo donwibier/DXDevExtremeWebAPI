@@ -1,55 +1,26 @@
-﻿window.common = (function () {
-    var common = {};
+﻿window.auth = (function () {
+    var auth = {};
 
-    common.getFragment = function getFragment() {
-        if (window.location.hash.indexOf("#") === 0) {
-            return parseQueryString(window.location.hash.substr(1));
-        } else {
-            return {};
+    auth.getInfo = function getInfo() {
+        var parts = window.location.href.split(/[?#&]/);
+        var result = {};
+        if (parts.length > 1) {
+            for (var i = 1; i < parts.length; i++) {
+                var pair = parts[i].split("=", 2);
+                var key = decodeURIComponent(pair[0]);                
+                var val = (pair.length > 1) ? decodeURIComponent(pair[1]) : "";
+                result[key] = val;
+            }
         }
+        return result;
     };
 
-    function parseQueryString(queryString) {
-
-        var data = {},
-            pairs, pair, separatorIndex, escapedKey, escapedValue, key, value;
-
-        if (queryString === null) {
-            return data;
-        }
-
-        pairs = queryString.split("&");
-
-        for (var i = 0; i < pairs.length; i++) {
-            pair = pairs[i];
-            separatorIndex = pair.indexOf("=");
-
-            if (separatorIndex === -1) {
-                escapedKey = pair;
-                escapedValue = null;
-            } else {
-                escapedKey = pair.substr(0, separatorIndex);
-                escapedValue = pair.substr(separatorIndex + 1);
-            }
-
-            key = decodeURIComponent(escapedKey);
-            value = decodeURIComponent(escapedValue);
-
-            data[key] = value;
-        }
-
-        return data;
-    }
-
-    return common;
+    return auth;
 })();
 
-var fragment = common.getFragment();
-
+var fragment = auth.getInfo();
 window.location.hash = fragment.state || '';
-
-if ((window.opener) && (window.opener.db) && (window.opener.db.oauthCompletedCB)) {
-    window.opener.db.oauthCompletedCB(fragment);
+if ((window.opener) && (window.opener.db) && (window.opener.db.externalLoginCallback)) {
+    window.opener.db.externalLoginCallback(fragment);
 }
-
 window.close();

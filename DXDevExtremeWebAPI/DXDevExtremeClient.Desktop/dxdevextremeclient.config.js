@@ -18,10 +18,6 @@ window.DXDevExtremeClient = $.extend(true, window.DXDevExtremeClient, {
                 "onExecute": "#Signin"
             },
             {
-                "title": "Register",
-                "onExecute": "#Register"
-            },
-            {
                 "title": "About",
                 "onExecute": "#About",
                 "icon": "info"

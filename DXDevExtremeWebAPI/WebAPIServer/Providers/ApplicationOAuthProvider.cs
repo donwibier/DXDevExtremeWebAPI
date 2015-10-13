@@ -97,5 +97,6 @@ namespace WebAPIServer.Providers
             };
             return new AuthenticationProperties(data);
         }
+
     }
 }

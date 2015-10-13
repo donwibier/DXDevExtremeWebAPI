@@ -53,7 +53,7 @@
                 var hdrs = { Authorization: 'Bearer ' + token };
                 ajaxObj = $.extend(ajaxObj, { headers: hdrs });
             }
-            if (typeof dataObj !== 'undefined')
+            if (dataObj)
                 ajaxObj = $.extend(ajaxObj, { data: JSON.stringify(dataObj) });
 
             $.ajax(ajaxObj)
@@ -77,66 +77,87 @@
             }).fail(onFailure);
 
         },
-        //==
-        oauthCompletedCB : function (fragment, onSuccess, onFailure) {
-            debugger;
-            //var db = this.DXDevExtremeClient.db;
-            var loginData = {
-                Provider: fragment.provider,
-                ExternalAccessToken: fragment.access_token
-            };
-            this.get('Account', 'ExternalLogin?provider=' + fragment.provider, null,
-                function (data) {
-                    debugger;
-                    this._username = data.userName;
-                    sessionStorage.setItem('USRTOKEN', data.access_token);
-                    if (onSuccess) {
-                        onSuccess(data);
-                    }
-                },
-                function (data) {
-                    debugger;
-                    if (onFailure) {
-                        onFailure(data);
-                    }
-                });
-            
-
-
-            //if (fragment.haslocalaccount === 'False') {
-
-                //authService.logOut();
-
-                //authService.externalAuthData = {
-                //    provider: fragment.provider,
-                //    userName: fragment.external_user_name,
-                //    externalAccessToken: fragment.external_access_token
-                //};
-
-                    
-
-            //}
-            //else {
-                //Obtain access token and redirect to orders
-                //var externalData = { provider: fragment.provider, externalAccessToken: fragment.external_access_token };
-                //authService.obtainAccessToken(externalData).then(function (response) {
-            //}
-        },
-
-        //==
-        externalLogin: function (provider, url) {
-            //var u = this._baseUrl + url;
+        externalLogin: function (provider, url) {            
             var oauthWindow = window.open(this._baseUrl+url, "Authenticate Account", "location=0,status=0,width=600,height=750");
             // under construction !!!
-            //if (!this.isCordova) {
+            //if (!this.isCordova) {  }
+        },        
+        externalLoginCallback: function (fragment, onSuccess, onFailure) {
 
-            //    url = (this._baseUrl + url).replace(/((?:.*)redirect_uri=)(.+)((?:[\&|\s]).*)/, "$1" + encodeURIComponent(window.location) + "$3");                
-                //debugger;
-                //window.location.replace(url);
-            //}
-        },
+            sessionStorage.setItem('USRTOKEN', fragment.access_token);
+            sessionStorage.setItem('USRPROV', fragment.provider);
+            DXDevExtremeClient.app.navigate("Home", { root: true });
+
+            //this.get('Account', 'ExternalLogin?provider=' + fragment.provider, null,
+            //    function (data) {
+            //        debugger;
+            //        this._username = data.userName;
+
+            //        if (onSuccess) {
+            //            onSuccess(data);
+            //        }
+            //    },
+            //    function (data) {
+            //        debugger;
+            //        if (onFailure) {
+            //            onFailure(data);
+            //        }
+            //    });
+
+
+
+
+            //var loginData = {
+            //    Emaigrant_type: 'code',
+            //    code: fragment.access_token                
+            //};
+            //$.ajax({
+            //    type: 'POST',
+            //    url: this._baseUrl + '/Token',
+            //    data: loginData
+            //}).done(function (data) {
+            //    this._username = data.userName;
+            //    //onSuccess(data);
+            //}).fail(onFailure);
+
+
+            //debugger;            
+            //var loginData = {
+            //    Email : "test@local.local"
+            //    //Provider: fragment.provider,
+            //    //ExternalAccessToken: fragment.access_token
+            //};
+
+
+
+
+            //sessionStorage.setItem('USRTOKEN', fragment.access_token);
+            
+            //DXDevExtremeClient.app.navigate("Home", { root: true });
+            //this.post("Account", "RegisterExternal", loginData,
+            //    function (data) {
+            //        /* onsuccess code */
+            //        debugger;
+            //        this._username = data.userName;
+
+            //        if (onSuccess) {
+            //            onSuccess(data);
+            //        }
+            //    },
+            //    function (data) {
+            //        /* onerror code */
+            //        debugger;
+
+            //        if (onFailure) {
+            //            onFailure(data);
+            //        }
+            //    }
+            //);
+            
+        },        
         logout: function (redirectView) {
             sessionStorage.removeItem('USRTOKEN');
+            sessionStorage.removeItem('USRPROV');
             if (redirectView)
                 DXDevExtremeClient.app.navigate(redirectView, { root: true });
         },
@@ -152,19 +173,6 @@
         }
 
     }    
-    //api%2FAccount%2FExternalLoginCallback
-    //client.get("Account", "ExternalLogins?returnUrl=%2F", null,
-    //    function (data) {
-    //        client.hasExternalLogins(data.length > 0);
-    //        if (client.hasExternalLogins) {
-    //            client.externalLogins = ko.observableArray(data);
-    //        }
-    //    },
-    //    function (data) {
-    //        client.hasExternalLogins(false);            
-    //    }
-    //);
-    //window.oauthCompletedCB = client.oauthCompletedCB;
     window.db = client;
     DXDevExtremeClient.db = client;
 }());
