@@ -89,6 +89,25 @@ namespace WebAPIServer.Providers
             return Task.FromResult<object>(null);
         }
 
+        //added
+
+        public override Task AuthorizationEndpointResponse(OAuthAuthorizationEndpointResponseContext context)
+        {
+            //  Add the claims to the return url
+            foreach (var claim in context.Identity.Claims)
+            {
+                if (claim.Type == ClaimsIdentity.DefaultNameClaimType)
+                {
+                    context.AdditionalResponseParameters.Add("username", claim.Value);
+                }
+                else if (claim.Type == ClaimTypes.Email)
+                {
+                    context.AdditionalResponseParameters.Add("email", claim.Value);
+                }
+            }
+            return base.AuthorizationEndpointResponse(context);
+        }
+        //==
         public static AuthenticationProperties CreateProperties(string userName)
         {
             IDictionary<string, string> data = new Dictionary<string, string>

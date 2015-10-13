@@ -11,7 +11,7 @@
     
     var _redirectUri = location.protocol + '//' + location.host + '/oauthcomplete.html';
     
-    app.db.get("Account", "ExternalLogins?returnUrl=" + _redirectUri, null,
+    db.get("Account", "ExternalLogins?returnUrl=" + _redirectUri, null,
         function (data) {            
             if (data.length > 0) {            
                 for (var i = 0; i < data.length; i++)

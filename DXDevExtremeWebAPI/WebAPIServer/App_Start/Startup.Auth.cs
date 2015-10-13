@@ -10,6 +10,9 @@ using Microsoft.Owin.Security.OAuth;
 using Owin;
 using WebAPIServer.Providers;
 using WebAPIServer.Models;
+using Microsoft.Owin.Security.Facebook;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace WebAPIServer
 {
@@ -41,7 +44,15 @@ namespace WebAPIServer
 
             // Enable the application to use a cookie to store information for the signed in user
             // and to use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
+
+            //==
+            var provider = new CookieAuthenticationProvider { OnException = context => { } };
+            //==
+            app.UseCookieAuthentication(new CookieAuthenticationOptions()
+            {
+                Provider = provider
+            });
+            //app.UseCookieAuthentication(new CookieAuthenticationOptions());
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Configure the application for OAuth based flow
@@ -67,7 +78,27 @@ namespace WebAPIServer
                 app.UseTwitterAuthentication(consumerKey: TwitterKey,consumerSecret: TwitterSecret);
 
             if (!String.IsNullOrEmpty(FacebookAppID) && !String.IsNullOrEmpty(FacebookSecret))
-                app.UseFacebookAuthentication(appId: FacebookAppID,appSecret: FacebookSecret);
+            {
+                //app.UseFacebookAuthentication(appId: FacebookAppID,appSecret: FacebookSecret);
+                var facebookProvider = new FacebookAuthenticationProvider()
+                {
+                    OnAuthenticated = (context) =>
+                    {
+                        // Add the email id to the claim
+                        context.Identity.AddClaim(new Claim(ClaimTypes.Email, context.Email));
+                        return Task.FromResult(0);
+                    }
+                };
+                var options = new FacebookAuthenticationOptions()
+                {
+                    AppId = FacebookAppID,
+                    AppSecret = FacebookSecret,
+                    Provider = facebookProvider
+                };
+                options.Scope.Add("email");
+                app.UseFacebookAuthentication(options);
+            }
+
 
             if (!String.IsNullOrEmpty(GoogleClientID) && !String.IsNullOrEmpty(GoogleSecret))
             {

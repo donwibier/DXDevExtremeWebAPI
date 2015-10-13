@@ -82,78 +82,35 @@
             // under construction !!!
             //if (!this.isCordova) {  }
         },        
-        externalLoginCallback: function (fragment, onSuccess, onFailure) {
-
+        externalLoginCallback: function (fragment, onSuccess, onFailure) {            
             sessionStorage.setItem('USRTOKEN', fragment.access_token);
-            sessionStorage.setItem('USRPROV', fragment.provider);
-            DXDevExtremeClient.app.navigate("Home", { root: true });
+            sessionStorage.setItem('USRPROV', fragment.provider);            
 
-            //this.get('Account', 'ExternalLogin?provider=' + fragment.provider, null,
-            //    function (data) {
-            //        debugger;
-            //        this._username = data.userName;
-
-            //        if (onSuccess) {
-            //            onSuccess(data);
-            //        }
-            //    },
-            //    function (data) {
-            //        debugger;
-            //        if (onFailure) {
-            //            onFailure(data);
-            //        }
-            //    });
-
-
-
-
-            //var loginData = {
-            //    Emaigrant_type: 'code',
-            //    code: fragment.access_token                
-            //};
-            //$.ajax({
-            //    type: 'POST',
-            //    url: this._baseUrl + '/Token',
-            //    data: loginData
-            //}).done(function (data) {
-            //    this._username = data.userName;
-            //    //onSuccess(data);
-            //}).fail(onFailure);
-
-
-            //debugger;            
-            //var loginData = {
-            //    Email : "test@local.local"
-            //    //Provider: fragment.provider,
-            //    //ExternalAccessToken: fragment.access_token
-            //};
-
-
-
-
-            //sessionStorage.setItem('USRTOKEN', fragment.access_token);
-            
-            //DXDevExtremeClient.app.navigate("Home", { root: true });
-            //this.post("Account", "RegisterExternal", loginData,
-            //    function (data) {
-            //        /* onsuccess code */
-            //        debugger;
-            //        this._username = data.userName;
-
-            //        if (onSuccess) {
-            //            onSuccess(data);
-            //        }
-            //    },
-            //    function (data) {
-            //        /* onerror code */
-            //        debugger;
-
-            //        if (onFailure) {
-            //            onFailure(data);
-            //        }
-            //    }
-            //);
-            
+            var email = fragment.email ? fragment.email : fragment.username;
+            var user = fragment.username ? fragment.username : "";
+            if (user !== email) {
+                $.ajax({
+                    url: this._baseUrl + '/api/Account/RegisterExternal',
+                    data: { 'Email': email, 'Name': email },
+                    method: 'POST',
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader('Authorization', 'Bearer ' + fragment.access_token);
+                    },
+                    success: function (data) {
+                        DevExpress.ui.notify('Your ' + fragment.provider + ' account has been registered!', 'success', 3000);
+                    },
+                    failure: function (data) {                    
+                        DevExpress.ui.notify('Validation failed', 'error', 3000);
+                    }
+                });
+            }
+            else {
+                DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
+                DXDevExtremeClient.app.navigate("Home", { root: true });
+            }
         },        
         logout: function (redirectView) {
             sessionStorage.removeItem('USRTOKEN');

@@ -17,6 +17,7 @@ using WebAPIServer.Models;
 using WebAPIServer.Providers;
 using WebAPIServer.Results;
 using Newtonsoft.Json.Linq;
+using Microsoft.Owin.Security.DataHandler.Serializer;
 
 namespace WebAPIServer.Controllers
 {
@@ -270,14 +271,15 @@ namespace WebAPIServer.Controllers
             }
             else
             {
-                //IEnumerable<Claim> claims = externalLogin.GetClaims();
-                //added 
-                IList<Claim> claims = externalLogin.GetClaims();
-                //claims.Add(new Claim(ClaimTypes.Name, userName));
-                claims.Add(new Claim("role", "user"));
-
+                IEnumerable<Claim> claims = externalLogin.GetClaims();
                 ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+                AuthenticationProperties p = new AuthenticationProperties(new Dictionary<string, string>());
+                PropertiesSerializer s = new PropertiesSerializer();
                 Authentication.SignIn(identity);
+
+                //IEnumerable<Claim> claims = externalLogin.GetClaims();
+                //ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+                //Authentication.SignIn(identity);
             }
 
             return Ok();
@@ -379,6 +381,7 @@ namespace WebAPIServer.Controllers
             {
                 return GetErrorResult(result); 
             }
+            
             return Ok();
         }
 
@@ -434,6 +437,8 @@ namespace WebAPIServer.Controllers
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }
             public string UserName { get; set; }
+            //added
+            public string Email { get; set; }
 
             public IList<Claim> GetClaims()
             {
@@ -444,7 +449,13 @@ namespace WebAPIServer.Controllers
                 {
                     claims.Add(new Claim(ClaimTypes.Name, UserName, null, LoginProvider));
                 }
+                //added
+                if (Email != null)
+                {
+                    claims.Add(new Claim(ClaimTypes.Email, Email, null, LoginProvider));
+                }
 
+                //==
                 return claims;
             }
 
@@ -472,7 +483,9 @@ namespace WebAPIServer.Controllers
                 {
                     LoginProvider = providerKeyClaim.Issuer,
                     ProviderKey = providerKeyClaim.Value,
-                    UserName = identity.FindFirstValue(ClaimTypes.Name)
+                    UserName = identity.FindFirstValue(ClaimTypes.Name),
+                    //added
+                    Email = identity.FindFirstValue(ClaimTypes.Email)
                 };
             }
         }
