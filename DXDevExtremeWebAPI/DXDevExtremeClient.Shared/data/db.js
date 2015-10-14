@@ -2,7 +2,7 @@
 /// <reference path="../js/knockout-3.3.0.js" />
 /// <reference path="../js/dx.all.js" />
 
-(function() {
+(function () {
     var isWinJS = "WinJS" in window;
     var endpointSelector = new DevExpress.EndpointSelector(DXDevExtremeClient.config.endpoints);
     var serviceConfig = $.extend(true, {}, DXDevExtremeClient.config.services, {
@@ -20,10 +20,10 @@
     });
 
     function handleServiceError(error) {
-        if(isWinJS) {
+        if (isWinJS) {
             try {
                 new Windows.UI.Popups.MessageDialog(error.message).showAsync();
-            } catch(e) {
+            } catch (e) {
                 // Another dialog is shown
             }
         } else {
@@ -33,7 +33,7 @@
 
     // Enable partial CORS support for IE < 10    
     $.support.cors = true;
-    
+
     //DXDevExtremeClient.db = new DevExpress.data.ODataContext(serviceConfig.db);
 
     var client = {
@@ -41,10 +41,10 @@
         _loginView: 'Signin',
         _username: '',
         isCordova: !!window.cordova,
-        loginProviders : ko.observableArray(),
-        hasProviders : ko.observable(false),
+        loginProviders: ko.observableArray(),
+        hasProviders: ko.observable(false),
 
-        _ajax: function(method, url, headers, dataObj, onSuccess, onFailure) {
+        _ajax: function (method, url, headers, dataObj, onSuccess, onFailure) {
             var ajaxObj = {
                 method: method,
                 url: url,
@@ -54,7 +54,7 @@
                 },
                 beforeSend: function (xhr) {
                     if (headers) {
-                        for(var i = 0; i < headers.length; i++)
+                        for (var i = 0; i < headers.length; i++)
                             xhr.setRequestHeader(headers[i].name, headers[i].value);
                     }
                 }
@@ -77,7 +77,7 @@
             var token = sessionStorage.getItem('USRTOKEN');
             var headers = (token) ? [{ name: 'Authorization', value: 'Bearer ' + token }] : null;
             var url = this._baseUrl + '/api/' + controllerName + '/' + actionMethod;
-            
+
             this._ajax(method, url, headers, dataObj, onSuccess, onFailure);
         },
         login: function (username, password, onSuccess, onFailure) {
@@ -93,37 +93,41 @@
                     DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
                     if (onSuccess) onSuccess(data);
                 },
-                function(err){
+                function (err) {
                     DevExpress.ui.notify('Validation failed', 'error', 3000);
                     if (onFailure) onFailure(err);
                 });
         },
-        externalLogin: function (provider, url) {            
-            var oauthWindow = window.open(this._baseUrl+url, "Authenticate Account", "location=0,status=0,width=600,height=750");
+        externalLogin: function (provider, url) {
+            var oauthWindow = window.open(this._baseUrl + url, "Authenticate Account", "location=0,status=0,width=600,height=750");
             // under construction !!!
             //if (!this.isCordova) {  }
-        },        
-        externalLoginCallback: function (fragment) {            
+        },
+        externalLoginCallback: function (fragment) {
             sessionStorage.setItem('USRTOKEN', fragment.access_token);
-            sessionStorage.setItem('USRPROV', fragment.provider);            
+            sessionStorage.setItem('USRPROV', fragment.provider);
 
             var email = fragment.email ? fragment.email : fragment.username;
             var user = fragment.username ? fragment.username : "";
             if (user !== email) {
-                this.ajax('POST', 'Account', 'RegisterExternal', { 'Email': email, 'Name': email },
-                    function (data) {
-                        //externalLogin(..) or handle at server
-                        DevExpress.ui.notify('Your ' + fragment.provider + ' account has been registered!', 'success', 3000);
-                    },
-                    function (err) {
-                        DevExpress.ui.notify('Validation failed', 'error', 3000);
-                    });
+                this.externalRegister(email);
             }
             else {
                 DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
                 DXDevExtremeClient.app.navigate("Home", { root: true });
             }
-        },        
+        },
+        externalRegister: function (email) {
+            this.ajax('POST', 'Account', 'RegisterExternal', { 'Email': email, 'Name': email },
+                function (data) {
+                    //externalLogin(..) or handle at server
+                    DevExpress.ui.notify('Your external account has been registered!', 'success', 3000);
+                },
+                function (err) {
+                    DevExpress.ui.notify('Registration failed', 'error', 3000);
+                }
+            );
+        },
         logout: function (redirectView) {
             sessionStorage.removeItem('USRTOKEN');
             sessionStorage.removeItem('USRPROV');
@@ -140,7 +144,7 @@
         get: function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
             this.ajax('GET', controllerName, actionMethod, dataObj, onSuccess, onFailure);
         }
-    }    
+    }
     window.db = client;
     DXDevExtremeClient.db = client;
     /* Fetch the login providers from server*/
