@@ -3,7 +3,7 @@
 /// <reference path="../js/dx.all.js" />
 
 (function() {
-	var isWinJS = "WinJS" in window;
+    var isWinJS = "WinJS" in window;
     var endpointSelector = new DevExpress.EndpointSelector(DXDevExtremeClient.config.endpoints);
     var serviceConfig = $.extend(true, {}, DXDevExtremeClient.config.services, {
         db: {
@@ -41,24 +41,44 @@
         _loginView: 'Signin',
         _username: '',
         isCordova: !!window.cordova,
+        loginProviders : ko.observableArray(),
+        hasProviders : ko.observable(false),
 
-        ajax: function (method, controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+        _ajax: function(method, url, headers, dataObj, onSuccess, onFailure) {
             var ajaxObj = {
-                type: method,
-                url: this._baseUrl + '/api/' + controllerName + '/' + actionMethod,
-                contentType: 'application/json; charset=utf-8'
-            };
-            var token = sessionStorage.getItem('USRTOKEN');
-            if (token) {
-                var hdrs = { Authorization: 'Bearer ' + token };
-                ajaxObj = $.extend(ajaxObj, { headers: hdrs });
+                method: method,
+                url: url,
+                contentType: 'application/json; charset=utf-8',
+                xhrFields: {
+                    withCredentials: true
+                },
+                beforeSend: function (xhr) {
+                    if (headers) {
+                        for(var i = 0; i < headers.length; i++)
+                            xhr.setRequestHeader(headers[i].name, headers[i].value);
+                    }
+                }
             }
             if (dataObj)
                 ajaxObj = $.extend(ajaxObj, { data: JSON.stringify(dataObj) });
 
             $.ajax(ajaxObj)
-                .done(onSuccess)
-                .fail(onFailure);
+                .done(function (data) {
+                    if (onSuccess)
+                        onSuccess(data);
+                })
+                .fail(function (err) {
+                    if (onFailure)
+                        onFailure(err);
+                });
+        },
+        ajax: function (method, controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+
+            var token = sessionStorage.getItem('USRTOKEN');
+            var headers = (token) ? [{ name: 'Authorization', value: 'Bearer ' + token }] : null;
+            var url = this._baseUrl + '/api/' + controllerName + '/' + actionMethod;
+            
+            this._ajax(method, url, headers, dataObj, onSuccess, onFailure);
         },
         login: function (username, password, onSuccess, onFailure) {
             var loginData = {
@@ -66,46 +86,33 @@
                 username: username,
                 password: password
             };
-            $.ajax({
-                type: 'POST',
-                url: this._baseUrl + '/Token',
-                data: loginData
-            }).done(function (data) {
-                this._username = data.userName;
-                sessionStorage.setItem('USRTOKEN', data.access_token);
-                onSuccess(data);
-            }).fail(onFailure);
-
+            this._ajax('POST', this._baseUrl + '/Token', null, loginData,
+                function (data) {
+                    this._username = data.userName;
+                    sessionStorage.setItem('USRTOKEN', data.access_token);
+                    onSuccess(data);
+                }, onFailure);
         },
         externalLogin: function (provider, url) {            
             var oauthWindow = window.open(this._baseUrl+url, "Authenticate Account", "location=0,status=0,width=600,height=750");
             // under construction !!!
             //if (!this.isCordova) {  }
         },        
-        externalLoginCallback: function (fragment, onSuccess, onFailure) {            
+        externalLoginCallback: function (fragment) {            
             sessionStorage.setItem('USRTOKEN', fragment.access_token);
             sessionStorage.setItem('USRPROV', fragment.provider);            
 
             var email = fragment.email ? fragment.email : fragment.username;
             var user = fragment.username ? fragment.username : "";
             if (user !== email) {
-                $.ajax({
-                    url: this._baseUrl + '/api/Account/RegisterExternal',
-                    data: { 'Email': email, 'Name': email },
-                    method: 'POST',
-                    xhrFields: {
-                        withCredentials: true
-                    },
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader('Authorization', 'Bearer ' + fragment.access_token);
-                    },
-                    success: function (data) {
+                this.ajax('POST', 'Account', 'RegisterExternal', { 'Email': email, 'Name': email },
+                    function (data) {
+                        //externalLogin(..) or handle at server
                         DevExpress.ui.notify('Your ' + fragment.provider + ' account has been registered!', 'success', 3000);
                     },
-                    failure: function (data) {                    
+                    function (err) {
                         DevExpress.ui.notify('Validation failed', 'error', 3000);
-                    }
-                });
+                    });
             }
             else {
                 DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
@@ -128,8 +135,20 @@
         get: function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
             this.ajax('GET', controllerName, actionMethod, dataObj, onSuccess, onFailure);
         }
-
     }    
     window.db = client;
     DXDevExtremeClient.db = client;
+    /* Fetch the login providers from server*/
+    var _redirectUri = location.protocol + '//' + location.host + '/oauthcomplete.html';
+    client.get("Account", "ExternalLogins?returnUrl=" + _redirectUri, null,
+        function (data) {
+            if (data.length > 0) {
+                for (var i = 0; i < data.length; i++)
+                    data[i].Url = data[i].Url + "%3Fprovider=" + data[i].Name;
+                client.loginProviders(data);
+            }
+        },
+        function (err) {
+            client.hasProviders(false);
+        });
 }());

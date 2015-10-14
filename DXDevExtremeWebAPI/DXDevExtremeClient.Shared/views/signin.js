@@ -6,27 +6,9 @@
     var _password = ko.observable('');
     
     var _noProvidersText = ko.observable("Fetching external login providers..");
-    var _loginProviders = ko.observableArray();
-    var _hasProviders = ko.observable(false);
-    
-    var _redirectUri = location.protocol + '//' + location.host + '/oauthcomplete.html';
-    
-    db.get("Account", "ExternalLogins?returnUrl=" + _redirectUri, null,
-        function (data) {            
-            if (data.length > 0) {            
-                for (var i = 0; i < data.length; i++)
-                    data[i].Url = data[i].Url + "%3Fprovider=" + data[i].Name; 
-                _loginProviders(data);
-            }
-        },
-        function (data) {
-            _hasProviders(false);
-        });
-
 
     function updateProviders() {
-        var hasProviders = (arguments.length > 0) ? arguments[0] : _hasProviders();
-        if (!hasProviders) {
+        if (!db.hasProviders) {
             _noProvidersText("No external login-providers configured");
         }        
     }
@@ -42,16 +24,16 @@
     }
 
     function login(args) {
-        app.db.login(_username(), _password(), onSuccess, onFail)
+        db.login(_username(), _password(), onSuccess, onFail)
     }
 
     function prepLoginProviderUrl(url) {        
-        var result = app.db._baseUrl + url;    
+        var result = db._baseUrl + url;    
         return result;
     }
 
     function externalLogin(args) {
-        app.db.externalLogin(args.model.Name, args.model.Url);
+        db.externalLogin(args.model.Name, args.model.Url);
     }
 
     function onSuccess(data) {
@@ -75,8 +57,8 @@
             updateProviders();
         },
         //viewHidden: function () { },
-        hasProviders: _hasProviders,
-        loginProviders: _loginProviders,
+        hasProviders: db.hasProviders,
+        loginProviders: db.loginProviders,
         noProvidersText: _noProvidersText,
         username: _username,
         password: _password,

@@ -27,8 +27,8 @@ namespace WebAPIServer
         public const string FacebookAppID = "1430818973893850";
         public const string FacebookSecret = "7342ab8e4669dd12d81bc1196b9cceaa";
 
-        public const string TwitterKey = "ujBJf6SlNxvE7PDQPOHu62uo1";
-        public const string TwitterSecret = "JA2WRDxQvpAzUfvrQlerBX3xpBPxQ8tChRBsD1jwxNTTgmvxQI";
+        public const string TwitterKey = "";//"ujBJf6SlNxvE7PDQPOHu62uo1";
+        public const string TwitterSecret = "";//"JA2WRDxQvpAzUfvrQlerBX3xpBPxQ8tChRBsD1jwxNTTgmvxQI";
 
         public const string GoogleClientID = "";
         public const string GoogleSecret = "";
@@ -73,33 +73,14 @@ namespace WebAPIServer
 
             // Uncomment the following lines to enable logging in with third party login providers
             if (!String.IsNullOrEmpty(MicrosoftClientID) && !String.IsNullOrEmpty(MicrosoftSecret))
-                app.UseMicrosoftAccountAuthentication(clientId: MicrosoftClientID, clientSecret: MicrosoftSecret);
+                app.UseMicrosoftAccountAuthentication(MicrosoftClientID, MicrosoftSecret);
 
             if (!String.IsNullOrEmpty(TwitterSecret) && !String.IsNullOrEmpty(TwitterSecret))
-            {
-                //app.UseTwitterAuthentication(consumerKey: TwitterKey, consumerSecret: TwitterSecret);
-                var twitterProvider = new TwitterAuthenticationProvider()
-                {
-                    OnAuthenticated = (context) =>
-                    {
-                        // Add the email id to the claim                        
-                        context.Identity.AddClaim(new Claim(ClaimTypes.Email, context.UserId + "@twitter.local"));
-                        return Task.FromResult(0);
-                    }
-                };
-                var options = new TwitterAuthenticationOptions()
-                {
-                    ConsumerKey = TwitterKey,
-                    ConsumerSecret = TwitterSecret,
-                    Provider = twitterProvider
-                };
-                //options.Scope.Add("email");
-                app.UseTwitterAuthentication(options);
-            }
-
+                app.UseTwitterAuthentication(TwitterKey, TwitterSecret);
+          
             if (!String.IsNullOrEmpty(FacebookAppID) && !String.IsNullOrEmpty(FacebookSecret))
             {
-                //app.UseFacebookAuthentication(appId: FacebookAppID,appSecret: FacebookSecret);
+                //app.UseFacebookAuthentication(FacebookAppID, FacebookSecret);
                 var facebookProvider = new FacebookAuthenticationProvider()
                 {
                     OnAuthenticated = (context) =>
