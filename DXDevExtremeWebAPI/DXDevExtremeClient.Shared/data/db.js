@@ -90,8 +90,13 @@
                 function (data) {
                     this._username = data.userName;
                     sessionStorage.setItem('USRTOKEN', data.access_token);
-                    onSuccess(data);
-                }, onFailure);
+                    DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
+                    if (onSuccess) onSuccess(data);
+                },
+                function(err){
+                    DevExpress.ui.notify('Validation failed', 'error', 3000);
+                    if (onFailure) onFailure(err);
+                });
         },
         externalLogin: function (provider, url) {            
             var oauthWindow = window.open(this._baseUrl+url, "Authenticate Account", "location=0,status=0,width=600,height=750");

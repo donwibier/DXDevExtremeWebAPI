@@ -18,38 +18,20 @@
         _password('');
     }
 
-
     function register() {
         app.navigate("Register");
     }
 
     function login(args) {
-        db.login(_username(), _password(), onSuccess, onFail)
-    }
-
-    function prepLoginProviderUrl(url) {        
-        var result = db._baseUrl + url;    
-        return result;
+        db.login(_username(), _password(),
+            function (data) {
+                app.navigate('Home', { root: true });
+            }, null);
     }
 
     function externalLogin(args) {
         db.externalLogin(args.model.Name, args.model.Url);
     }
-
-    function onSuccess(data) {
-        DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-        app.navigate('Home', { root: true });
-    }
-
-    function onExternalSuccess(data) {
-        DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-        app.navigate('Home', { root: true });
-    }
-
-    function onFail(data) {
-        DevExpress.ui.notify('Validation failed', 'error', 3000);
-    }
-
 
     var viewModel = {
         viewShown: function () {
