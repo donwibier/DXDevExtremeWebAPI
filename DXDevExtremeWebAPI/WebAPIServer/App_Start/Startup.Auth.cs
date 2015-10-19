@@ -14,6 +14,7 @@ using Microsoft.Owin.Security.Facebook;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.Owin.Security.Twitter;
+using Microsoft.Owin.Security.MicrosoftAccount;
 
 namespace WebAPIServer
 {
@@ -73,8 +74,29 @@ namespace WebAPIServer
 
             // Uncomment the following lines to enable logging in with third party login providers
             if (!String.IsNullOrEmpty(MicrosoftClientID) && !String.IsNullOrEmpty(MicrosoftSecret))
-                app.UseMicrosoftAccountAuthentication(clientId: MicrosoftClientID, clientSecret: MicrosoftSecret);
+            {
 
+                //app.UseMicrosoftAccountAuthentication( MicrosoftClientID,  MicrosoftSecret);
+                var microsoftProvider = new MicrosoftAccountAuthenticationProvider()
+                {
+                    OnAuthenticated = (context) =>
+                     {
+                         // Add the email id to the claim                        
+                         context.Identity.AddClaim(new Claim(ClaimTypes.Email,  context.Email));
+                         return Task.FromResult(0);
+
+                     }
+                };
+                var options = new MicrosoftAccountAuthenticationOptions
+                {
+                    ClientId = MicrosoftClientID,
+                    ClientSecret = MicrosoftSecret,
+                    Provider = microsoftProvider
+                };
+                options.Scope.Add("email");
+                app.UseMicrosoftAccountAuthentication(options);
+
+            }
             if (!String.IsNullOrEmpty(TwitterSecret) && !String.IsNullOrEmpty(TwitterSecret))
             {
                 //app.UseTwitterAuthentication(consumerKey: TwitterKey, consumerSecret: TwitterSecret);
@@ -120,14 +142,32 @@ namespace WebAPIServer
             }
 
 
-            if (!String.IsNullOrEmpty(GoogleClientID) && !String.IsNullOrEmpty(GoogleSecret))
-            {
-                app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-                {
-                    ClientId = GoogleClientID,
-                    ClientSecret = GoogleSecret
-                });
-            }
+            //if (!String.IsNullOrEmpty(GoogleClientID) && !String.IsNullOrEmpty(GoogleSecret))
+            //{
+            //    //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //    //{
+            //    //    ClientId = GoogleClientID,
+            //    //    ClientSecret = GoogleSecret
+            //    //});
+            //    var googleProvider = new GoogleAuthenticationProvider()
+            //    {
+            //        OnAuthenticated = (context) =>
+            //        {
+            //            // Add the email id to the claim
+            //            context.Identity.AddClaim(new Claim(ClaimTypes.Email, context.eMail));
+            //            return Task.FromResult(0);
+            //        }
+            //    };
+            //    var options = new GoogleAuthenticationOptions()
+            //    {
+            //        ClientId = GoogleClientID,
+            //        ClientSecret = GoogleSecret,
+            //        Provider = googleProvider
+            //    };
+            //    options.Scope.Add("email");
+            //    app.UseGoogleAuthentication(options);
+
+            //}
         }
     }
 }
