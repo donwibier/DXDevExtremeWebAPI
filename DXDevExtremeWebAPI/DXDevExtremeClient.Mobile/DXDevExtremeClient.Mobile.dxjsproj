@@ -10,6 +10,14 @@
     <ApplicationPage>index.html</ApplicationPage>
     <Name>DXDevExtremeClient.Mobile</Name>
     <UpgradeNotifyShown>15.1.7</UpgradeNotifyShown>
+    <ScreenOrientation>Default</ScreenOrientation>
+    <ApplicationTitle>DXDevExtremeClient.Mobile</ApplicationTitle>
+    <VersionPackage>1.0.0.0</VersionPackage>
+    <ShowSplashScreen>False</ShowSplashScreen>
+    <PhoneGapTokenKey />
+    <ApkDexFilePackageName>com.devextreme.DXDevExtremeClient.Mobile</ApkDexFilePackageName>
+    <XapPackagePublisherID>{2f22da75-6d8d-4202-8162-d7089d1c06b8}</XapPackagePublisherID>
+    <XapPackageProductID>{d28d25fc-5cdd-4b91-83bf-75b72b50ee09}</XapPackageProductID>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
