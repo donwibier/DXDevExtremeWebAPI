@@ -13,8 +13,8 @@
             }
             _datasource(result);
         },
-        function (data) {
-            DevExpress.ui.notify('The server returned an error' + data, 'error', 3000);
+        function (err) {
+            DevExpress.ui.notify('The server returned an error' + err, 'error', 3000);
         });
     }
 

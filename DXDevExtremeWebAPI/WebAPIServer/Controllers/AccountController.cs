@@ -231,7 +231,7 @@ namespace WebAPIServer.Controllers
         {
             if (error != null)
             {
-                return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
+                return Redirect(string.Format("{0}#error={1}", Url.Content("~/"), Uri.EscapeDataString(error)));
             }
 
             if (!User.Identity.IsAuthenticated)
@@ -271,6 +271,7 @@ namespace WebAPIServer.Controllers
             }
             else
             {
+                //changed
                 IEnumerable<Claim> claims = externalLogin.GetClaims();
                 ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
                 AuthenticationProperties p = new AuthenticationProperties(new Dictionary<string, string>());
