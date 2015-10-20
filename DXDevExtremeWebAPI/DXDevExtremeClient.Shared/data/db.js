@@ -40,6 +40,7 @@
         _baseUrl: serviceConfig.db.url,
         _loginView: 'Signin',        
         _username: '',
+        _extWnd: null,
         isCordova: !!window.cordova,
         loginProviders: ko.observableArray(),
         hasProviders: ko.observable(false),
@@ -111,19 +112,21 @@
         },
         externalLogin: function (provider, url) {
             if (!this.isCordova) {
-                var oauthWindow = window.open(this._baseUrl + url, "Authenticate Account", "location=0,status=0,width=600,height=750");
+                this._extWnd = window.open(this._baseUrl + url, "Authenticate Account", "location=0,status=0,width=600,height=750");
             }
             else {
-                var ref = window.open(this._baseUrl + url, '_blank', 'location=no');
-                ref.addEventListener('loadstart', function (event) {
-                    var testUrl = window.db._baseUrl + '/oauthcomplete.html';
-                    var cburl = (event.url);
-                    if (cburl.indexOf(testUrl) == 0) {
-                        var fragments = getUrlParts(cburl);
-                        window.db.externalLoginCallback(fragments);
-                        ref.close();                        
-                    }
-                });
+                this._extWnd = window.open(this._baseUrl + url, '_blank', 'location=no');
+                this._extWnd.addEventListener('loadstop', this._externalLoginCordovaLoadStart);
+            }
+        },
+        _externalLoginCordovaLoadStart: function(event){
+            var testUrl = window.db._baseUrl + '/oauthcomplete.html';
+            var cburl = (event.url);
+            if (cburl.indexOf(testUrl) === 0) {
+                var fragments = getUrlParts(cburl);
+                window.db.externalLoginCallback(fragments);
+                window.db._extWnd.removeEventListener('loadstop', window.db._externalLoginCordovaLoadStart);
+                window.db._extWnd.close();
             }
         },
         externalLoginCallback: function (fragment) {
@@ -137,7 +140,7 @@
             }
             else {
                 DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-                DXDevExtremeClient.app.back();
+                DXDevExtremeClient.app.navigate("Home", {root:true});
             }
         },
         externalRegister: function (email) {
