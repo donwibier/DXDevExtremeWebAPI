@@ -47,6 +47,9 @@
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="config.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <Target Name="ResolveReferences">
     <Message Text="Copying references to output dir..." Importance="high" />

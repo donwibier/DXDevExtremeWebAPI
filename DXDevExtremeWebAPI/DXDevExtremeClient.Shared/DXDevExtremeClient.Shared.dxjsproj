@@ -22,6 +22,9 @@
     <Content Include="data\db.js">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="data\don.utils.js">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="data\oauthcomplete.js">
       <SubType>Content</SubType>
     </Content>

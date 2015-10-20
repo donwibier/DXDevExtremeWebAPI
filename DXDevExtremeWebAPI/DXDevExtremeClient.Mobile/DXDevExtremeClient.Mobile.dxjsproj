@@ -18,6 +18,12 @@
     <ApkDexFilePackageName>com.devextreme.DXDevExtremeClient.Mobile</ApkDexFilePackageName>
     <XapPackagePublisherID>{2f22da75-6d8d-4202-8162-d7089d1c06b8}</XapPackagePublisherID>
     <XapPackageProductID>{d28d25fc-5cdd-4b91-83bf-75b72b50ee09}</XapPackageProductID>
+    <KeyApkPath>..\..\..\..\DonWibierTFS\WebAPITest\WebAPIClient\certificates\android_certificate.p12</KeyApkPath>
+    <KeyApkAlias>tmpl</KeyApkAlias>
+    <VersionCode>1</VersionCode>
+    <TemplateFileApk />
+    <UseCustomTemplateNameApk>False</UseCustomTemplateNameApk>
+    <KeyDebuggable>True</KeyDebuggable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

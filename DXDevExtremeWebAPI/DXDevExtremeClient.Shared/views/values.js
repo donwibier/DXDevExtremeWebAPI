@@ -1,30 +1,35 @@
 ﻿DXDevExtremeClient.Values = function (params) {
-    /*
-        var _valuesSource = new DevExpress.data.CustomStore({
-    	pageSize: 20,
-    	load: function (options) {
-    	    return DXDevExtremeClient.db.get('Values', '', null, null);
-       },
-    	byKey: function(key) {
-    	    return DXDevExtremeClient.db.get('Values', encodeURIComponent(key), null, null, datasourceError);
-    	},
-    	insert: function (values) {
-    	    return DXDevExtremeClient.db.post('Values', '', values, null, datasourceError);
-        },
+    
+    //var _datasource = new DevExpress.data.DataSource({
+    //	pageSize: 20,
+    //	load: function (options) {
+    //	    return DXDevExtremeClient.db.get('Values', '', null, null, datasourceError);
+    //   },
+    //	byKey: function(key) {
+    //	    return DXDevExtremeClient.db.get('Values', encodeURIComponent(key), null, null, datasourceError);
+    //	},
+    //	insert: function (values) {
+    //	    return DXDevExtremeClient.db.post('Values', '', values, null, datasourceError);
+    //    },
     	
-    	update: function (key, values) {
-    	    return DXDevExtremeClient.db.put('Values', encodeURIComponent(key), values, null, datasourceError);
-        },
+    //	update: function (key, values) {
+    //	    return DXDevExtremeClient.db.put('Values', encodeURIComponent(key), values, null, datasourceError);
+    //    },
     	
-    	remove: function (key) {
-    	    return DXDevExtremeClient.db.del('Values', encodeURIComponent(key), null, null, datasourceError);
-        }
+    //	remove: function (key) {
+    //	    return DXDevExtremeClient.db.del('Values', encodeURIComponent(key), null, null, datasourceError);
+    //    }
     	
-    });
-    */
+    //});
+
+    function datasourceError(err) {
+        var msg = (err.responseJSON && err.responseJSON.Message) ? err.responseJSON.Message : err;
+        DevExpress.ui.notify('The server returned an error:' + msg, 'error', 3000);
+    }
     var _datasource = ko.observableArray();
 
     function getValues() {
+        //_datasource.load();
         DXDevExtremeClient.db.get('Values', '', null, function (data) {
             var result = [];
             for (var i = 0; i < data.length; i++) {
@@ -46,4 +51,5 @@
     };
 
     return viewModel;
+
 };

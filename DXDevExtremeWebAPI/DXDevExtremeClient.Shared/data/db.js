@@ -38,7 +38,7 @@
 
     var client = {
         _baseUrl: serviceConfig.db.url,
-        _loginView: 'Signin',
+        _loginView: 'Signin',        
         _username: '',
         isCordova: !!window.cordova,
         loginProviders: ko.observableArray(),
@@ -62,14 +62,25 @@
             if (dataObj)
                 ajaxObj = $.extend(ajaxObj, { data: JSON.stringify(dataObj) });
 
+            /* overcome scoping issues in the event handlers */
+            var loginView = this._loginView || "";
+            var a = DXDevExtremeClient;
+
             $.ajax(ajaxObj)
                 .done(function (data) {
                     if (onSuccess)
                         onSuccess(data);
                 })
                 .fail(function (err) {
-                    if (onFailure)
+                    if (err.status === 401) {
+                        if (loginView !== "") {
+                            a.app.navigate(loginView, { root: true } );
+                        }
+                        DevExpress.ui.notify('The server requires you to login', 'error', 3000);
+                    }
+                    else if (onFailure) {
                         onFailure(err);
+                    }
                 });
         },
         ajax: function (method, controllerName, actionMethod, dataObj, onSuccess, onFailure) {
@@ -99,9 +110,21 @@
                 });
         },
         externalLogin: function (provider, url) {
-            var oauthWindow = window.open(this._baseUrl + url, "Authenticate Account", "location=0,status=0,width=600,height=750");
-            // under construction !!!
-            //if (!this.isCordova) {  }
+            if (!this.isCordova) {
+                var oauthWindow = window.open(this._baseUrl + url, "Authenticate Account", "location=0,status=0,width=600,height=750");
+            }
+            else {
+                var ref = window.open(this._baseUrl + url, '_blank', 'location=no');
+                ref.addEventListener('loadstart', function (event) {
+                    var testUrl = window.db._baseUrl + '/oauthcomplete.html';
+                    var cburl = (event.url);
+                    if (cburl.indexOf(testUrl) == 0) {
+                        var fragments = getUrlParts(cburl);
+                        window.db.externalLoginCallback(fragments);
+                        ref.close();                        
+                    }
+                });
+            }
         },
         externalLoginCallback: function (fragment) {
             sessionStorage.setItem('USRTOKEN', fragment.access_token);
@@ -114,7 +137,7 @@
             }
             else {
                 DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-                DXDevExtremeClient.app.navigate("Home", { root: true });
+                DXDevExtremeClient.app.back();
             }
         },
         externalRegister: function (email) {
@@ -143,12 +166,18 @@
         },
         get: function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
             this.ajax('GET', controllerName, actionMethod, dataObj, onSuccess, onFailure);
+        },
+        put: function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+            this.ajax('PUT', controllerName, actionMethod, dataObj, onSuccess, onFailure);
+        },
+        del: function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+            this.ajax('DELETE', controllerName, actionMethod, dataObj, onSuccess, onFailure);
         }
     }
     window.db = client;
     DXDevExtremeClient.db = client;
-    /* Fetch the login providers from server*/
-    var _redirectUri = location.protocol + '//' + location.host + '/oauthcomplete.html';
+    /* Fetch the login providers from server and set correct redirectUrl */
+    var _redirectUri = (client.isCordova ? client._baseUrl : location.protocol + '//' + location.host) + '/oauthcomplete.html';    
     client.get("Account", "ExternalLogins?returnUrl=" + _redirectUri, null,
         function (data) {
             if (data.length > 0) {

@@ -4,7 +4,7 @@ window.DXDevExtremeClient = $.extend(true, window.DXDevExtremeClient, {
         "endpoints": {
             "db": {
                 "local": "http://localhost:5806",
-                "production": ""
+                "production": "http://dxdonwebapi.azurewebsites.net"
             }
         },
         "services": {

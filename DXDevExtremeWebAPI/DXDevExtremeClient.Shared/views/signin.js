@@ -19,13 +19,13 @@
     }
 
     function register() {
-        app.navigate("Register");
+        app.app.navigate("Register");
     }
 
     function login(args) {
         db.login(_username(), _password(),
             function (data) {
-                app.navigate('Home', { root: true });
+                app.back();
             }, null);
     }
 
@@ -34,7 +34,7 @@
     }
 
     var viewModel = {
-        viewShown: function () {
+        viewShown: function () {            
             clear();
             updateProviders();
         },
