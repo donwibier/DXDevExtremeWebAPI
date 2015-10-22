@@ -21,6 +21,15 @@
                 }
             }
             return result;
+        },
+        removeTrailingSlash: function (url) {
+            if (!url)
+                return "";
+            var parts = url.split(/([?#])/);
+            var result = (parts[0].substr(parts[0].length - 1) == '/') ? parts[0].substr(0, parts[0].length - 1) : parts[0];
+            for(var i = 1; i < parts.length; i++)
+                result += parts[i];
+            return result;
         }
     };
 
@@ -30,32 +39,40 @@
      * serviceUrl = the location of the WebAPI service (without trailing slash !)
      * actionEvents is an object which can have the following structure:
         actionEvents = {
-            signinAction : function(sender, args){},
-            accessDeniedAction : function(sender, args){},
+            signinAction : function(sender, args){},            
             authenticatedAction : function(sender, args){},
             externalAuthenticatedAction : function(sender, args){},
             externalRegisteredAction : function(sender, args){},				
             externalRegisterErrorAction : function(sender, args){},
             providersPopulatedAction: function (sender, args) { }
+            logoutAction: function (sender, args) { }
         }
      */
 	DX.WebAPI.Client = function DX_WebAPI_Client(serviceUrl, actionEvents) {
 
-	    this.baseUrl = serviceUrl;
-	    this.events = actionEvents;
+	    this.baseUrl = DX.Utils.removeTrailingSlash(serviceUrl);	    
+	    this.events = actionEvents || {};
+	    this.controllerEndPoint = '/api';
+	    this.tokenEndPoint = '/Token';
 	    this.username = '';
-	    this._extWnd = null;
-	    this._isCordova = !!window.cordova;
 
 	    this.loginProviders = [];
 	    this.hasProviders = false;
+	    // private members
+	    this._extWnd = null;
+	    this._isCordova = !!window.cordova;
+
 	}
 
 	DX.WebAPI.Client.prototype = {
-	    _dispatchEvent: function(name){
-	        if (this.events[name])
-	        {
-	            this.events[name](arguments.slice(1));
+	    _dispatchEvents: function (handlers, eventArgs) {
+	        for (var i = 0; i < handlers.length; i++) {
+	            if (handlers[i]) {
+	                if ((typeof handlers[i] === "string") && (this.events[handlers[i]]))
+	                    this.events[handlers[i]](eventArgs.args, eventArgs.sender);
+	                else 
+	                    handlers[i](eventArgs.args, eventArgs.sender);
+	            }
 	        }
 	    },
 
@@ -78,29 +95,20 @@
 
 	        $.ajax(ajaxObj)
                 .done(function (data) {
-                    if (onSuccess)
-                        onSuccess(data);
+                    self._dispatchEvents([onSuccess], { sender: self, args: data });
                 })
                 .fail(function (err) {
-                    if (err.status === 401) {
-                        if (self.events.signinAction) {
-                            self.events.signinAction(self, err);
-                        }
-                    }
-                    else{ 
-                        if (onFailure)
-                            onFailure(self, err);
-                 
-                        if (self.events.accessDeniedAction)
-                            self.events.accessDeniedAction(self, err);
-                    }
+                    if (err.status === 401) 
+                        self._dispatchEvents(['signinAction'], { sender: self, args: err });                    
+                    else
+                        self._dispatchEvents([onFailure], { sender: self, args: err });                    
                 });
         },
         ajax : function (method, controllerName, actionMethod, dataObj, onSuccess, onFailure) {
 	    
-            var token = sessionStorage.getItem('USRTOKEN');
+            var token = sessionStorage.getItem(this.baseUrl + '_TOKEN');
             var headers = (token) ? [{ name: 'Authorization', value: 'Bearer ' + token }] : null;
-            var url = this.baseUrl + '/api/' + controllerName + '/' + actionMethod;
+            var url = this.baseUrl + this.controllerEndPoint + '/' + controllerName + '/' + actionMethod;
 
             this._ajax(method, url, headers, dataObj, onSuccess, onFailure);
         },
@@ -111,28 +119,21 @@
                 username: username,
                 password: password
             };
-            this._ajax('POST', this.baseUrl + '/Token', null, loginData,
-                function (data) {
-                    self.username = data.userName;
-                    sessionStorage.setItem('USRTOKEN', data.access_token);                    
-                    if (onSuccess) {
-                        onSuccess(self, data);
-                    }
-                    else if (self.events.authenticatedAction){
-                        self.events.authenticatedAction(self, data);
-                    }               
-                },
-                function (err) {
-                    if (onFailure) 
-                        onFailure(err);
-                    else if (self.events.accessDeniedAction)
-                        self.events.accessDeniedAction(self, err);                    
-                
-                });
+            $.ajax({
+                type: 'POST',
+                url: this.baseUrl + this.tokenEndPoint,
+                data: loginData
+            }).done(function (data) {
+                self.username = data.userName;
+                sessionStorage.setItem(self.baseUrl + '_TOKEN', data.access_token);
+                self._dispatchEvents([onSuccess, 'authenticatedAction'], { sender: self, args: data });
+            }).fail(function (err) {
+                self._dispatchEvents([onFailure, 'accessDeniedAction'], { sender: self, args: err });
+            });
         },
         populateProviders: function(onPopulateAction){
             var self = this;
-            var _redirectUri = (this.isCordova ? this.baseUrl : location.protocol + '//' + location.host) + '/oauthcomplete.html';
+            var _redirectUri = (this.isCordova ? this.baseUrl + '/oauthcompletedummy.html' : location.protocol + '//' + location.host + '/oauthcomplete.html');
             this.get("Account", "ExternalLogins?returnUrl=" + _redirectUri, null,
                 function (data) {
                     if (data.length > 0) {
@@ -140,17 +141,11 @@
                             data[i].Url = data[i].Url + "%3Fprovider=" + data[i].Name;
                         self.loginProviders = data;
                     }
-                    if (onPopulateAction)
-                        onPopulateAction(self, data);
-                    else if (self.events.providersPopulatedAction)
-                        self.events.providersPopulatedAction(self, data);
+                    self._dispatchEvents([onPopulateAction, 'providersPopulatedAction'], { sender: self, args: data });
                 },
                 function (err) {
                     self.hasProviders = false;
-                    if (onPopulateAction)
-                        onPopulateAction(self, err);
-                    else if (self.events.providersPopulatedAction)
-                        self.events.providersPopulatedAction(self, err);
+                    self._dispatchEvents([onPopulateAction, 'providersPopulatedAction'], { sender: self, args: err });                    
                 });
         },
         externalLogin : function (provider, url) {
@@ -175,8 +170,8 @@
             }
         },
         externalLoginCallback : function (fragment) {
-            sessionStorage.setItem('USRTOKEN', fragment.access_token);
-            sessionStorage.setItem('USRPROV', fragment.provider);
+            sessionStorage.setItem(this.baseUrl + '_TOKEN', fragment.access_token);
+            sessionStorage.setItem(this.baseUrl + '_PROVIDER', fragment.provider);
 
             var email = fragment.email ? fragment.email : fragment.username;
             var user = fragment.username ? fragment.username : "";
@@ -184,31 +179,27 @@
                 this.externalRegister(email);
             }
             else {
-                if (this.events.externalAuthenticatedAction)
-                    this.events.externalAuthenticatedAction(this, fragment);
+                this._dispatchEvents(['externalAuthenticatedAction'], { sender: this, args: fragment });               
             }
         },
         externalRegister : function (email) {
             var self = this;
             this.ajax('POST', 'Account', 'RegisterExternal', { 'Email': email, 'Name': email },
                 function (data) {
-                    if (self.events.externalRegisteredAction)
-                        self.events.externalRegisteredAction(self, data);
+                    self._dispatchEvents(['externalRegisteredAction'], { sender: self, args: data });       
                 },
                 function (err) {
-                    if (self.events.externalRegisterErrorAction)
-                        self.events.externalRegisterErrorAction(self, err);
+                    self._dispatchEvents(['externalRegisterErrorAction'], { sender: self, args: data });       
                 }
             );
         },
-        logout : function (redirectView) {
-            sessionStorage.removeItem('USRTOKEN');
-            sessionStorage.removeItem('USRPROV');
-            if (redirectView)
-                DXDevExtremeClient.app.navigate(redirectView, { root: true });
+        logout : function (logoutAction) {
+            sessionStorage.removeItem(this.baseUrl + '_TOKEN');
+            sessionStorage.removeItem(this.baseUrl + '_PROVIDER');
+            self._dispatchEvents([logoutAction, 'logoutAction'], { sender: self, args: data });    
         },
         authenticated : function () {
-            var token = sessionStorage.getItem('USRTOKEN');
+            var token = sessionStorage.getItem(this.baseUrl + '_TOKEN');
             return (token !== '');
         },
         post : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {

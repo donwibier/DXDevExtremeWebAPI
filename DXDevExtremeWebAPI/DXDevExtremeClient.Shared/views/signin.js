@@ -25,8 +25,11 @@
     function login(args) {
         db.login(_username(), _password(),
             function (data) {
-                app.back();
-            }, null);
+                app.app.back();
+            }, 
+            function (err) {
+                DevExpress.ui.notify('Username and / or password incorrect', 'error', 3000);
+            });
     }
 
     function externalLogin(args) {

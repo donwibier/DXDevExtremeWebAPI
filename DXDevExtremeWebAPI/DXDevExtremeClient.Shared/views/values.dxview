@@ -2,7 +2,7 @@
     <div data-options="dxContent : { targetPlaceholder: 'content' } ">
         <div data-bind="dxList: { dataSource: dataSource }">
             <div data-options="dxTemplate : { name: 'item' } ">
-                <div data-bind="text: value"></div>
+                <div data-bind="text: $data"></div>
             </div>
         </div>
     </div>

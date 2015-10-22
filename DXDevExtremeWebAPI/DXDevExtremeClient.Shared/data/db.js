@@ -41,9 +41,6 @@
                 DXDevExtremeClient.app.navigate('Signin', { root: true });
                 DevExpress.ui.notify('The server requires you to login', 'error', 3000);
             },
-            accessDeniedAction: function (sender, args) {
-                DevExpress.ui.notify('Validation failed', 'error', 3000);
-            },
             authenticatedAction: function (sender, args) {
                 DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
             },
@@ -60,6 +57,9 @@
             providersPopulatedAction: function (sender, args) {
                 sender.loginProviders = ko.observableArray(sender.loginProviders);
                 sender.hasProviders = ko.observable(args.length > 0);
+            },
+            logoutAction: function (sender, args) {
+                    DXDevExtremeClient.app.navigate('Home', { root: true });
             }
         });
    
