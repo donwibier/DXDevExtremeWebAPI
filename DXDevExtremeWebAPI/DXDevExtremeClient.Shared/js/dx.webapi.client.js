@@ -39,13 +39,13 @@
      * serviceUrl = the location of the WebAPI service (without trailing slash !)
      * actionEvents is an object which can have the following structure:
         actionEvents = {
-            signinAction : function(sender, args){},            
-            authenticatedAction : function(sender, args){},
-            externalAuthenticatedAction : function(sender, args){},
-            externalRegisteredAction : function(sender, args){},				
-            externalRegisterErrorAction : function(sender, args){},
-            providersPopulatedAction: function (sender, args) { }
-            logoutAction: function (sender, args) { }
+            signinAction : function(args, sender){},            
+            authenticatedAction : function(args, sender){},
+            externalAuthenticatedAction : function(args, sender){},
+            externalRegisteredAction : function(args, sender){},				
+            externalRegisterErrorAction : function(args, sender){},
+            providersPopulatedAction: function (args, sender) { }
+            logoutAction: function (args, sender) { }
         }
      */
 	DX.WebAPI.Client = function DX_WebAPI_Client(serviceUrl, actionEvents) {

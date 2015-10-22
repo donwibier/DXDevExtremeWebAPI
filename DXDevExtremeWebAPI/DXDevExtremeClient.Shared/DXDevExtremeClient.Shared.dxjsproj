@@ -22,10 +22,7 @@
     <Content Include="data\db.js">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="data\dx.webapi.client.js">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="data\oauthcomplete.js">
+    <Content Include="DX.JavaScript.WebAPI.Client.nuspec">
       <SubType>Content</SubType>
     </Content>
     <Content Include="dxdevextremeclient.shared.config.js">
@@ -34,6 +31,12 @@
     <Content Include="images\logo.png" />
     <Content Include="js\dx.all.js" />
     <Content Include="js\dx.all.debug.js" />
+    <Content Include="js\dx.webapi.client.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="js\dx.webapi.client.oauth.complete.js">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="js\localization\dx.all.de.js" />
     <Content Include="js\localization\dx.all.ja.js" />
     <Content Include="js\localization\dx.all.ru.js" />
