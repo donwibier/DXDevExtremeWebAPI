@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>DX.JavaScript.WebAPI.Client</id>
-    <version>1.0.0.1</version>
+    <version>1.0.0.3</version>
     <title>DX WebAPI Javascript client</title>
     <authors>Don Wibier</authors>
     <owners>Don Wibier</owners>
@@ -12,15 +12,18 @@
     <iconUrl>http://www.devexpress.com/favicon.ico</iconUrl>
     <language />
     <releaseNotes>
-		1.0.0.1 Initial release
- 	  </releaseNotes>
+      1.0.0.3 Readme file with short documentation included
+      1.0.0.2 Fixes on event dispatching
+      1.0.0.1 Initial release
+    </releaseNotes>
     <tags>DevExtreme WebAPI Javascript Authentication OAuth Social Facebook</tags>
     <dependencies>
     </dependencies>
     <references>
     </references>
   </metadata>
-  <files>
+  <files>    
+    <file src="readme.txt" target="" />
     <file src="oauthcomplete.html" target="content\oauthcomplete.html" />
     <file src="js\dx.webapi.client.js" target="content\js\dx.webapi.client.js" />
     <file src="js\dx.webapi.client.oauth.complete.js" target="content\js\dx.webapi.client.oauth.complete.js" />

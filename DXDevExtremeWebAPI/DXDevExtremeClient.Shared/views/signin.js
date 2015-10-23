@@ -1,7 +1,5 @@
 ﻿DXDevExtremeClient.Signin = function (params) {
 
-    var app = DXDevExtremeClient;
-    var db = app.db;
     var _username = ko.observable('');
     var _password = ko.observable('');
     
@@ -19,13 +17,13 @@
     }
 
     function register() {
-        app.app.navigate("Register");
+        My.app.navigate("Register");
     }
 
     function login(args) {
         db.login(_username(), _password(),
             function (data) {
-                app.app.back();
+                My.app.back();
             }, 
             function (err) {
                 DevExpress.ui.notify('Username and / or password incorrect', 'error', 3000);

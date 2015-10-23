@@ -19,7 +19,7 @@
             ConfirmPassword: _passwordRetype()
         };
 
-        DXDevExtremeClient.db.post('Account', 'Register', data, onSuccess, onFail);
+        db.post('Account', 'Register', data, onSuccess, onFail);
     }
 
     function errorPopupClose() {
@@ -28,7 +28,7 @@
 
     function onSuccess(args) {
         DevExpress.ui.notify('You have been registered successfully!', 'success', 3000);
-        DXDevExtremeClient.app.navigate('Home', { root: true });
+        My.app.navigate('Home', { root: true });
     }
 
     function onFail(args) {

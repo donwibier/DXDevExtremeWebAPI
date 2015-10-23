@@ -30,7 +30,7 @@
 
     function getValues() {
         //_datasource.load();
-        DXDevExtremeClient.db.get('Values', '', null, function (data) {           
+        db.get('Values', '', null, function (data) {           
             _datasource(data);
         },
         function (err) {

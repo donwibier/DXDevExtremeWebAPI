@@ -1,6 +1,5 @@
 ﻿DXDevExtremeClient.Confirmexternal = function (params) {
-    var app = DXDevExtremeClient;
-    var db = app.db;
+        
     var _email = ko.observable('');
 
     function clear() {

@@ -65,6 +65,9 @@
     <Content Include="oauthcomplete.html">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="readme.txt">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="views\about.html" />
     <Content Include="views\blank.html" />
     <Content Include="views\confirmexternal.dxview">

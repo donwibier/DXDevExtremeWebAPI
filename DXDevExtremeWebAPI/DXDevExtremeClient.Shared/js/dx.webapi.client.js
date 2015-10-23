@@ -1,11 +1,14 @@
-﻿(function () {
+﻿//Created by Don Wibier /DEVEXPRESS (donw@devexpress.com)
+//https://github.com/donwibier/DXDevExtremeWebAPI
+
+(function () {
 	"use strict";
 
 	var DX = DX || {};
 
 	DX.Utils = DX.Utils || {
         version: function () {
-            return "v1.0.0.1";
+            return "v1.0.0.3";
         },
         getUrlParts : function (url) {
             var parts = url.split(/[?#&]/);
@@ -35,19 +38,7 @@
 
 
     DX.WebAPI = DX.WebAPI || {};
-    /*
-     * serviceUrl = the location of the WebAPI service (without trailing slash !)
-     * actionEvents is an object which can have the following structure:
-        actionEvents = {
-            signinAction : function(args, sender){},            
-            authenticatedAction : function(args, sender){},
-            externalAuthenticatedAction : function(args, sender){},
-            externalRegisteredAction : function(args, sender){},				
-            externalRegisterErrorAction : function(args, sender){},
-            providersPopulatedAction: function (args, sender) { }
-            logoutAction: function (args, sender) { }
-        }
-     */
+   
 	DX.WebAPI.Client = function DX_WebAPI_Client(serviceUrl, actionEvents) {
 
 	    this.baseUrl = DX.Utils.removeTrailingSlash(serviceUrl);	    
@@ -68,10 +59,7 @@
 	    _dispatchEvents: function (handlers, eventArgs) {
 	        for (var i = 0; i < handlers.length; i++) {
 	            if (handlers[i]) {
-	                if ((typeof handlers[i] === "string") && (this.events[handlers[i]]))
-	                    this.events[handlers[i]](eventArgs.args, eventArgs.sender);
-	                else 
-	                    handlers[i](eventArgs.args, eventArgs.sender);
+	                handlers[i](eventArgs.args, eventArgs.sender);
 	            }
 	        }
 	    },
@@ -99,7 +87,7 @@
                 })
                 .fail(function (err) {
                     if (err.status === 401) 
-                        self._dispatchEvents(['signinAction'], { sender: self, args: err });                    
+                        self._dispatchEvents([self.events.signinAction], { sender: self, args: err });                    
                     else
                         self._dispatchEvents([onFailure], { sender: self, args: err });                    
                 });
@@ -111,6 +99,18 @@
             var url = this.baseUrl + this.controllerEndPoint + '/' + controllerName + '/' + actionMethod;
 
             this._ajax(method, url, headers, dataObj, onSuccess, onFailure);
+        },
+        post : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+            this.ajax('POST', controllerName, actionMethod, dataObj, onSuccess, onFailure);
+        },
+        get : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+            this.ajax('GET', controllerName, actionMethod, dataObj, onSuccess, onFailure);
+        },
+        put : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+            this.ajax('PUT', controllerName, actionMethod, dataObj, onSuccess, onFailure);
+        },
+        del : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+            this.ajax('DELETE', controllerName, actionMethod, dataObj, onSuccess, onFailure);
         },
         login : function (username, password, onSuccess, onFailure) {
             var self = this;
@@ -126,12 +126,21 @@
             }).done(function (data) {
                 self.username = data.userName;
                 sessionStorage.setItem(self.baseUrl + '_TOKEN', data.access_token);
-                self._dispatchEvents([onSuccess, 'authenticatedAction'], { sender: self, args: data });
+                self._dispatchEvents([onSuccess, self.events.authenticatedAction], { sender: self, args: data });
             }).fail(function (err) {
-                self._dispatchEvents([onFailure, 'accessDeniedAction'], { sender: self, args: err });
+                self._dispatchEvents([onFailure, self.events.accessDeniedAction], { sender: self, args: err });
             });
         },
-        populateProviders: function(onPopulateAction){
+        logout: function (logoutAction) {
+            sessionStorage.removeItem(this.baseUrl + '_TOKEN');
+            sessionStorage.removeItem(this.baseUrl + '_PROVIDER');
+            this._dispatchEvents([logoutAction, this.events.logoutAction], { sender: this, args: data });
+        },
+        authenticated: function () {
+            var token = sessionStorage.getItem(this.baseUrl + '_TOKEN');
+            return (token !== '');
+        },
+        populateProviders: function (onPopulateAction) {
             var self = this;
             var _redirectUri = (this.isCordova ? this.baseUrl + '/oauthcompletedummy.html' : location.protocol + '//' + location.host + '/oauthcomplete.html');
             this.get("Account", "ExternalLogins?returnUrl=" + _redirectUri, null,
@@ -141,11 +150,11 @@
                             data[i].Url = data[i].Url + "%3Fprovider=" + data[i].Name;
                         self.loginProviders = data;
                     }
-                    self._dispatchEvents([onPopulateAction, 'providersPopulatedAction'], { sender: self, args: data });
+                    self._dispatchEvents([onPopulateAction, self.events.providersPopulatedAction], { sender: self, args: data });
                 },
                 function (err) {
                     self.hasProviders = false;
-                    self._dispatchEvents([onPopulateAction, 'providersPopulatedAction'], { sender: self, args: err });                    
+                    self._dispatchEvents([onPopulateAction, self.events.providersPopulatedAction], { sender: self, args: err });
                 });
         },
         externalLogin : function (provider, url) {
@@ -179,41 +188,20 @@
                 this.externalRegister(email);
             }
             else {
-                this._dispatchEvents(['externalAuthenticatedAction'], { sender: this, args: fragment });               
+                this._dispatchEvents([this.events.externalAuthenticatedAction], { sender: this, args: fragment });               
             }
         },
         externalRegister : function (email) {
             var self = this;
             this.ajax('POST', 'Account', 'RegisterExternal', { 'Email': email, 'Name': email },
                 function (data) {
-                    self._dispatchEvents(['externalRegisteredAction'], { sender: self, args: data });       
+                    self._dispatchEvents([self.events.externalRegisteredAction], { sender: self, args: data });       
                 },
                 function (err) {
-                    self._dispatchEvents(['externalRegisterErrorAction'], { sender: self, args: data });       
+                    self._dispatchEvents([self.events.externalRegisterErrorAction], { sender: self, args: data });
                 }
             );
         },
-        logout : function (logoutAction) {
-            sessionStorage.removeItem(this.baseUrl + '_TOKEN');
-            sessionStorage.removeItem(this.baseUrl + '_PROVIDER');
-            self._dispatchEvents([logoutAction, 'logoutAction'], { sender: self, args: data });    
-        },
-        authenticated : function () {
-            var token = sessionStorage.getItem(this.baseUrl + '_TOKEN');
-            return (token !== '');
-        },
-        post : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
-            this.ajax('POST', controllerName, actionMethod, dataObj, onSuccess, onFailure);
-        },
-        get : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
-            this.ajax('GET', controllerName, actionMethod, dataObj, onSuccess, onFailure);
-        },
-        put : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
-            this.ajax('PUT', controllerName, actionMethod, dataObj, onSuccess, onFailure);
-        },
-        del : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
-            this.ajax('DELETE', controllerName, actionMethod, dataObj, onSuccess, onFailure);
-        }
 	}
 
 	window.DX = DX;

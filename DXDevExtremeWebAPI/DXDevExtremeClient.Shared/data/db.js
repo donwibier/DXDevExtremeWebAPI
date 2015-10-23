@@ -34,11 +34,13 @@
     // Enable partial CORS support for IE < 10    
     $.support.cors = true;
 
+    window.My = DXDevExtremeClient;
+
     //DXDevExtremeClient.db = new DevExpress.data.ODataContext(serviceConfig.db);
     var client = new DX.WebAPI.Client(serviceConfig.db.url,
         {
             signinAction: function (sender, args) {
-                DXDevExtremeClient.app.navigate('Signin', { root: true });
+                My.app.navigate('Signin', { root: true });
                 DevExpress.ui.notify('The server requires you to login', 'error', 3000);
             },
             authenticatedAction: function (sender, args) {
@@ -46,7 +48,7 @@
             },
             externalAuthenticatedAction: function (sender, args) {
                 DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-                DXDevExtremeClient.app.navigate('Home', {root:true});
+                My.app.navigate('Home', {root:true});
             },
             externalRegisteredAction: function (sender, args) {
                 DevExpress.ui.notify('Your external account has been registered!', 'success', 3000);
@@ -59,12 +61,12 @@
                 sender.hasProviders = ko.observable(args.length > 0);
             },
             logoutAction: function (sender, args) {
-                    DXDevExtremeClient.app.navigate('Home', { root: true });
+                    My.app.navigate('Home', { root: true });
             }
         });
-   
+    
     window.db = client;
-    DXDevExtremeClient.db = client;
+    My.db = client;
 
     /* Fetch the login providers from server and set correct redirectUrl */
     client.populateProviders();
