@@ -1,6 +1,6 @@
 # DXDevExtremeWebAPI
 DX JavaScript WebAPI Client
-Author: Don Wibier /DEVEXPRESS (donw@devexpress.com)
+Author: Don Wibier /DEVEXPRESS
 https://github.com/donwibier/DXDevExtremeWebAPI
 
 Note:
@@ -31,8 +31,9 @@ globalEventsObject:
     global states for authorization change.
 
 Example:
-    var My = DevExtremeApplication1; // your application object
 
+    var My = DevExtremeApplication1; // your application object
+    
     var actionEvents = {
         signinAction : function(args, sender) { 
             My.app.navigate('Signin', { root: true });
@@ -90,21 +91,30 @@ The DX.WebAPI.Client exposes the following methods:
     put(controllerName, actionMethod, dataObj, onSuccess, onFailure) 
     del(controllerName, actionMethod, dataObj, onSuccess, onFailure) 
 
+
     login(username, password, onSuccess, onFailure) 
     logout(logoutAction) 
     authenticated() 
+
 
     populateProviders: function(onPopulateAction)
     externalLogin(provider, url) 
     externalRegister(email) 
 
-The onSuccess parameter: function(args, sender){ /* your code */ }
-The onFailure parameter: function(args, sender){ /* your code */ }
+The onSuccess parameter: 
+
+    function(args, sender){ /* your code */ }
+
+The onFailure parameter: 
+
+    function(err, sender){ /* your code */ }
 
 External Authentication note:
 If you want to get e.g. Facebook login to work, configure the app on https://developer.facebook.com
 Insert the AppID and App Secret in the WebAPI/App_Start/Startup.Auth.cs
 
 !!Important for Cordova!!
+
 Place an empty html file in the root of your WebAPI project:
+
     oauthcompletedummy.html
