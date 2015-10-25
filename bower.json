@@ -1,0 +1,41 @@
+{
+  "name": "dx-javascript-webapi-auth",
+  "version": "1.0.0.1",
+  "homepage": "https://github.com/donwibier/DXDevExtremeWebAPI",
+  "description": "Javascript WebAPI client incl (social/Facebook) logins",
+  "main": [
+    "source/js/dx.webapi.client.js", 
+    "source/js/dx.webapi.client.oauth.complete.js",
+    "source/oauthcomplete.html"
+  ],
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "DevExtreme",
+    "Cordova",
+    "AngularJS",
+    "ASP.NET",
+    "WebAPI",
+    "Authentication",
+    "Social",
+    "Facebook",
+    "OAuth"
+  ],
+  "authors": [
+    "Don Wibier DevExpress <donw@devexpress.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "jquery": ">=1.10.2"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "sample"
+    "nuget"
+  ]
+}

@@ -1,0 +1,46 @@
+<div data-options="dxView : { name: 'Signin', title: 'Signin' } ">
+    <div data-options="dxContent : { targetPlaceholder: 'content' } ">
+        <div class="dx-fieldset">
+            <div class="dx-fieldset-header">Your credentials</div>
+            <div class="dx-field">
+                <div class="dx-field-label">E-mail address</div>
+                <div class="dx-field-value">
+                    <div data-bind="dxTextBox:{ value: username }"></div>
+                </div>
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-label">Password</div>
+                <div class="dx-field-value">
+                    <div data-bind="dxTextBox: { value: password, mode: 'password' }"></div>
+                </div>
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-label"></div>
+                <div class="dx-field-value">
+                    <div data-bind="dxButton: { onClick: loginClick, text: 'Sign in' }"></div>
+                </div>
+            </div>
+        </div>
+        <div class="dx-fieldset">
+            <div class="dx-fieldset-header">Register</div>
+            <div class="dx-field">
+                <div class="dx-field-label">No account yet?</div>
+                <div class="dx-field-value">
+                    <div data-bind="dxButton: { onClick: registerClick, text: 'Register' }"></div>
+                </div>
+            </div>
+        </div>
+        <div class="dx-fieldset">
+            <div class="dx-fieldset-header">Use another account</div>
+            <div class="dx-field-label"></div>
+            <div class="dx-field-value">
+                <div data-bind="dxList: { dataSource: loginProviders, noDataText: noProvidersText }">
+                    <div data-options="dxTemplate : { name: 'item' } ">
+                        <div data-bind="dxButton: { text: Name, onClick: $root.externalLoginClick }"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
+    </div>

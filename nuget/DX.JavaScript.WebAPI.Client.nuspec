@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>DX.JavaScript.WebAPI.Client</id>
+    <version>1.0.0.4</version>
+    <title>DX WebAPI Javascript client</title>
+    <authors>Don Wibier</authors>
+    <owners>Don Wibier</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Javascript client for accessing secure WebAPI services incl. (social/facebook) authentication </description>
+    <copyright>2015 All rights reserved</copyright>
+    <iconUrl>http://www.devexpress.com/favicon.ico</iconUrl>
+    <language />
+    <releaseNotes>
+      1.0.0.4 Reorganized folder structure and Signin, Register and ConfirmExternal sample views added
+      1.0.0.3 Readme file with short documentation included
+      1.0.0.2 Fixes on event dispatching
+      1.0.0.1 Initial release
+    </releaseNotes>
+    <tags>DevExtreme Cordova AngularJS WebAPI Javascript Authentication OAuth Social Facebook</tags>
+    <dependencies>
+    </dependencies>
+    <references>
+    </references>
+  </metadata>
+  <files>    
+    <file src="readme.txt" target="" />
+    <file src="..\source\oauthcomplete.html" target="content\oauthcomplete.html" />
+    <file src="..\source\js\dx.webapi.client.js" target="content\js\dx.webapi.client.js" />
+    <file src="..\source\js\dx.webapi.client.oauth.complete.js" target="content\js\dx.webapi.client.oauth.complete.js" />
+    <file src="views\dxsignin.dxview" target="content\views\dxsignin.dxview" />
+    <file src="views\dxsignin.js" target="content\views\dxsignin.js" />
+    <file src="views\dxregister.dxview" target="content\views\dxregister.dxview" />
+    <file src="views\dxregister.js" target="content\views\dxregister.js" />
+    <file src="views\dxconfirmexternal.dxview" target="content\views\dxconfirmexternal.dxview" />
+    <file src="views\dxconfirmexternal.js" target="content\views\dxconfirmexternal.js" />
+  </files>
+</package>

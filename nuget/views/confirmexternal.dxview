@@ -1,0 +1,21 @@
+<div data-options="dxView : { name: 'Confirmexternal', title: 'Confirm your account' } " >
+    <div  data-options="dxContent : { targetPlaceholder: 'content' } " >
+        <div class="dx-fieldset">
+            <div class="dx-fieldset-header">Additional information</div>
+            <div class="dx-field">
+                <div class="dx-field-label">E-mail address</div>
+                <div class="dx-field-value">
+                    <div data-bind="dxTextBox:{ value: email }"></div>
+                </div>
+            </div>
+            <div class="dx-field">
+                <div class="dx-field-label"></div>
+                <div class="dx-field-value">
+                    <div data-bind="dxButton: { onClick: confirmClick, text: 'Confirm' }"></div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
