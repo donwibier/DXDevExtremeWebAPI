@@ -1,8 +1,8 @@
 {
-  "name": "dx-javascript-webapi-auth",
-  "version": "1.0.0.1",
+  "name": "dx-javascript-webapi-client",
+  "version": "1.0.0.4",
   "homepage": "https://github.com/donwibier/DXDevExtremeWebAPI",
-  "description": "Javascript WebAPI client incl (social/Facebook) logins",
+  "description": "Javascript WebAPI client incl. social and external (Facebook ) logins",
   "main": [
     "source/js/dx.webapi.client.js", 
     "source/js/dx.webapi.client.oauth.complete.js",
@@ -35,7 +35,7 @@
     "bower_components",
     "test",
     "tests",
-    "sample"
+    "sample",
     "nuget"
   ]
 }
