@@ -1,4 +1,4 @@
-﻿DXDevExtremeClient.Register = function (params) {
+﻿my.DXRegister = function (params) {
 
     var _username = ko.observable('');
     var _password = ko.observable('');
@@ -28,7 +28,7 @@
 
     function onSuccess(args) {
         DevExpress.ui.notify('You have been registered successfully!', 'success', 3000);
-        My.app.navigate('Home', { root: true });
+        my.app.navigate('Home', { root: true });
     }
 
     function onFail(args) {

@@ -30,11 +30,32 @@ globalEventsObject:
     global states for authorization change.
 
 Example:
-    var My = DevExtremeApplication1; // your application object
+
+	Include in your index.html:
+
+	<!-- Place under:
+	<script type="text/javascript" src="js/dx.all.js"></script>
+	-->
+    <script type="text/javascript" src="js/dx.webapi.client.js"></script>
+
+	<!-- Add the default Signin, Register and ConfirmExternal views -->
+    <link rel="dx-template" type="text/html" href="views/dxsignin.dxview" />
+    <script type="text/javascript" src="views/dxsignin.js"></script>
+
+    <link rel="dx-template" type="text/html" href="views/dxregister.dxview" />
+    <script type="text/javascript" src="views/dxregister.js"></script>
+
+    <link rel="dx-template" type="text/html" href="views/dxconfirmexternal.dxview" />
+    <script type="text/javascript" src="views/dxconfirmexternal.js"></script>
+
+	Include in your startup javascript code (index.js or data/db.js)
+
+
+    window.my = DevExtremeApplication1; // your application object
 
     var actionEvents = {
         signinAction : function(args, sender) { 
-            My.app.navigate('Signin', { root: true });
+            my.app.navigate('Signin', { root: true });
             DevExpress.ui.notify('The server requires you to login', 'error', 3000);
         },
         authenticatedAction : function(args, sender) {
@@ -42,7 +63,7 @@ Example:
         },
         externalAuthenticatedAction : function(args, sender) {
             DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-            My.app.navigate('Home', {root:true});
+            my.app.navigate('Home', {root:true});
         },
         externalRegisteredAction : function(args, sender) {
             DevExpress.ui.notify('Your external account has been registered!', 'success', 3000);
@@ -53,13 +74,19 @@ Example:
         providersPopulatedAction: function (args, sender) { 
             sender.loginProviders = ko.observableArray(sender.loginProviders);
             sender.hasProviders = ko.observable(args.length > 0);
-        }
+        },
         logoutAction: function (args, sender) { 
-            My.app.navigate('Home', { root: true });
+            my.app.navigate('Home', { root: true });
         }
     };
+	// for multichannel project
+    // window.db = new DX.WebAPI.Client(serviceConfig.db.url, actionEvents);	
+    window.db = new DX.WebAPI.Client('http://mywebapiservice.com', actionEvents);
+	window.my.db = window.db; 
+ 
+    /* Fetch the login providers from server and set correct redirectUrl */
+    window.db.populateProviders();
 
-    var client = new DX.WebAPI.Client('http://mywebapiservice.com', actionEvents);
 
 The DX.WebAPI.Client exposes the folowing properties:
 

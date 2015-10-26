@@ -11,6 +11,27 @@ Project("{1B19158F-E398-40A6-8E3B-350508E125F1}") = "DXDevExtremeClient.Desktop"
 EndProject
 Project("{1B19158F-E398-40A6-8E3B-350508E125F1}") = "DXDevExtremeClient.Mobile", "DXDevExtremeClient.Mobile\DXDevExtremeClient.Mobile.dxjsproj", "{538CD7B4-797D-4A44-AFD2-7B5B4B7DB62C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{F5AA683C-E029-4DC9-90DD-A37B2D0E4A9E}"
+	ProjectSection(SolutionItems) = preProject
+		..\nuget\DX.JavaScript.WebAPI.Client.nuspec = ..\nuget\DX.JavaScript.WebAPI.Client.nuspec
+		..\nuget\readme.txt = ..\nuget\readme.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "views", "views", "{54E4037A-CE1D-4DDA-B03A-129CBDED6E11}"
+	ProjectSection(SolutionItems) = preProject
+		..\nuget\views\dxconfirmexternal.dxview = ..\nuget\views\dxconfirmexternal.dxview
+		..\nuget\views\dxconfirmexternal.js = ..\nuget\views\dxconfirmexternal.js
+		..\nuget\views\dxregister.dxview = ..\nuget\views\dxregister.dxview
+		..\nuget\views\dxregister.js = ..\nuget\views\dxregister.js
+		..\nuget\views\dxsignin.dxview = ..\nuget\views\dxsignin.dxview
+		..\nuget\views\dxsignin.js = ..\nuget\views\dxsignin.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bower", "bower", "{D33DDD10-F4C9-4735-AA0D-AA8FA2D18664}"
+	ProjectSection(SolutionItems) = preProject
+		..\bower.json = ..\bower.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +57,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{54E4037A-CE1D-4DDA-B03A-129CBDED6E11} = {F5AA683C-E029-4DC9-90DD-A37B2D0E4A9E}
 	EndGlobalSection
 EndGlobal

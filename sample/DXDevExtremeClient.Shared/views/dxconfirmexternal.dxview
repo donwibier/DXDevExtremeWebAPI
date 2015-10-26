@@ -1,4 +1,4 @@
-<div data-options="dxView : { name: 'Confirmexternal', title: 'Confirm your account' } " >
+<div data-options="dxView : { name: 'DXConfirmexternal', title: 'Confirm your account' } " >
     <div  data-options="dxContent : { targetPlaceholder: 'content' } " >
         <div class="dx-fieldset">
             <div class="dx-fieldset-header">Additional information</div>

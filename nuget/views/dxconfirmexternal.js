@@ -1,4 +1,4 @@
-﻿DXDevExtremeClient.Confirmexternal = function (params) {
+﻿my.DXConfirmexternal = function (params) {
         
     var _email = ko.observable('');
 

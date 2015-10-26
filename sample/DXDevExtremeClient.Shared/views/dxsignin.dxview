@@ -1,4 +1,4 @@
-<div data-options="dxView : { name: 'Signin', title: 'Signin' } ">
+<div data-options="dxView : { name: 'DXSignin', title: 'Signin' } ">
     <div data-options="dxContent : { targetPlaceholder: 'content' } ">
         <div class="dx-fieldset">
             <div class="dx-fieldset-header">Your credentials</div>
