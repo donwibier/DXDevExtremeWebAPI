@@ -32,42 +32,41 @@
     }
 
     // Enable partial CORS support for IE < 10    
-    $.support.cors = true;
-
-    window.My = DXDevExtremeClient;
+    $.support.cors = true;    
 
     //DXDevExtremeClient.db = new DevExpress.data.ODataContext(serviceConfig.db);
-    var client = new DX.WebAPI.Client(serviceConfig.db.url,
-        {
-            signinAction: function (sender, args) {
-                My.app.navigate('Signin', { root: true });
-                DevExpress.ui.notify('The server requires you to login', 'error', 3000);
-            },
-            authenticatedAction: function (sender, args) {
-                DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-            },
-            externalAuthenticatedAction: function (sender, args) {
-                DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-                My.app.navigate('Home', {root:true});
-            },
-            externalRegisteredAction: function (sender, args) {
-                DevExpress.ui.notify('Your external account has been registered!', 'success', 3000);
-            },
-            externalRegisterErrorAction: function (sender, args) {
-                DevExpress.ui.notify('Registration failed', 'error', 3000);
-            },
-            providersPopulatedAction: function (sender, args) {
-                sender.loginProviders = ko.observableArray(sender.loginProviders);
-                sender.hasProviders = ko.observable(args.length > 0);
-            },
-            logoutAction: function (sender, args) {
-                    My.app.navigate('Home', { root: true });
-            }
-        });
-    
-    window.db = client;
-    My.db = client;
+
+    window.my = DXDevExtremeClient; // your application object
+    var actionEvents = {
+        signinAction: function (args, sender) {
+            my.app.navigate('Signin', { root: true });
+            DevExpress.ui.notify('The server requires you to login', 'error', 3000);
+        },
+        authenticatedAction: function (args, sender) {
+            DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
+        },
+        externalAuthenticatedAction: function (args, sender) {
+            DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
+            my.app.navigate('Home', { root: true });
+        },
+        externalRegisteredAction: function (args, sender) {
+            DevExpress.ui.notify('Your external account has been registered!', 'success', 3000);
+        },
+        externalRegisterErrorAction: function (args, sender) {
+            DevExpress.ui.notify('Registration failed', 'error', 3000);
+        },
+        providersPopulatedAction: function (args, sender) {
+            sender.loginProviders = ko.observableArray(sender.loginProviders);
+            sender.hasProviders = ko.observable(args.length > 0);
+        },
+        logoutAction: function (args, sender) {
+            my.app.navigate('Home', { root: true });
+        }
+    };
+
+    window.db = new DX.WebAPI.Client(serviceConfig.db.url, actionEvents);
+    window.my.db = window.db;
 
     /* Fetch the login providers from server and set correct redirectUrl */
-    client.populateProviders();
+    window.db.populateProviders();
 }());

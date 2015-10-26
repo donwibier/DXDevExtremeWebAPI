@@ -1,4 +1,4 @@
-<div data-options="dxView : { name: 'Register', title: 'Register' } " >
+<div data-options="dxView : { name: 'DXRegister', title: 'Register' } " >
     <div  data-options="dxContent : { targetPlaceholder: 'content' } " >
         <p style="padding: 5px">Register a new account</p>
         <div class="dx-fieldset">

@@ -70,28 +70,28 @@
     </Content>
     <Content Include="views\about.html" />
     <Content Include="views\blank.html" />
-    <Content Include="views\confirmexternal.dxview">
+    <Content Include="views\dxconfirmexternal.dxview">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="views\confirmexternal.js">
+    <Content Include="views\dxconfirmexternal.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="views\dxregister.dxview">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="views\dxregister.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="views\dxsignin.dxview">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="views\dxsignin.js">
       <SubType>Content</SubType>
     </Content>
     <Content Include="views\home.dxview">
       <SubType>Content</SubType>
     </Content>
     <Content Include="views\home.js">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="views\register.dxview">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="views\register.js">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="views\signin.dxview">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="views\signin.js">
       <SubType>Content</SubType>
     </Content>
     <Content Include="views\values.dxview">
@@ -120,6 +120,25 @@
     <Message Text="Copying files to output dir..." Importance="high" />
     <Copy SourceFiles="@(Content)" DestinationFiles="@(Content->'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(GeneratedJavascript->'%(Identity)')" DestinationFiles="@(GeneratedJavascript-&gt;'%(Identity)'-&gt;'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
+	
+	<Message Text="Copying source JavaScript files to [$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source')) ]..." Importance="high" />
+ 	<Copy SourceFiles="js\dx.webapi.client.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source\js'))" />
+	<Copy SourceFiles="js\dx.webapi.client.oauth.complete.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source\js'))" />
+	<Copy SourceFiles="oauthcomplete.html" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source'))" />
+
+	<Message Text="Copying Default Views to [$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views')) ]..." Importance="high" />
+ 	<Copy SourceFiles="views\dxsignin.dxview" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
+	<Copy SourceFiles="views\dxsignin.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
+
+ 	<Copy SourceFiles="views\dxregister.dxview" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
+	<Copy SourceFiles="views\dxregister.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
+
+ 	<Copy SourceFiles="views\dxconfirmexternal.dxview" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
+	<Copy SourceFiles="views\dxconfirmexternal.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
+	
+	<Exec Command="..\..\nuget\nuget pack ..\..\nuget\DX.JavaScript.WebAPI.Client.nuspec -OutputDirectory ..\..\nuget" />
+	<!-- <Exec Command="bower" /> -->
+	<!-- <Exec Command="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\nuget pack DX.JavaScript.WebAPI.Client.nuspec" /> -->
   </Target>
   <Target Name="CoreCompile">
     <!--<Message Text="'$(MSBuildToolsPath)'"></Message>-->
