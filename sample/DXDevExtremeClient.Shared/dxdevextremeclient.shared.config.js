@@ -3,7 +3,7 @@ window.DXDevExtremeClient = $.extend(true, window.DXDevExtremeClient, {
     "config": {
         "endpoints": {
             "db": {
-                "local": "http://localhost:5806",
+                "local": "http://dxdonwebapi.azurewebsites.net/",
                 "production": "http://dxdonwebapi.azurewebsites.net"
             }
         },

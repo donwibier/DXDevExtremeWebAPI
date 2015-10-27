@@ -1,4 +1,4 @@
-﻿DXDevExtremeClient.Home = function (params) {
+﻿DXDevExtremeClient.home = function (params) {
 
     var viewModel = {
 //  Put the binding properties here

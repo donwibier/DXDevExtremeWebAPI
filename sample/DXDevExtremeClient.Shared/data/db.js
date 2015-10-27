@@ -39,7 +39,7 @@
     window.my = DXDevExtremeClient; // your application object
     var actionEvents = {
         signinAction: function (args, sender) {
-            my.app.navigate('Signin', { root: true });
+            my.app.navigate('DXSignin', { root: true });
             DevExpress.ui.notify('The server requires you to login', 'error', 3000);
         },
         authenticatedAction: function (args, sender) {
@@ -47,7 +47,7 @@
         },
         externalAuthenticatedAction: function (args, sender) {
             DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-            my.app.navigate('Home', { root: true });
+            my.app.navigate('home', { root: true });
         },
         externalRegisteredAction: function (args, sender) {
             DevExpress.ui.notify('Your external account has been registered!', 'success', 3000);
@@ -60,12 +60,12 @@
             sender.hasProviders = ko.observable(args.length > 0);
         },
         logoutAction: function (args, sender) {
-            my.app.navigate('Home', { root: true });
+            my.app.navigate('home', { root: true });
         }
     };
 
     window.db = new DX.WebAPI.Client(serviceConfig.db.url, actionEvents);
-    window.my.db = window.db;
+    DXDevExtremeClient.db = window.db;
 
     /* Fetch the login providers from server and set correct redirectUrl */
     window.db.populateProviders();

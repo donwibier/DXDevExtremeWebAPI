@@ -1,5 +1,5 @@
 $(function() {
-    var startupView = "Home";
+    var startupView = "home";
     DevExpress.devices.current("desktop");
 
     DXDevExtremeClient.app = new DevExpress.framework.html.HtmlApplication({

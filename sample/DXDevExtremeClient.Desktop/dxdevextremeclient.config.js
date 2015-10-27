@@ -6,7 +6,7 @@ window.DXDevExtremeClient = $.extend(true, window.DXDevExtremeClient, {
         "navigation": [
             {
                 "title": "Home",
-                "onExecute": "#Home",
+                "onExecute": "#home",
                 "icon": "home"
             },
             {

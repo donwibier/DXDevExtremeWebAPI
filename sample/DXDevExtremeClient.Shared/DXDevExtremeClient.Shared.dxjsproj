@@ -22,9 +22,6 @@
     <Content Include="data\db.js">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="DX.JavaScript.WebAPI.Client.nuspec">
-      <SubType>Content</SubType>
-    </Content>
     <Content Include="dxdevextremeclient.shared.config.js">
       <SubType>Content</SubType>
     </Content>
@@ -63,9 +60,6 @@
     <Content Include="css\icons\dxiconsios.ttf" />
     <Content Include="css\icons\dxiconsios.woff" />
     <Content Include="oauthcomplete.html">
-      <SubType>Content</SubType>
-    </Content>
-    <Content Include="readme.txt">
       <SubType>Content</SubType>
     </Content>
     <Content Include="views\about.html" />
@@ -110,6 +104,9 @@
     <Folder Include="js\localization\" />
     <Folder Include="views\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="config.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" />
   <Target Name="ResolveReferences">
     <Message Text="Copying references to output dir..." Importance="high" />
@@ -120,25 +117,20 @@
     <Message Text="Copying files to output dir..." Importance="high" />
     <Copy SourceFiles="@(Content)" DestinationFiles="@(Content->'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(GeneratedJavascript->'%(Identity)')" DestinationFiles="@(GeneratedJavascript-&gt;'%(Identity)'-&gt;'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
-	
-	<Message Text="Copying source JavaScript files to [$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source')) ]..." Importance="high" />
- 	<Copy SourceFiles="js\dx.webapi.client.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source\js'))" />
-	<Copy SourceFiles="js\dx.webapi.client.oauth.complete.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source\js'))" />
-	<Copy SourceFiles="oauthcomplete.html" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source'))" />
-
-	<Message Text="Copying Default Views to [$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views')) ]..." Importance="high" />
- 	<Copy SourceFiles="views\dxsignin.dxview" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
-	<Copy SourceFiles="views\dxsignin.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
-
- 	<Copy SourceFiles="views\dxregister.dxview" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
-	<Copy SourceFiles="views\dxregister.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
-
- 	<Copy SourceFiles="views\dxconfirmexternal.dxview" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
-	<Copy SourceFiles="views\dxconfirmexternal.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
-	
-	<Exec Command="..\..\nuget\nuget pack ..\..\nuget\DX.JavaScript.WebAPI.Client.nuspec -OutputDirectory ..\..\nuget" />
-	<!-- <Exec Command="bower" /> -->
-	<!-- <Exec Command="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\nuget pack DX.JavaScript.WebAPI.Client.nuspec" /> -->
+    <Message Text="Copying source JavaScript files to [$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source')) ]..." Importance="high" />
+    <Copy SourceFiles="js\dx.webapi.client.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source\js'))" />
+    <Copy SourceFiles="js\dx.webapi.client.oauth.complete.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source\js'))" />
+    <Copy SourceFiles="oauthcomplete.html" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source'))" />
+    <Message Text="Copying Default Views to [$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views')) ]..." Importance="high" />
+    <Copy SourceFiles="views\dxsignin.dxview" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
+    <Copy SourceFiles="views\dxsignin.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
+    <Copy SourceFiles="views\dxregister.dxview" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
+    <Copy SourceFiles="views\dxregister.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
+    <Copy SourceFiles="views\dxconfirmexternal.dxview" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
+    <Copy SourceFiles="views\dxconfirmexternal.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\views'))" />
+    <Exec Command="..\..\nuget\nuget pack ..\..\nuget\DX.JavaScript.WebAPI.Client.nuspec -OutputDirectory ..\..\nuget" />
+    <!-- <Exec Command="bower" /> -->
+    <!-- <Exec Command="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\nuget\nuget pack DX.JavaScript.WebAPI.Client.nuspec" /> -->
   </Target>
   <Target Name="CoreCompile">
     <!--<Message Text="'$(MSBuildToolsPath)'"></Message>-->
