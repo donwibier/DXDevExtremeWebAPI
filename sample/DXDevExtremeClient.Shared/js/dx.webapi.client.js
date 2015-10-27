@@ -1,5 +1,5 @@
 ﻿//Created by Don Wibier /DEVEXPRESS (donw@devexpress.com)
-//https://github.com/donwibier/DXDevExtremeWebAPI
+//Homepage: https://github.com/donwibier/DXDevExtremeWebAPI
 
 /*jslint white: true, this: true, browser:true */
 /*global window, location, $ */

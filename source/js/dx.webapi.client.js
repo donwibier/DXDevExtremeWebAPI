@@ -1,208 +1,206 @@
 ﻿//Created by Don Wibier /DEVEXPRESS (donw@devexpress.com)
-//https://github.com/donwibier/DXDevExtremeWebAPI
+//Homepage: https://github.com/donwibier/DXDevExtremeWebAPI
 
+/*jslint white: true, this: true, browser:true */
+/*global window, location, $ */
 (function () {
-	"use strict";
+    "use strict";    
 
-	var DX = DX || {};
+    var DX = window.DX || {};
+    DX.Utils = DX.Utils || {};
+    DX.Utils.version = DX.Utils.version ||
+        function () {
+            return "v1.0.0.5";
+        };
+    DX.Utils.getUrlParts = DX.Utils.getUrlParts ||
+        function (url) {
+            var parts= url.split(/[?#&]/),
+                result = {url : parts[0]};
 
-	DX.Utils = DX.Utils || {
-        version: function () {
-            return "v1.0.0.3";
-        },
-        getUrlParts : function (url) {
-            var parts = url.split(/[?#&]/);
-            var result = {};
-            result["url"] = parts[0];
-
-            if (parts.length > 1) {
-                for (var i = 1; i < parts.length; i++) {
-                    var pair = parts[i].split("=", 2);
-                    var key = decodeURIComponent(pair[0]);
-                    var val = (pair.length > 1) ? decodeURIComponent(pair[1]) : "";
+            parts.forEach(function (value, index) {
+                if (index > 0) {
+                    var pair = value.split("=", 2),
+                        key = decodeURIComponent(pair[0]),
+                        val = (pair.length > 1) ? decodeURIComponent(pair[1]) : "";
                     result[key] = val;
                 }
+            });
+            return result;
+        };
+    DX.Utils.removeTrailingSlash = DX.Utils.removeTrailingSlash ||
+        function (url) {
+            var parts,
+                result = "";
+            if (url) {
+                parts = url.split(/([?#])/);
+                parts[0] = (parts[0][parts[0].length - 1] === '/') ? parts[0].substr(0, parts[0].length - 1) : parts[0];
+                result = parts.join("");
             }
             return result;
-        },
-        removeTrailingSlash: function (url) {
-            if (!url)
-                return "";
-            var parts = url.split(/([?#])/);
-            var result = (parts[0].substr(parts[0].length - 1) == '/') ? parts[0].substr(0, parts[0].length - 1) : parts[0];
-            for(var i = 1; i < parts.length; i++)
-                result += parts[i];
-            return result;
-        }
+        };
+    
+    DX.WebAPI = DX.WebAPI || {};
+    DX.WebAPI.Client = function (serviceUrl, actionEvents) {
+
+        this.baseUrl = DX.Utils.removeTrailingSlash(serviceUrl);
+        this.events = actionEvents || {};
+        this.controllerEndPoint = '/api';
+        this.tokenEndPoint = '/Token';
+        this.username = '';
+        this.loginProviders = [];
+        this.hasProviders = false;
+        this.persistToken = false;
+        // private member                
+        this.popupRef = null;        
     };
 
+    DX.WebAPI.Client.prototype = {
+        dispatchEvents: function (handlers, eventArgs) {
+            if (handlers) {
+                handlers.forEach(function (element) {
+                    element(eventArgs.args, eventArgs.sender);
+                });
+            }
+        },
+        coreAjax: function (method, url, headers, dataObj, onSuccess, onFailure) {
+            var self = this,
+                ajaxObj = {
+                    method: method,
+                    url: url,
+                    contentType: 'application/json; charset=utf-8',
+                    xhrFields: { withCredentials: true },
+                    beforeSend: function (xhr) {
+                        if (headers) {
+                            $.each(headers, function (index) { xhr.setRequestHeader(headers[index].name, headers[index].value); });
+                        }
+                    }
+                };
+            if (dataObj) {
+                ajaxObj = $.extend(ajaxObj, { data: JSON.stringify(dataObj) });
+            }
 
-    DX.WebAPI = DX.WebAPI || {};
-   
-	DX.WebAPI.Client = function DX_WebAPI_Client(serviceUrl, actionEvents) {
-
-	    this.baseUrl = DX.Utils.removeTrailingSlash(serviceUrl);	    
-	    this.events = actionEvents || {};
-	    this.controllerEndPoint = '/api';
-	    this.tokenEndPoint = '/Token';
-	    this.username = '';
-
-	    this.loginProviders = [];
-	    this.hasProviders = false;
-	    // private members
-	    this._extWnd = null;
-	    this._isCordova = !!window.cordova;
-
-	}
-
-	DX.WebAPI.Client.prototype = {
-	    _dispatchEvents: function (handlers, eventArgs) {
-	        for (var i = 0; i < handlers.length; i++) {
-	            if (handlers[i]) {
-	                handlers[i](eventArgs.args, eventArgs.sender);
-	            }
-	        }
-	    },
-
-        _ajax : function (method, url, headers, dataObj, onSuccess, onFailure) {
-	        var self = this;
-	        var ajaxObj = {
-	            method: method,
-	            url: url,
-	            contentType: 'application/json; charset=utf-8',
-	            xhrFields: { withCredentials: true },
-	            beforeSend: function (xhr) {
-	                if (headers) {
-	                    for (var i = 0; i < headers.length; i++)
-	                        xhr.setRequestHeader(headers[i].name, headers[i].value);
-	                }
-	            }
-	        }
-	        if (dataObj)
-	            ajaxObj = $.extend(ajaxObj, { data: JSON.stringify(dataObj) });
-
-	        $.ajax(ajaxObj)
+            $.ajax(ajaxObj)
                 .done(function (data) {
-                    self._dispatchEvents([onSuccess], { sender: self, args: data });
+                    self.dispatchEvents([onSuccess], { sender: self, args: data });
                 })
                 .fail(function (err) {
-                    if (err.status === 401) 
-                        self._dispatchEvents([self.events.signinAction], { sender: self, args: err });                    
-                    else
-                        self._dispatchEvents([onFailure], { sender: self, args: err });                    
+                    self.dispatchEvents((err.status === 401 ? [self.events.signinAction] : [onFailure]), { sender: self, args: err });
                 });
         },
-        ajax : function (method, controllerName, actionMethod, dataObj, onSuccess, onFailure) {
-	    
-            var token = sessionStorage.getItem(this.baseUrl + '_TOKEN');
-            var headers = (token) ? [{ name: 'Authorization', value: 'Bearer ' + token }] : null;
-            var url = this.baseUrl + this.controllerEndPoint + '/' + controllerName + '/' + actionMethod;
+        ajax: function (method, controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+            var token = window[(this.persistToken?'local':'session') + 'Storage'].getItem(this.baseUrl + '_TOKEN'),
+                headers = (token) ? [{ name: 'Authorization', value: 'Bearer ' + token }] : null,
+                url = this.baseUrl + this.controllerEndPoint + '/' + controllerName + '/' + actionMethod;
 
-            this._ajax(method, url, headers, dataObj, onSuccess, onFailure);
+            this.coreAjax(method, url, headers, dataObj, onSuccess, onFailure);
         },
-        post : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+        post: function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
             this.ajax('POST', controllerName, actionMethod, dataObj, onSuccess, onFailure);
         },
-        get : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+        get: function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
             this.ajax('GET', controllerName, actionMethod, dataObj, onSuccess, onFailure);
         },
-        put : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+        put: function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
             this.ajax('PUT', controllerName, actionMethod, dataObj, onSuccess, onFailure);
         },
-        del : function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
+        del: function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
             this.ajax('DELETE', controllerName, actionMethod, dataObj, onSuccess, onFailure);
         },
-        login : function (username, password, onSuccess, onFailure) {
-            var self = this;
-            var loginData = {
-                grant_type: 'password',
-                username: username,
-                password: password
-            };
+        login: function (username, password, onSuccess, onFailure) {
+            var self = this,
+                loginData = {
+                    grant_type: 'password',
+                    username: username,
+                    password: password
+                };
             $.ajax({
                 type: 'POST',
-                url: this.baseUrl + this.tokenEndPoint,
+                url: this.baseUrl + this.tokenEndPoint,                
                 data: loginData
             }).done(function (data) {
                 self.username = data.userName;
-                sessionStorage.setItem(self.baseUrl + '_TOKEN', data.access_token);
-                self._dispatchEvents([onSuccess, self.events.authenticatedAction], { sender: self, args: data });
+                window[(this.persistToken ? 'local' : 'session') + 'Storage'].setItem(self.baseUrl + '_TOKEN', data.access_token);
+                self.dispatchEvents([onSuccess, self.events.authenticatedAction], { sender: self, args: data });
             }).fail(function (err) {
-                self._dispatchEvents([onFailure, self.events.accessDeniedAction], { sender: self, args: err });
+                self.dispatchEvents([onFailure, self.events.accessDeniedAction], { sender: self, args: err });
             });
         },
         logout: function (logoutAction) {
-            sessionStorage.removeItem(this.baseUrl + '_TOKEN');
-            sessionStorage.removeItem(this.baseUrl + '_PROVIDER');
-            this._dispatchEvents([logoutAction, this.events.logoutAction], { sender: this, args: data });
+            window[(this.persistToken ? 'local' : 'session') + 'Storage'].removeItem(this.baseUrl + '_TOKEN');
+            window[(this.persistToken ? 'local' : 'session') + 'Storage'].removeItem(this.baseUrl + '_PROVIDER');
+            this.dispatchEvents([logoutAction, this.events.logoutAction], { sender: this, args: null });
         },
         authenticated: function () {
-            var token = sessionStorage.getItem(this.baseUrl + '_TOKEN');
+            var token = window[(this.persistToken ? 'local' : 'session') + 'Storage'].getItem(this.baseUrl + '_TOKEN');
             return (token !== '');
         },
         populateProviders: function (onPopulateAction) {
-            var self = this;
-            var _redirectUri = (this.isCordova ? this.baseUrl + '/oauthcompletedummy.html' : location.protocol + '//' + location.host + '/oauthcomplete.html');
-            this.get("Account", "ExternalLogins?returnUrl=" + _redirectUri, null,
+            var self = this,
+                isCordova = !!window.cordova,
+                redirectUri = isCordova ? this.baseUrl + '/oauthcompletedummy.html' : location.protocol + '//' + location.host + '/oauthcomplete.html';
+            this.get("Account", "ExternalLogins?returnUrl=" + redirectUri, null,
                 function (data) {
                     if (data.length > 0) {
-                        for (var i = 0; i < data.length; i++)
-                            data[i].Url = data[i].Url + "%3Fprovider=" + data[i].Name;
+                        $.each(data, function (index) {
+                            data[index].Url = data[index].Url + "%3Fprovider=" + data[index].Name;
+                        });
                         self.loginProviders = data;
                     }
-                    self._dispatchEvents([onPopulateAction, self.events.providersPopulatedAction], { sender: self, args: data });
+                    self.dispatchEvents([onPopulateAction, self.events.providersPopulatedAction], { sender: self, args: data });
                 },
                 function (err) {
                     self.hasProviders = false;
-                    self._dispatchEvents([onPopulateAction, self.events.providersPopulatedAction], { sender: self, args: err });
+                    self.dispatchEvents([onPopulateAction, self.events.providersPopulatedAction], { sender: self, args: err });
                 });
         },
-        externalLogin : function (provider, url) {
-            if (!this.isCordova) {
-                this._extWnd = window.open(this.baseUrl + url, "Authenticate Account", "location=0,status=0,width=600,height=750");
+        externalLogin: function (provider, url) {
+            var self = this,
+                isCordova = !!window.cordova;
+            if (isCordova) {
+                this.popupRef = window.open(this.baseUrl + url, '_blank', 'location=no');
+                this.popupRef.addEventListener('loadstop', self.externalLoginCordovaLoadStopEvent);
             }
             else {
-                var self = this;
-                this._extWnd = window.open(this.baseUrl + url, '_blank', 'location=no');
-                this._extWnd.addEventListener('loadstop', self._externalLoginCordovaLoadStop);
+                this.popupRef = window.open(this.baseUrl + url, "Authenticate " + provider + " Account", "location=0,status=0,width=600,height=750");
             }
         },
-        _externalLoginCordovaLoadStop : function(event){
-            var self = this;
-            var testUrl = self.baseUrl + '/oauthcomplete.html';
-            var cburl = (event.url);
+        externalLoginCordovaLoadStopEvent: function (event) {
+            var self = this,
+                testUrl = self.baseUrl + '/oauthcomplete.html',
+                cburl = (event.url);
             if (cburl.indexOf(testUrl) === 0) {
-                var fragments = getUrlParts(cburl);
+                var fragments = DX.Utils.getUrlParts(cburl);
                 self.externalLoginCallback(fragments);
-                self._extWnd.removeEventListener('loadstop', self._externalLoginCordovaLoadStop);
-                self._extWnd.close();
+                self.popupRef.removeEventListener('loadstop', self.externalLoginCordovaLoadStopEvent);
+                self.popupRef.close();
             }
         },
-        externalLoginCallback : function (fragment) {
-            sessionStorage.setItem(this.baseUrl + '_TOKEN', fragment.access_token);
-            sessionStorage.setItem(this.baseUrl + '_PROVIDER', fragment.provider);
+        externalLoginCallback: function (fragment) {
+            var email = fragment.email || fragment.username,
+                user = fragment.username || "";
+            window[(this.persistToken ? 'local' : 'session') + 'Storage'].setItem(this.baseUrl + '_TOKEN', fragment.access_token);
+            window[(this.persistToken ? 'local' : 'session') + 'Storage'].setItem(this.baseUrl + '_PROVIDER', fragment.provider);
 
-            var email = fragment.email ? fragment.email : fragment.username;
-            var user = fragment.username ? fragment.username : "";
             if (user !== email) {
                 this.externalRegister(email);
             }
             else {
-                this._dispatchEvents([this.events.externalAuthenticatedAction], { sender: this, args: fragment });               
+                this.dispatchEvents([this.events.externalAuthenticatedAction], { sender: this, args: fragment });
             }
         },
-        externalRegister : function (email) {
+        externalRegister: function (email) {
             var self = this;
-            this.ajax('POST', 'Account', 'RegisterExternal', { 'Email': email, 'Name': email },
+            this.ajax('POST', 'Account', 'RegisterExternal', { Email: email, Name: email },
                 function (data) {
-                    self._dispatchEvents([self.events.externalRegisteredAction], { sender: self, args: data });       
+                    self.dispatchEvents([self.events.externalRegisteredAction], { sender: self, args: data });
                 },
                 function (err) {
-                    self._dispatchEvents([self.events.externalRegisterErrorAction], { sender: self, args: data });
+                    self.dispatchEvents([self.events.externalRegisterErrorAction], { sender: self, args: err });
                 }
             );
-        },
-	}
+        }
+    };
 
-	window.DX = DX;
-})();
+    window.DX = DX;
+}());
+
