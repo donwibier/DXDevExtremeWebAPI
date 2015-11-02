@@ -2,9 +2,12 @@
 Author: Don Wibier /DEVEXPRESS 
 https://github.com/donwibier/DXDevExtremeWebAPI
 
-Note:
+NOTES:
 Though I have created and tested this in a DevExtreme application, it doesn't have dependencies
 on DevExtreme, and can be used with other frameworks as well.
+
+!! This project is not related with the productline of DevExpress !!
+!! Issues and questions should be posted on the GitHub repo and not be sent to DevExpress support!!
 
 Purpose:
 This package contains the JavaScript DX.WebAPI.Client which allows you to call

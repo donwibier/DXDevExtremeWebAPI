@@ -10,7 +10,7 @@
     DX.Utils = DX.Utils || {};
     DX.Utils.version = DX.Utils.version ||
         function () {
-            return "v1.0.0.5";
+            return "v1.0.0.6";
         };
     DX.Utils.getUrlParts = DX.Utils.getUrlParts ||
         function (url) {
@@ -58,7 +58,9 @@
         dispatchEvents: function (handlers, eventArgs) {
             if (handlers) {
                 handlers.forEach(function (element) {
-                    element(eventArgs.args, eventArgs.sender);
+                    if (element) {
+                        element(eventArgs.args, eventArgs.sender);
+                    }
                 });
             }
         },

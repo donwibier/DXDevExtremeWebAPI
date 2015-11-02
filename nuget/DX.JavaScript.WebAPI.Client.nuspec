@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>DX.JavaScript.WebAPI.Client</id>
-    <version>1.0.0.5</version>
+    <version>1.0.0.6</version>
     <title>DX WebAPI Javascript client</title>
     <authors>Don Wibier</authors>
     <owners>Don Wibier</owners>
@@ -11,7 +11,9 @@
     <copyright>2015 All rights reserved</copyright>
     <iconUrl>http://www.devexpress.com/favicon.ico</iconUrl>
     <language />
+    <projectUrl>https://github.com/donwibier/DXDevExtremeWebAPI</projectUrl>
     <releaseNotes>
+      1.0.0.6 Smaller fixes in the WebAPI client and included views
       1.0.0.5 Made the Javascript JSLint approved
               Property persistToken (boolean) added to store token in local or session Storage
       1.0.0.4 Reorganized folder structure and DXSignin, DXRegister and DXConfirmExternal sample views added

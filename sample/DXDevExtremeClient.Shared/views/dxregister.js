@@ -28,7 +28,7 @@
 
     function onSuccess(args) {
         DevExpress.ui.notify('You have been registered successfully!', 'success', 3000);
-        my.app.navigate('Home', { root: true });
+        my.app.navigate('home', { root: true });
     }
 
     function onFail(args) {
