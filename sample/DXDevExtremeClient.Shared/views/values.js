@@ -1,6 +1,6 @@
 ﻿DXDevExtremeClient.Values = function (params) {
     "use strict";
-     
+
     var _datasource = new DevExpress.data.DataSource({
         pageSize: 20,
         store: new DevExpress.data.CustomStore({
@@ -10,8 +10,10 @@
                     function (data) {
                         d.resolve(data);
                     },
-                    function (err) {
+                    function (err, sender) {
                         d.reject(err);
+                        if (!sender.authorizeError(err))
+                            datasourceError(err, sender);
                     });
                 return d.promise();
             },
@@ -21,9 +23,10 @@
                     function (data) {
                         d.resolve(data);
                     },
-                    function (err) {
-                        datasourceError(err);
+                    function (err, sender) {
                         d.reject(err);
+                        if (!sender.authorizeError(err))
+                            datasourceError(err, sender);
                     });
                 return d.promise();
             }/*,

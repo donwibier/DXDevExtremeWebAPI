@@ -13,6 +13,7 @@
     <language />
     <projectUrl>https://github.com/donwibier/DXDevExtremeWebAPI</projectUrl>
     <releaseNotes>
+      1.0.0.7 Fix in Signin handling to support deferred ajax results and errors to allow the use of DevExtreme Datasource objects
       1.0.0.6 Smaller fixes in the WebAPI client and included views
       1.0.0.5 Made the Javascript JSLint approved
               Property persistToken (boolean) added to store token in local or session Storage
