@@ -10,7 +10,7 @@
     DX.Utils = DX.Utils || {};
     DX.Utils.version = DX.Utils.version ||
         function () {
-            return "v1.0.0.5";
+            return "v1.0.0.7";
         };
     DX.Utils.getUrlParts = DX.Utils.getUrlParts ||
         function (url) {
@@ -58,7 +58,9 @@
         dispatchEvents: function (handlers, eventArgs) {
             if (handlers) {
                 handlers.forEach(function (element) {
-                    element(eventArgs.args, eventArgs.sender);
+                    if (element) {
+                        element(eventArgs.args, eventArgs.sender);
+                    }
                 });
             }
         },
@@ -84,7 +86,7 @@
                     self.dispatchEvents([onSuccess], { sender: self, args: data });
                 })
                 .fail(function (err) {
-                    self.dispatchEvents((err.status === 401 ? [self.events.signinAction] : [onFailure]), { sender: self, args: err });
+                    self.dispatchEvents([onFailure], { sender: self, args: err });                    
                 });
         },
         ajax: function (method, controllerName, actionMethod, dataObj, onSuccess, onFailure) {
@@ -105,6 +107,16 @@
         },
         del: function (controllerName, actionMethod, dataObj, onSuccess, onFailure) {
             this.ajax('DELETE', controllerName, actionMethod, dataObj, onSuccess, onFailure);
+        },
+        authorizeError: function (err) {
+            var self = this;
+            if (err.status === 401){
+                self.dispatchEvents([self.events.signinAction], { sender: self, args: err });
+                return true;
+            }
+            else {
+                return false;
+            }
         },
         login: function (username, password, onSuccess, onFailure) {
             var self = this,
@@ -198,7 +210,7 @@
                     self.dispatchEvents([self.events.externalRegisterErrorAction], { sender: self, args: err });
                 }
             );
-        }
+        },        
     };
 
     window.DX = DX;
