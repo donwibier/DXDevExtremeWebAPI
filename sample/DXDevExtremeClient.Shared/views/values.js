@@ -1,6 +1,6 @@
 ﻿DXDevExtremeClient.Values = function (params) {
     "use strict";
-
+    // http://localhost:20616/
     var _datasource = new DevExpress.data.DataSource({
         pageSize: 20,
         store: new DevExpress.data.CustomStore({

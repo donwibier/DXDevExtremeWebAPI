@@ -1,0 +1,14 @@
+<div data-options="dxView : { name: 'films', title: 'films' } " >
+    <div  data-options="dxContent : { targetPlaceholder: 'content' } " >
+        <div data-bind="dxList: { dataSource: dataSource }">
+            <div data-bind="dxAction: '#filmdetails/{Id}'" data-options="dxTemplate : { name: 'item' } ">
+                <h3 data-bind="text: Title"></h3>
+                <div style="width:100%">
+                    <div style="width: 50%;float:left">Released: <span data-bind="text: ReleaseYear"></span></div>
+                    <div style="width: 50%;float:right">Director:<br /><span data-bind="text: Director"></span></div>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+        </div>
+    </div>
+</div>

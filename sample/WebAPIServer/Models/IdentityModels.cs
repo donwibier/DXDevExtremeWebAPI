@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using System.Data.Entity;
 
 namespace WebAPIServer.Models
 {
@@ -23,11 +24,20 @@ namespace WebAPIServer.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseIfModelChanges<ApplicationDbContext>());
+            //Database.SetInitializer<ApplicationDbContext>(null);
         }
-        
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
+
+
+        public DbSet<Film> Films { get; set; }
+        public DbSet<FilmActor> FilmActors { get; set; }
+        public DbSet<FilmFunFact> FilmFunFacts { get; set; }
+        public DbSet<FilmLocation> FilmLocations { get; set; }
+        public DbSet<FilmWriter> FilmWriters { get; set; }
     }
 }

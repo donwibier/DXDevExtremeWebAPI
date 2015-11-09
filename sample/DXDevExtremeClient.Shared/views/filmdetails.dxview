@@ -1,0 +1,60 @@
+<div data-options="dxView : { name: 'filmdetails', title: 'filmdetails' } ">
+    <div data-options="dxContent : { targetPlaceholder: 'content' } " class="dx-detail-view dx-content-background"
+         data-bind="dxDeferRendering: { showLoadIndicator: true, staggerItemSelector: 'dx-fieldset-header,.dx-field', animation: 'detail-item-rendered', renderWhen: isReady }">
+        <div data-bind="dxScrollView: { }">
+            <div class="dx-fieldset">
+                <div class="dx-fieldset-header" data-bind="text: film.Title"></div>
+
+                <div class="dx-field">
+                    <div class="dx-field-label">Release year</div>
+                    <div class="dx-field-value-static" data-bind="text: film.ReleaseYear"></div>
+                </div>
+                <div class="dx-field">
+                    <div class="dx-field-label">Director</div>
+                    <div class="dx-field-value-static" data-bind="text: film.Director"></div>
+                </div>
+                <div class="dx-field">
+                    <div class="dx-field-label">Production</div>
+                    <div class="dx-field-value-static" data-bind="text: film.ProductionCompany"></div>
+                </div>
+                <div class="dx-field">
+                    <div class="dx-field-label">Distributor</div>
+                    <div class="dx-field-value-static" data-bind="text: film.Distributor"></div>
+                </div>
+            </div>
+            <div class="dx-fieldset">
+                <div class="dx-fieldset-header">Writers</div>
+                <div class="dx-field">
+                    <div data-bind="foreach: film.Writers" class="dx-field-value-static">
+                        <span data-bind="text: Writer"></span>,
+                    </div>
+                </div>
+            </div>
+            <div class="dx-fieldset">
+                <div class="dx-fieldset-header">Actors</div>
+                <div class="dx-field">
+                    <div data-bind="foreach: film.Actors" class="dx-field-value-static">
+                        <span data-bind="text: Actor"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="dx-fieldset">
+                <div class="dx-fieldset-header">Locations</div>
+                <div class="dx-field">
+                    <div data-bind="foreach: film.Locations" class="dx-field-value-static">
+                        <span data-bind="text: Location"></span><br />
+                    </div>
+                </div>
+            </div>
+            <div class="dx-fieldset">
+                <div class="dx-fieldset-header">Fun Facts</div>
+                <div class="dx-field">
+                    <div data-bind="foreach: film.FunFacts" class="dx-field-value-static">
+                        <span data-bind="text: Fact"></span><br />
+                    </div>
+                </div>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+    </div>
+</div>

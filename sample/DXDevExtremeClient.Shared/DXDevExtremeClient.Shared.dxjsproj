@@ -82,6 +82,18 @@
     <Content Include="views\dxsignin.js">
       <SubType>Content</SubType>
     </Content>
+    <Content Include="views\filmdetails.dxview">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="views\filmdetails.js">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="views\films.dxview">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="views\films.js">
+      <SubType>Content</SubType>
+    </Content>
     <Content Include="views\home.dxview">
       <SubType>Content</SubType>
     </Content>

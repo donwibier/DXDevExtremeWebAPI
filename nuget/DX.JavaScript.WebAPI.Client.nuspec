@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>DX.JavaScript.WebAPI.Client</id>
-    <version>1.0.0.6</version>
+    <version>1.0.0.7</version>
     <title>DX WebAPI Javascript client</title>
     <authors>Don Wibier</authors>
     <owners>Don Wibier</owners>

@@ -10,6 +10,10 @@ window.DXDevExtremeClient = $.extend(true, window.DXDevExtremeClient, {
                 "icon": "home"
             },
             {
+                "title": "Films",
+                "onExecute": "#films"
+            },
+            {
                 "title": "Values",
                 "onExecute": "#Values"
             },

@@ -64,9 +64,85 @@
         }
     };
 
-    window.db = new DX.WebAPI.Client(serviceConfig.db.url, actionEvents);
-    DXDevExtremeClient.db = window.db;
+    // Extend the db Client object with the Films DataSource
+    var db = db || new DX.WebAPI.Client(serviceConfig.db.url, actionEvents);
+    db.Films = db.Films || new DevExpress.data.DataSource({
+        pageSize: 20,
+        store: new DevExpress.data.CustomStore({
+            load: function (options) {
+                var d = $.Deferred();
+                db.get('Films', '', null,
+                    function (data) {
+                        d.resolve(data);
+                    },
+                    function (err, sender) {
+                        d.reject(err);
+                        if (!sender.authorizeError(err))
+                            datasourceError(err, sender);
+                    });
+                return d.promise();
+            },
+            byKey: function (key) {
+                var d = $.Deferred();
+                db.get('Films', encodeURIComponent(key), null,
+                    function (data) {
+                        d.resolve(data);
+                    },
+                    function (err, sender) {
+                        d.reject(err);
+                        if (!sender.authorizeError(err))
+                            datasourceError(err, sender);
+                    });
+                return d.promise();
+            }/*,
+                insert: function (values) {
+                    var d = $.Deferred();
+                    DXDevExtremeClient.db.post('Values', '', values,
+                        function (data) {
+                            d.resolve(data);
+                        },
+                        function (err) {
+                            datasourceError(err);
+                            d.reject(err);
+                        });
+                    return d.promise();
+                },
+                update: function (key, values) {
+                    var d = $.Deferred();
+                    DXDevExtremeClient.db.put('Values', encodeURIComponent(key), values,
+                        function (data) {
+                            d.resolve(data);
+                        },
+                        function (err) {
+                            datasourceError(err);
+                            d.reject(err);
+                        });
+                    return d.promise();
+                },
+                remove: function (key) {
+                    var d = $.Deferred();
+                    DXDevExtremeClient.db.del('Values', encodeURIComponent(key), null,
+                        function (data) {
+                            d.resolve(data);
+                        },
+                        function (err) {
+                            datasourceError(err);
+                            d.reject(err);
+                        });
+                    return d.promise();
+                }*/
+        })
+    });
+
+    function datasourceError(err) {
+        var msg = (err.responseJSON && err.responseJSON.Message) ? err.responseJSON.Message : err;
+        DevExpress.ui.notify('The server returned an error:' + msg, 'error', 3000);
+    }
+
+    window.db = db; //new DX.WebAPI.Client(serviceConfig.db.url, actionEvents);
+    DXDevExtremeClient.db = db; //window.db;
 
     /* Fetch the login providers from server and set correct redirectUrl */
     window.db.populateProviders();
+
 }());
