@@ -13,7 +13,7 @@ Purpose:
 This package contains the JavaScript DX.WebAPI.Client which allows you to call
 WebAPI Action methods decorated with the [Authorize] attribute.
 
-The class has all functionality buitl in to exchange the username / password for a bearer token,
+The class has all functionality built in to exchange the username / password for a bearer token,
 and also implements the functionality to get the configured external login providers like Facebook,
 Twitter etc. and get an authorization token from those parties, and exchange this token for protected 
 WebAPI calls.
