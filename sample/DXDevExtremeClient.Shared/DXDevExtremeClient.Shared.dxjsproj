@@ -8,7 +8,7 @@
     <UploadPluginsToTheCourier>True</UploadPluginsToTheCourier>
     <Name>Shared</Name>
     <RootNamespace>DXDevExtremeClient</RootNamespace>
-    <UpgradeNotifyShown>15.1.7</UpgradeNotifyShown>
+    <UpgradeNotifyShown>15.1.8</UpgradeNotifyShown>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

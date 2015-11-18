@@ -8,7 +8,7 @@
     <ApplicationPage>index.html</ApplicationPage>
     <RootNamespace>DXDevExtremeClient</RootNamespace>
     <Name>DXDevExtremeClient.Desktop</Name>
-    <UpgradeNotifyShown>15.1.7</UpgradeNotifyShown>
+    <UpgradeNotifyShown>15.1.8</UpgradeNotifyShown>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>

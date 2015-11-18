@@ -9,7 +9,7 @@
     <RootNamespace>DXDevExtremeClient</RootNamespace>
     <ApplicationPage>index.html</ApplicationPage>
     <Name>DXDevExtremeClient.Mobile</Name>
-    <UpgradeNotifyShown>15.1.7</UpgradeNotifyShown>
+    <UpgradeNotifyShown>15.1.8</UpgradeNotifyShown>
     <ScreenOrientation>Default</ScreenOrientation>
     <ApplicationTitle>DXDevExtremeClient.Mobile</ApplicationTitle>
     <VersionPackage>1.0.0.0</VersionPackage>
