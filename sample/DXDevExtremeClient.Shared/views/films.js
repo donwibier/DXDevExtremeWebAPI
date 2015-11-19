@@ -1,5 +1,6 @@
 ﻿DXDevExtremeClient.films = function (params) {
     /*
+    "use strict";
     var ds = ko.observableArray();
 
     function datasourceError(err) {
