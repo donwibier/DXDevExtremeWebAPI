@@ -32,7 +32,8 @@ globalEventsObject:
 
 Example:
 
-   function createWebAPIClient(applicationObj, serviceUrl) {
+   
+function createWebAPIClient(applicationObj, serviceUrl) {
         var actionEvents = {
             signinAction: function (args, sender) {
                 applicationObj.app.navigate('DXSignin', { root: true });
