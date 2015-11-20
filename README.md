@@ -32,36 +32,49 @@ globalEventsObject:
 
 Example:
 
-    var My = DevExtremeApplication1; // your application object
-    
-    var actionEvents = {
-        signinAction : function(args, sender) { 
-            My.app.navigate('Signin', { root: true });
-            DevExpress.ui.notify('The server requires you to login', 'error', 3000);
-        },
-        authenticatedAction : function(args, sender) {
-            DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-        },
-        externalAuthenticatedAction : function(args, sender) {
-            DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
-            My.app.navigate('Home', {root:true});
-        },
-        externalRegisteredAction : function(args, sender) {
-            DevExpress.ui.notify('Your external account has been registered!', 'success', 3000);
-        },
-        externalRegisterErrorAction : function(args, sender) {
-            DevExpress.ui.notify('Registration failed', 'error', 3000);
-        },
-        providersPopulatedAction: function (args, sender) { 
-            sender.loginProviders = ko.observableArray(sender.loginProviders);
-            sender.hasProviders = ko.observable(args.length > 0);
-        }
-        logoutAction: function (args, sender) { 
-            My.app.navigate('Home', { root: true });
-        }
-    };
+   function createWebAPIClient(applicationObj, serviceUrl) {
+        var actionEvents = {
+            signinAction: function (args, sender) {
+                applicationObj.app.navigate('DXSignin', { root: true });
+                DevExpress.ui.notify('The server requires you to login', 'error', 3000);
+            },
+            authenticatedAction: function (args, sender) {
+                DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
+            },
+            externalAuthenticatedAction: function (args, sender) {
+                DevExpress.ui.notify('You have been logged in successfully!', 'success', 3000);
+                applicationObj.app.navigate('home', { root: true });
+            },
+            externalRegisteredAction: function (args, sender) {
+                DevExpress.ui.notify('Your external account has been registered!', 'success', 3000);
+            },
+            externalRegisterErrorAction: function (args, sender) {
+                DevExpress.ui.notify('Registration failed', 'error', 3000);
+            },
+            providersPopulatedAction: function (args, sender) {
+                sender.loginProviders = ko.observableArray(sender.loginProviders);
+                sender.hasProviders = ko.observable(args.length > 0);
+            },
+            logoutAction: function (args, sender) {
+                applicationObj.app.navigate('home', { root: true });
+            }
+        };
 
-    var client = new DX.WebAPI.Client('http://mywebapiservice.com', actionEvents);
+        var result = new DX.WebAPI.Client(serviceUrl, actionEvents);
+        result.owner = applicationObj;
+        /* Fetch the login providers from server and set correct redirectUrl */
+        result.populateProviders();
+        return result;
+    }
+
+    window.db = createWebAPIClient(REPLACE_WITH_APP_OBJECT, 'http://mywebapiservice.com');
+    //==
+    // for multichannel project
+    // window.db = new DX.WebAPI.Client(serviceConfig.db.url, actionEvents);	
+
+    // !!! Change the REPLACE_WITH_APP_OBJECT to your Application Object, 
+    //    also in dxsignin.js, dxregister.js and dxconfirmexternal.js on line 1 !!!
+
 
 The DX.WebAPI.Client exposes the folowing properties:
 
