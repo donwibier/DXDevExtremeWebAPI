@@ -66,19 +66,19 @@ Example:
         result.owner = applicationObj;
         /* Fetch the login providers from server and set correct redirectUrl */
         result.populateProviders();
-	// Extend the db Client object with the Films DataSource
-	result.registerDatasource({ 
-		pageSize: 20, 
-		apiName: 'Films',  
-		apiController: 'Films'/*, 
-		apiListAction: '', 
-		apiByKeyAction: '', 
-		apiInsertAction: '', 
-		apiUpdateAction: '', 
-		apiRemoveAction: ''*/ 
-	});
-	// Access the dataset through
-	// db.data.Films.Datasource;
+        // Extend the db Client object with the Films DataSource
+        result.registerDatasource({ 
+                pageSize: 20, 
+                apiName: 'Films',  
+                apiController: 'Films'/*, 
+                apiListAction: '', 
+                apiByKeyAction: '', 
+                apiInsertAction: '', 
+                apiUpdateAction: '', 
+                apiRemoveAction: ''*/ 
+        });
+        // Access the dataset through
+        // db.data.Films.Datasource;
         return result;
     }
 
