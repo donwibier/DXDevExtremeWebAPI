@@ -66,7 +66,7 @@ Example:
         result.owner = applicationObj;
         /* Fetch the login providers from server and set correct redirectUrl */
         result.populateProviders();
-        // Extend the db Client object with the Films DataSource
+	// Extend the db Client object with the Films DataSource
 	result.registerDatasource({ 
 		pageSize: 20, 
 		apiName: 'Films',  
