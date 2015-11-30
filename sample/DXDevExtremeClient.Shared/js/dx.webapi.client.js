@@ -2,7 +2,7 @@
 //Homepage: https://github.com/donwibier/DXDevExtremeWebAPI
 
 /*jslint white: true, this: true, browser:true */
-/*global window, location, $ */
+/*global window, location, $, DevExpress*/
 (function () {
     "use strict";    
 
@@ -10,7 +10,7 @@
     DX.Utils = DX.Utils || {};
     DX.Utils.version = DX.Utils.version ||
         function () {
-            return "v1.0.0.7";
+            return "v1.0.0.9";
         };
     DX.Utils.getUrlParts = DX.Utils.getUrlParts ||
         function (url) {
@@ -38,6 +38,22 @@
             }
             return result;
         };
+    DX.Utils.join = DX.Utils.join ||
+        function (arr, separator, skipEmpty) {
+            var result = '';
+            if (arr && !skipEmpty) {
+                result = arr.join(separator);
+            }
+            else {                
+                arr.forEach(function (value/*, index*/) {
+                    var v = (value || '');
+                    if (v.toString() !== '') {
+                        result += (result !== '' ? separator : '') + v.toString();
+                    }
+                });
+            }
+            return result;
+        };
     
     DX.WebAPI = DX.WebAPI || {};
     DX.WebAPI.Client = function (serviceUrl, actionEvents) {
@@ -50,6 +66,7 @@
         this.loginProviders = [];
         this.hasProviders = false;
         this.persistToken = false;
+        this.data = {};
         // private member                
         this.popupRef = null;        
     };
@@ -211,7 +228,113 @@
                 }
             );
         },        
+        registerDatasource: function (options) {
+
+            if (!DevExpress || !DevExpress.data || !DevExpress.data.CustomStore) {
+                return null;
+            }               
+            var store = new DX.WebAPI.DXStore(this, options);            
+            this.data[options.apiName||options.apiController] = store;
+            return store.Datasource;
+        }
     };
+
+    DX.WebAPI.DXStore = function (client, options) {
+
+        this.client = client;
+        this.options = options;
+        this.controller = options.apiController || '',
+        this.listAction = options.apiListAction || '';
+        this.byKeyAction = options.apiByKeyAction || '';
+        this.insertAction = options.apiInsertAction || '';
+        this.updateAction = options.apiUpdateAction || '';
+        this.removeAction = options.apiRemoveAction || '';
+        
+        this.options.store = new DevExpress.data.CustomStore({
+            load: this.load,
+            byKey: this.byKey,
+            insert: this.insert,
+            update: this.update,
+            remove: this.remove
+        });
+        this.options.store.owner = this;
+        this.Datasource = new DevExpress.data.DataSource(this.options);        
+    };
+
+    DX.WebAPI.DXStore.prototype = {
+        load: function (options) {
+            var d = $.Deferred();
+            this.owner.client.get(this.owner.controller, this.owner.listAction, null,
+                function (data) {
+                    d.resolve(data);
+                },
+                function (err, sender) {
+                    d.reject(err);
+                    if (!sender.authorizeError(err)) {
+                        sender.dispatchEvents([sender.events.datasourceError], { sender: this.owner, args: err });
+                    }
+                });
+            return d.promise();
+        },
+        byKey: function (key) {
+            var d = $.Deferred();
+            this.owner.client.get(this.owner.controller, DX.Utils.join([this.owner.byKeyAction, encodeURIComponent(key)], '/', true), null,
+                function (data) {
+                    d.resolve(data);
+                },
+                function (err, sender) {
+                    d.reject(err);
+                    if (!sender.authorizeError(err)) {
+                        sender.dispatchEvents([sender.events.datasourceError], { sender: this.owner, args: err });
+                    }
+                });
+            return d.promise();
+        },
+        insert: function (values) {
+            var d = $.Deferred();
+            this.owner.client.post(this.owner.controller, this.owner.insertAction, values,
+                function (data) {
+                    d.resolve(data);
+                },
+                function (err, sender) {
+                    d.reject(err);
+                    if (!sender.authorizeError(err)) {
+                        sender.dispatchEvents([sender.events.datasourceError], { sender: this.owner, args: err });
+                    }
+                });
+            return d.promise();
+        },
+        update: function (key, values) {
+            var d = $.Deferred();
+            this.owner.client.put(this.owner.controller, DX.Utils.join([this.owner.updateAction, encodeURIComponent(key)], '/', true), values,
+                function (data) {
+                    d.resolve(data);
+                },
+                function (err, sender) {
+                    d.reject(err);
+                    if (!sender.authorizeError(err)) {
+                        sender.dispatchEvents([sender.events.datasourceError], { sender: this.owner, args: err });
+                    }
+                });
+            return d.promise();
+        },
+        remove: function (key) {
+            var d = $.Deferred();
+            this.owner.client.del(this.owner.controller, DX.Utils.join([this.owner.removeAction, encodeURIComponent(key)], '/', true), null,
+                function (data) {
+                    d.resolve(data);
+                },
+                function (err, sender) {
+                    d.reject(err);
+                    if (!sender.authorizeError(err)) {
+                        sender.dispatchEvents([sender.events.datasourceError], { sender: this.owner, args: err });
+                    }
+                });
+            return d.promise();
+        }
+
+    };
+
 
     window.DX = DX;
 }());

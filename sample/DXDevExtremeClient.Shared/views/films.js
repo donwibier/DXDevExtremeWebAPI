@@ -1,6 +1,7 @@
 ﻿DXDevExtremeClient.films = function (params) {
-    /*
     "use strict";
+    /*
+    
     var ds = ko.observableArray();
 
     function datasourceError(err) {
@@ -25,11 +26,11 @@
     };
     */
     function viewShownEvent() {
-        db.Films.load();
+        db.data.Films.Datasource.load();
     }
 
     var viewModel = {
-        dataSource: db.Films,        
+        dataSource: db.data.Films.Datasource,        
         viewShown: viewShownEvent
     };
     

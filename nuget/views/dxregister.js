@@ -1,4 +1,4 @@
-﻿my.DXRegister = function (params) {
+﻿REPLACE_WITH_APP_OBJECT.DXRegister = function (params) {
 
     var _username = ko.observable('');
     var _password = ko.observable('');
@@ -28,7 +28,7 @@
 
     function onSuccess(args) {
         DevExpress.ui.notify('You have been registered successfully!', 'success', 3000);
-        my.app.navigate('home', { root: true });
+        db.owner.app.navigate('home', { root: true });
     }
 
     function onFail(args) {

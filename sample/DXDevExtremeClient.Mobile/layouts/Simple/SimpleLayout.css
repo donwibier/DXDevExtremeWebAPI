@@ -146,3 +146,65 @@
 .win8phone-layout.has-toolbar-bottom .layout-footer {
     height: 40px;
 }
+
+
+/* Windows Phone 10 */
+.win10phone-layout {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.win10phone-layout .layout-header {
+    height: 20px;
+    margin-left: 10px;
+    text-transform: uppercase;
+}
+
+.win10phone-layout .layout-content {
+    position: absolute;
+    top: 20px;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.win10phone-layout .layout-content > div {
+    height: 100%;
+    width: 100%;
+}
+
+.win10phone-layout .view-content {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.win10phone-layout .layout-frame {
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+}
+.win10phone-layout.has-toolbar-bottom .layout-frame,
+.win10phone-layout .has-toolbar-bottom.layout-frame {
+    bottom: 60px;
+}
+
+.win10phone-layout .dx-toolbar.layout-toolbar-bottom {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 0;
+}
+
+.win10phone-layout .layout-footer {
+    position: absolute;
+    bottom: 0;
+    height: 0;
+    width: 100%;
+}
+
+.win10phone-layout.has-toolbar-bottom .layout-footer {
+    height: 60px;
+}

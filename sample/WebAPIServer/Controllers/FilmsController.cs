@@ -12,13 +12,23 @@ using WebAPIServer.Models;
 
 namespace WebAPIServer.Controllers
 {
+    public class GetOptions
+    {
+        public int skip { get; set; }
+        public int take { get; set; }
+
+        public string searchOperation { get; set; }
+        public string searchValue { get; set; }
+        public string searchExpr { get; set; }
+    }
+
     [Authorize]
     public class FilmsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Films
-        public IQueryable<FilmDTO> GetFilms()
+        public IQueryable<FilmDTO> GetFilms([FromUri] GetOptions options = null)
         {
             var films = from f in db.Films
                         select new FilmDTO
@@ -30,6 +40,13 @@ namespace WebAPIServer.Controllers
                             Distributor = f.Distributor,
                             ProductionCompany = f.ProductionCompany
                         };
+            if (options != null)
+            {
+                films = films.Skip(options.skip);
+                if (options.take > 0)
+                    films = films.Take(options.take);
+            };
+
             return films;
         }
 

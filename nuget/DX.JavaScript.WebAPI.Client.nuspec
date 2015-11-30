@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
   <metadata>
     <id>DX.JavaScript.WebAPI.Client</id>
-    <version>1.0.0.7</version>
+    <version>1.0.0.9</version>
     <title>DX WebAPI Javascript client</title>
     <authors>Don Wibier</authors>
     <owners>Don Wibier</owners>
@@ -13,10 +13,12 @@
     <language />
     <projectUrl>https://github.com/donwibier/DXDevExtremeWebAPI</projectUrl>
     <releaseNotes>
+      1.0.0.9 Easy way implemented of creating a DevExtreme Datasource instance with Custom store
+      1.0.0.8 Cleaner way of initializing described in the readme.txt
       1.0.0.7 Fix in Signin handling to support deferred ajax results and errors to allow the use of DevExtreme Datasource objects
       1.0.0.6 Smaller fixes in the WebAPI client and included views
       1.0.0.5 Made the Javascript JSLint approved
-              Property persistToken (boolean) added to store token in local or session Storage
+      Property persistToken (boolean) added to store token in local or session Storage
       1.0.0.4 Reorganized folder structure and DXSignin, DXRegister and DXConfirmExternal sample views added
       1.0.0.3 Readme file with short documentation included
       1.0.0.2 Fixes on event dispatching
