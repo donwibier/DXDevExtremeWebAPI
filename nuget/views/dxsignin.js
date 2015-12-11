@@ -1,4 +1,4 @@
-﻿REPLACE_WITH_APP_OBJECT.DXSignin = function (params) {
+﻿DXDevExtremeClient.DXSignin = function (params) {
 
     var _username = ko.observable('');
     var _password = ko.observable('');

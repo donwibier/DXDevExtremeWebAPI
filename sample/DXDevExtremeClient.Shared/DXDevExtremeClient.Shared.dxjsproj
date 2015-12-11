@@ -40,7 +40,7 @@
     <Content Include="js\globalize.min.js" />
     <Content Include="js\jquery-1.11.3.min.js" />
     <Content Include="js\jquery-2.1.4.min.js" />
-    <Content Include="js\knockout-3.3.0.js" />
+    <Content Include="js\knockout-3.4.0.js" />
     <Content Include="css\dx.spa.css" />
     <Content Include="css\dx.win10.black.css" />
     <Content Include="css\dx.win10.white.css " />

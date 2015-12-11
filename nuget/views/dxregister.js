@@ -1,4 +1,4 @@
-﻿REPLACE_WITH_APP_OBJECT.DXRegister = function (params) {
+﻿DXDevExtremeClient.DXRegister = function (params) {
 
     var _username = ko.observable('');
     var _password = ko.observable('');

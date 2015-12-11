@@ -1,4 +1,4 @@
-﻿REPLACE_WITH_APP_OBJECT.DXConfirmexternal = function (params) {
+﻿DXDevExtremeClient.DXConfirmexternal = function (params) {
         
     var _email = ko.observable('');
 

@@ -19,12 +19,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{F5AA683C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "views", "views", "{54E4037A-CE1D-4DDA-B03A-129CBDED6E11}"
 	ProjectSection(SolutionItems) = preProject
-		..\nuget\views\dxconfirmexternal.dxview = ..\nuget\views\dxconfirmexternal.dxview
-		..\nuget\views\dxconfirmexternal.js = ..\nuget\views\dxconfirmexternal.js
-		..\nuget\views\dxregister.dxview = ..\nuget\views\dxregister.dxview
-		..\nuget\views\dxregister.js = ..\nuget\views\dxregister.js
-		..\nuget\views\dxsignin.dxview = ..\nuget\views\dxsignin.dxview
-		..\nuget\views\dxsignin.js = ..\nuget\views\dxsignin.js
+		DXDevExtremeClient.Shared\views\dxconfirmexternal.dxview = DXDevExtremeClient.Shared\views\dxconfirmexternal.dxview
+		DXDevExtremeClient.Shared\views\dxconfirmexternal.js = DXDevExtremeClient.Shared\views\dxconfirmexternal.js
+		DXDevExtremeClient.Shared\views\dxregister.dxview = DXDevExtremeClient.Shared\views\dxregister.dxview
+		DXDevExtremeClient.Shared\views\dxregister.js = DXDevExtremeClient.Shared\views\dxregister.js
+		DXDevExtremeClient.Shared\views\dxsignin.dxview = DXDevExtremeClient.Shared\views\dxsignin.dxview
+		DXDevExtremeClient.Shared\views\dxsignin.js = DXDevExtremeClient.Shared\views\dxsignin.js
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bower", "bower", "{D33DDD10-F4C9-4735-AA0D-AA8FA2D18664}"

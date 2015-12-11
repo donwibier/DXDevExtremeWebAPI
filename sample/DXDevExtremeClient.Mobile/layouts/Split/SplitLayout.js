@@ -134,7 +134,7 @@
             $.each(this._panesConfig, function(_, paneConfig) {
                 tasks.push(paneConfig.controller.deactivate())
             });
-            this._navigationManager.navigated.remove(this._onNavigatedHandler);
+            this._navigationManager.off("navigated", this._onNavigatedHandler);
             this.callBase();
             return $.when.apply($, tasks).done(function() {
                     that._activeViews = {}

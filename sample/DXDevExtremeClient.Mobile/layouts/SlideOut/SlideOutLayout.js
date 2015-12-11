@@ -17,7 +17,7 @@
             return result
         },
         deactivate: function() {
-            this._navigationManager.navigationCanceled.remove(this._navigationCanceledHandler);
+            this._navigationManager.off("navigationCanceled", this._navigationCanceledHandler);
             return this.callBase.apply(this, arguments)
         },
         _onNavigatingCanceled: function(args) {

@@ -1,7 +1,7 @@
 /*! 
 * DevExtreme
-* Version: 15.2.2
-* Build date: Nov 16, 2015
+* Version: 15.2.4
+* Build date: Dec 8, 2015
 *
 * Copyright (c) 2012 - 2015 Developer Express Inc. ALL RIGHTS RESERVED
 * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
@@ -332,6 +332,10 @@
   transform: translate3d(0,0,0);
   opacity: 1;
 }
+.dx-android-pop-animation.dx-enter.dx-forward, .dx-android-pop-animation.dx-leave.dx-backward
+{
+  z-index: 1;
+}
 .dx-ios7-slide-animation.dx-enter.dx-forward
 {
   z-index: 2;
@@ -624,6 +628,7 @@
 }
 .dx-draggable
 {
+  left: 0;
   cursor: pointer;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -1009,43 +1014,19 @@
   background-color: #888;
   background-color: rgba(0,0,0,.5);
   -webkit-transform: translate(0,0);
-  -webkit-transition: background-color 0 linear 0;
-  -moz-transition: background-color 0 linear 0;
-  -o-transition: background-color 0 linear 0;
-  transition: background-color 0 linear 0;
-  -webkit-transition: background-color 0 linear 0,none 1s linear 0;
-  -moz-transition: background-color 0 linear 0,none 1s linear 0;
-  -o-transition: background-color 0 linear 0,none 1s linear 0;
-  transition: background-color 0 linear 0,none 1s linear 0;
-  -webkit-transition: background-color 0 linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: background-color 0 linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: background-color 0 linear 0,none 1s linear 0,none 1s linear 0;
-  transition: background-color 0 linear 0,none 1s linear 0,none 1s linear 0;
-  -webkit-transition: background-color 0 linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: background-color 0 linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: background-color 0 linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  transition: background-color 0 linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
+  -webkit-transition: background-color 0 linear;
+  -moz-transition: background-color 0 linear;
+  -o-transition: background-color 0 linear;
+  transition: background-color 0 linear;
 }
 .dx-scrollable-scroll.dx-state-invisible
 {
   display: block !important;
   background-color: transparent;
-  -webkit-transition: background-color 500ms linear 1s;
-  -moz-transition: background-color 500ms linear 1s;
-  -o-transition: background-color 500ms linear 1s;
-  transition: background-color 500ms linear 1s;
-  -webkit-transition: background-color 500ms linear 1s,none 1s linear 0;
-  -moz-transition: background-color 500ms linear 1s,none 1s linear 0;
-  -o-transition: background-color 500ms linear 1s,none 1s linear 0;
-  transition: background-color 500ms linear 1s,none 1s linear 0;
-  -webkit-transition: background-color 500ms linear 1s,none 1s linear 0,none 1s linear 0;
-  -moz-transition: background-color 500ms linear 1s,none 1s linear 0,none 1s linear 0;
-  -o-transition: background-color 500ms linear 1s,none 1s linear 0,none 1s linear 0;
-  transition: background-color 500ms linear 1s,none 1s linear 0,none 1s linear 0;
-  -webkit-transition: background-color 500ms linear 1s,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: background-color 500ms linear 1s,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: background-color 500ms linear 1s,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  transition: background-color 500ms linear 1s,none 1s linear 0,none 1s linear 0,none 1s linear 0;
+  -webkit-transition: background-color .5s linear 1s;
+  -moz-transition: background-color .5s linear 1s;
+  -o-transition: background-color .5s linear 1s;
+  transition: background-color .5s linear 1s;
 }
 .dx-rtl .dx-scrollable, .dx-rtl.dx-scrollable
 {
@@ -1118,7 +1099,7 @@
 {
   position: relative;
   top: 0;
-  padding: 6px;
+  padding: 4px;
   margin: 0;
   height: 100%;
   width: 100%;
@@ -1140,41 +1121,17 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-transition: opacity 200ms linear 0;
-  -moz-transition: opacity 200ms linear 0;
-  -o-transition: opacity 200ms linear 0;
-  transition: opacity 200ms linear 0;
-  -webkit-transition: opacity 200ms linear 0,none 1s linear 0;
-  -moz-transition: opacity 200ms linear 0,none 1s linear 0;
-  -o-transition: opacity 200ms linear 0,none 1s linear 0;
-  transition: opacity 200ms linear 0,none 1s linear 0;
-  -webkit-transition: opacity 200ms linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: opacity 200ms linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: opacity 200ms linear 0,none 1s linear 0,none 1s linear 0;
-  transition: opacity 200ms linear 0,none 1s linear 0,none 1s linear 0;
-  -webkit-transition: opacity 200ms linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: opacity 200ms linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: opacity 200ms linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  transition: opacity 200ms linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
+  -webkit-transition: opacity .2s;
+  -moz-transition: opacity .2s;
+  -o-transition: opacity .2s;
+  transition: opacity .2s;
 }
 .dx-scrollable-native.dx-scrollable-native-android .dx-scrollview-pull-down-loading.dx-scrollview-pull-down
 {
-  -webkit-transition: top 200ms ease-out 0;
-  -moz-transition: top 200ms ease-out 0;
-  -o-transition: top 200ms ease-out 0;
-  transition: top 200ms ease-out 0;
-  -webkit-transition: top 200ms ease-out 0,none 1s linear 0;
-  -moz-transition: top 200ms ease-out 0,none 1s linear 0;
-  -o-transition: top 200ms ease-out 0,none 1s linear 0;
-  transition: top 200ms ease-out 0,none 1s linear 0;
-  -webkit-transition: top 200ms ease-out 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: top 200ms ease-out 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: top 200ms ease-out 0,none 1s linear 0,none 1s linear 0;
-  transition: top 200ms ease-out 0,none 1s linear 0,none 1s linear 0;
-  -webkit-transition: top 200ms ease-out 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: top 200ms ease-out 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: top 200ms ease-out 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  transition: top 200ms ease-out 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
+  -webkit-transition: top .2s ease-out 0;
+  -moz-transition: top .2s ease-out 0;
+  -o-transition: top .2s ease-out 0;
+  transition: top .2s ease-out 0;
 }
 .dx-scrollable-native.dx-scrollable-native-android .dx-scrollview-pull-down-image
 {
@@ -1185,22 +1142,10 @@
   top: 0;
   left: 0;
   background-size: contain;
-  -webkit-transition: opacity 200ms ease 0;
-  -moz-transition: opacity 200ms ease 0;
-  -o-transition: opacity 200ms ease 0;
-  transition: opacity 200ms ease 0;
-  -webkit-transition: opacity 200ms ease 0,none 1s linear 0;
-  -moz-transition: opacity 200ms ease 0,none 1s linear 0;
-  -o-transition: opacity 200ms ease 0,none 1s linear 0;
-  transition: opacity 200ms ease 0,none 1s linear 0;
-  -webkit-transition: opacity 200ms ease 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: opacity 200ms ease 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: opacity 200ms ease 0,none 1s linear 0,none 1s linear 0;
-  transition: opacity 200ms ease 0,none 1s linear 0,none 1s linear 0;
-  -webkit-transition: opacity 200ms ease 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: opacity 200ms ease 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: opacity 200ms ease 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  transition: opacity 200ms ease 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
+  -webkit-transition: opacity .2s ease 0;
+  -moz-transition: opacity .2s ease 0;
+  -o-transition: opacity .2s ease 0;
+  transition: opacity .2s ease 0;
 }
 .dx-scrollable-native.dx-scrollable-native-android .dx-scrollview-pull-down-loading .dx-icon-pulldown
 {
@@ -1451,7 +1396,6 @@
 .dx-checkbox
 {
   display: inline-block;
-  margin: 1px;
   cursor: pointer;
   line-height: 0;
   -webkit-user-drag: none;
@@ -1517,7 +1461,6 @@
 .dx-switch
 {
   display: inline-block;
-  margin: 1px;
   cursor: pointer;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -1765,10 +1708,6 @@
   margin-right: auto;
   margin-left: -24px;
 }
-.dx-texteditor
-{
-  margin: 1px;
-}
 .dx-texteditor input::-ms-clear
 {
   display: none;
@@ -1858,6 +1797,10 @@
 .dx-state-disabled .dx-clear-button-area
 {
   display: none;
+}
+.dx-state-disabled .dx-texteditor-input
+{
+  opacity: 1;
 }
 .dx-rtl .dx-texteditor .dx-placeholder, .dx-rtl.dx-texteditor .dx-placeholder
 {
@@ -2095,22 +2038,10 @@
 .dx-list-item-response-wait
 {
   opacity: .5;
-  -webkit-transition: opacity .2s linear 0;
-  -moz-transition: opacity .2s linear 0;
-  -o-transition: opacity .2s linear 0;
-  transition: opacity .2s linear 0;
-  -webkit-transition: opacity .2s linear 0,none 1s linear 0;
-  -moz-transition: opacity .2s linear 0,none 1s linear 0;
-  -o-transition: opacity .2s linear 0,none 1s linear 0;
-  transition: opacity .2s linear 0,none 1s linear 0;
-  -webkit-transition: opacity .2s linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: opacity .2s linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: opacity .2s linear 0,none 1s linear 0,none 1s linear 0;
-  transition: opacity .2s linear 0,none 1s linear 0,none 1s linear 0;
-  -webkit-transition: opacity .2s linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: opacity .2s linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: opacity .2s linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  transition: opacity .2s linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
+  -webkit-transition: opacity .2s linear;
+  -moz-transition: opacity .2s linear;
+  -o-transition: opacity .2s linear;
+  transition: opacity .2s linear;
 }
 .dx-list-slide-menu-content
 {
@@ -2133,42 +2064,18 @@
 }
 .dx-list-item-before-bag .dx-icon-toggle-delete
 {
-  -webkit-transition: all .1s linear 0;
-  -moz-transition: all .1s linear 0;
-  -o-transition: all .1s linear 0;
-  transition: all .1s linear 0;
-  -webkit-transition: all .1s linear 0,none 1s linear 0;
-  -moz-transition: all .1s linear 0,none 1s linear 0;
-  -o-transition: all .1s linear 0,none 1s linear 0;
-  transition: all .1s linear 0,none 1s linear 0;
-  -webkit-transition: all .1s linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: all .1s linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: all .1s linear 0,none 1s linear 0,none 1s linear 0;
-  transition: all .1s linear 0,none 1s linear 0,none 1s linear 0;
-  -webkit-transition: all .1s linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: all .1s linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: all .1s linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  transition: all .1s linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
+  -webkit-transition: all .1s linear;
+  -moz-transition: all .1s linear;
+  -o-transition: all .1s linear;
+  transition: all .1s linear;
 }
 .dx-list-item-before-bag .dx-list-select-checkbox
 {
   float: left;
-  -webkit-transition: all .1s linear 0;
-  -moz-transition: all .1s linear 0;
-  -o-transition: all .1s linear 0;
-  transition: all .1s linear 0;
-  -webkit-transition: all .1s linear 0,none 1s linear 0;
-  -moz-transition: all .1s linear 0,none 1s linear 0;
-  -o-transition: all .1s linear 0,none 1s linear 0;
-  transition: all .1s linear 0,none 1s linear 0;
-  -webkit-transition: all .1s linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: all .1s linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: all .1s linear 0,none 1s linear 0,none 1s linear 0;
-  transition: all .1s linear 0,none 1s linear 0,none 1s linear 0;
-  -webkit-transition: all .1s linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -moz-transition: all .1s linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  -o-transition: all .1s linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
-  transition: all .1s linear 0,none 1s linear 0,none 1s linear 0,none 1s linear 0;
+  -webkit-transition: all .1s linear;
+  -moz-transition: all .1s linear;
+  -o-transition: all .1s linear;
+  transition: all .1s linear;
 }
 .dx-list-select-all
 {
@@ -3133,7 +3040,6 @@
 }
 .dx-slider
 {
-  margin: 1px;
   line-height: 0;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -3764,6 +3670,7 @@
 .dx-tag-container
 {
   padding: 0 4px 0 0;
+  outline: none;
 }
 .dx-tag-container:before, .dx-tag-container:after
 {
@@ -3907,6 +3814,8 @@
 .dx-pivot
 {
   height: 100%;
+  -ms-touch-action: pinch-zoom;
+  touch-action: pinch-zoom;
 }
 .dx-pivot-wrapper
 {
@@ -3951,6 +3860,8 @@
   -webkit-background-size: auto 100%;
   -moz-background-size: auto 100%;
   background-size: auto 100%;
+  -ms-touch-action: pinch-zoom;
+  touch-action: pinch-zoom;
 }
 .dx-panorama-wrapper
 {
@@ -4054,6 +3965,8 @@
 {
   height: 100%;
   width: 100%;
+  -ms-touch-action: pinch-zoom;
+  touch-action: pinch-zoom;
 }
 .dx-slideoutview-wrapper
 {
@@ -5166,10 +5079,6 @@
 {
   color: inherit;
 }
-.dx-datagrid-rowsview .dx-selection>.dx-editor-cell, .dx-datagrid-rowsview .dx-selection.dx-row:hover>.dx-editor-cell
-{
-  background-color: transparent;
-}
 .dx-datagrid-rowsview .dx-datagrid-table .dx-freespace-row
 {
   border-top: 0;
@@ -5200,6 +5109,10 @@
 .dx-datagrid-rowsview .dx-row>.dx-master-detail-cell:first-child
 {
   padding-left: 30px;
+}
+.dx-datagrid-rowsview .dx-row>.dx-master-detail-cell:focus
+{
+  outline: 0;
 }
 .dx-datagrid-rowsview .dx-data-row.dx-edit-row .dx-cell-modified .dx-highlight-outline:after
 {
@@ -5280,6 +5193,10 @@
 .dx-rtl .dx-datagrid .dx-menu-subitem .dx-menu-item .dx-menu-image, .dx-datagrid.dx-rtl .dx-menu-subitem .dx-menu-item .dx-menu-image
 {
   background-position-x: right;
+}
+.dx-rtl .dx-datagrid .dx-texteditor-buttons-container, .dx-datagrid.dx-rtl .dx-texteditor-buttons-container
+{
+  text-align: start;
 }
 .dx-rtl .dx-datagrid-group-closed
 {
@@ -5386,6 +5303,10 @@
   cursor: default;
   width: 100%;
   overflow: hidden;
+}
+.dx-pivotgrid .dx-area-data-cell, .dx-pivotgrid .dx-area-column-cell
+{
+  width: 100%;
 }
 .dx-pivotgrid table, .dx-pivotgrid tbody, .dx-pivotgrid tfoot, .dx-pivotgrid thead, .dx-pivotgrid tr, .dx-pivotgrid th, .dx-pivotgrid td
 {
@@ -5655,6 +5576,8 @@
   overflow: hidden;
   width: 100%;
   height: 100%;
+  -ms-touch-action: pinch-zoom;
+  touch-action: pinch-zoom;
 }
 .dx-multiview-item-container
 {
@@ -5876,10 +5799,6 @@
   width: auto;
   text-align: left;
 }
-.dx-field-value:not(.dx-switch):not(.dx-checkbox):not(.dx-button), .dx-field-value-static
-{
-  width: 60%;
-}
 .dx-rtl .dx-fieldset .dx-field-label, .dx-fieldset.dx-rtl .dx-field-label
 {
   float: right;
@@ -5943,7 +5862,7 @@
 }
 .dx-fileuploader-content>.dx-fileuploader-upload-button
 {
-  margin: 10px 0;
+  margin-top: 10px;
 }
 .dx-fileuploader-empty .dx-fileuploader-content>.dx-fileuploader-upload-button
 {
@@ -5956,8 +5875,12 @@
 }
 .dx-fileuploader-files-container
 {
-  padding-top: 22px;
+  padding-top: 0;
   width: 100%;
+}
+.dx-fileuploader-show-file-list .dx-fileuploader-files-container
+{
+  padding-top: 22px;
 }
 .dx-fileuploader-file-container
 {
@@ -6192,9 +6115,16 @@
   padding: 2px;
   margin: 0 10px 0 0;
 }
+.dx-popup-content .dx-button.dx-scheduler-dropdown-appointment-remove-button .dx-button-content, .dx-popup-content .dx-button.dx-scheduler-dropdown-appointment-edit-button .dx-button-content
+{
+  padding: 0;
+}
 .dx-popup-content .dx-button.dx-scheduler-dropdown-appointment-remove-button .dx-icon, .dx-popup-content .dx-button.dx-scheduler-dropdown-appointment-edit-button .dx-icon
 {
   font-size: 14px;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
 }
 .dx-scheduler-dropdown-appointment-date
 {
@@ -6221,7 +6151,11 @@
 }
 .dx-layout-manager .dx-field-item:not(.dx-first-col)
 {
-  padding-left: 30px;
+  padding-left: 15px;
+}
+.dx-layout-manager .dx-field-item:not(.dx-last-col)
+{
+  padding-right: 15px;
 }
 .dx-layout-manager .dx-field-empty-item
 {
@@ -6230,10 +6164,15 @@
 .dx-layout-manager.dx-layout-manager-one-col .dx-field-item
 {
   padding-left: 0;
+  padding-right: 0;
 }
-.dx-layout-manager.dx-layout-manager-one-col .dx-field-item.dx-first-row:first-child
+.dx-layout-manager.dx-layout-manager-one-col .dx-field-item.dx-first-row
 {
-  padding-bottom: 10px;
+  padding-top: 10px;
+}
+.dx-layout-manager.dx-layout-manager-one-col .dx-field-item.dx-first-row.dx-first-col:first-child
+{
+  padding-top: 0;
 }
 .dx-layout-manager .dx-label-h-align .dx-field-item-label, .dx-layout-manager .dx-label-h-align .dx-field-item-content, .dx-layout-manager .dx-label-h-align .dx-field-item-content-wrapper
 {
@@ -6322,7 +6261,12 @@
 .dx-rtl .dx-field-item:not(.dx-first-col)
 {
   padding-left: 0;
-  padding-right: 30px;
+  padding-right: 15px;
+}
+.dx-rtl .dx-field-item:not(.dx-last-col)
+{
+  padding-left: 15px;
+  padding-right: 0;
 }
 .dx-rtl .dx-field-item-label-location-left
 {
@@ -6337,6 +6281,7 @@
 .dx-rtl .dx-layout-manager-one-col .dx-field-item
 {
   padding-right: 0;
+  padding-left: 0;
 }
 .dx-rtl .dx-form-group-with-caption .dx-form-group.dx-form-group-with-caption
 {

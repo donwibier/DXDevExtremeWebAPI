@@ -1,15 +1,13 @@
 (function($, DX, undefined) {
     var DefaultLayoutController = DX.framework.html.DefaultLayoutController,
-        abstract = DefaultLayoutController.abstract,
-        commonUtils = DX.require("/utils/utils.common");
+        abstract = DefaultLayoutController.abstract;
     DX.framework.html.OverlayLayoutControllerBase = DefaultLayoutController.inherit({
         ctor: function(options) {
             options = options || {};
             this.callBase(options);
             if (!options.childController) {
                 this._ensureChildController("SimpleLayoutController", "SimpleLayout");
-                var bestMatches = commonUtils.findBestMatches(DX.devices.current(), layoutSets["simple"] || []);
-                this.childController = bestMatches.length ? bestMatches[0].controller : new DX.framework.html.SimpleLayoutController
+                this.childController = new DX.framework.html.SimpleLayoutController
             }
             else
                 this.childController = options.childController;
