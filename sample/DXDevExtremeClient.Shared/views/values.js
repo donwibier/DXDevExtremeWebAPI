@@ -6,7 +6,8 @@
         store: new DevExpress.data.CustomStore({
             load: function (options) {
                 var d = $.Deferred();
-                DXDevExtremeClient.db.get('Values', '', null,
+                //DXDevExtremeClient.db.get('Values', '', null,
+                window.db.get('Values', '', null,
                     function (data) {
                         d.resolve(data);
                     },

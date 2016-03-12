@@ -18,9 +18,11 @@ using WebAPIServer.Providers;
 using WebAPIServer.Results;
 using Newtonsoft.Json.Linq;
 using Microsoft.Owin.Security.DataHandler.Serializer;
+using System.Web.Http.Cors;
 
 namespace WebAPIServer.Controllers
 {
+    [EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
     [Authorize]
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController

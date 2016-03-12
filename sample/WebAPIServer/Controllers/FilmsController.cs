@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 using WebAPIServer.Models;
 
@@ -22,6 +23,7 @@ namespace WebAPIServer.Controllers
         public string searchExpr { get; set; }
     }
 
+    [EnableCors(origins: "*", headers: "*", methods: "*", SupportsCredentials = true)]
     [Authorize]
     public class FilmsController : ApiController
     {
@@ -31,6 +33,7 @@ namespace WebAPIServer.Controllers
         public IQueryable<FilmDTO> GetFilms([FromUri] GetOptions options = null)
         {
             var films = from f in db.Films
+                        orderby f.Id
                         select new FilmDTO
                         {
                             Id = f.Id,

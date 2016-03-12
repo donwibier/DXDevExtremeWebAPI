@@ -26,6 +26,7 @@
     };
     */
     function viewShownEvent() {
+
         db.data.Films.Datasource.load();
     }
 

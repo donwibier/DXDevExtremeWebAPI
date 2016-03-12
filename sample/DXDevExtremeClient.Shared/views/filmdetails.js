@@ -14,7 +14,7 @@
         isReady = $.Deferred();
 
     function viewShownEvent() {
-        db.Films.store().byKey(id).done(function (data) {            
+        db.data.Films.byKey(id).done(function (data) {
             filmTitle(data.Title),
             filmReleaseYear(data.ReleaseYear);
             filmProductionCompany(data.ProductionCompany);

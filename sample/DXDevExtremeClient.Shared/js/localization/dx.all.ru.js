@@ -1,9 +1,9 @@
 /*! 
 * DevExtreme
-* Version: 15.2.4
-* Build date: Dec 8, 2015
+* Version: 15.2.7
+* Build date: Mar 3, 2016
 *
-* Copyright (c) 2012 - 2015 Developer Express Inc. ALL RIGHTS RESERVED
+* Copyright (c) 2012 - 2016 Developer Express Inc. ALL RIGHTS RESERVED
 * EULA: https://www.devexpress.com/Support/EULAs/DevExtreme.xml
 */
 
@@ -65,11 +65,12 @@ Globalize.addCultureInfo("ru", {messages: {
         "dxFileUploader-uploaded": "Загружено",
         "dxFileUploader-readyToUpload": "Готово к загрузке",
         "dxFileUploader-uploadFailedMessage": "Загрузка не удалась",
-        "dxRangeSlider-ariaFrom": "От {0}",
-        "dxRangeSlider-ariaTill": "До {0}",
+        "dxRangeSlider-ariaFrom": "От",
+        "dxRangeSlider-ariaTill": "До",
         "dxSwitch-onText": "ВКЛ",
         "dxSwitch-offText": "ВЫКЛ",
-        "dxForm-optionalMark": "необязательный"
+        "dxForm-optionalMark": "необязательный",
+        "dxForm-requiredMessage": " Поле {0} должно быть заполнено"
     }});
 
 Globalize.addCultureInfo("ru", {messages: {
