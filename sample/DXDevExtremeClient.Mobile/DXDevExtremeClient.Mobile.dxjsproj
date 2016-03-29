@@ -9,7 +9,7 @@
     <RootNamespace>DXDevExtremeClient</RootNamespace>
     <ApplicationPage>index.html</ApplicationPage>
     <Name>DXDevExtremeClient.Mobile</Name>
-    <UpgradeNotifyShown>15.1.8</UpgradeNotifyShown>
+    <UpgradeNotifyShown>15.2.5</UpgradeNotifyShown>
     <ScreenOrientation>Default</ScreenOrientation>
     <ApplicationTitle>DXDevExtremeClient.Mobile</ApplicationTitle>
     <VersionPackage>1.0.0.0</VersionPackage>
@@ -95,8 +95,8 @@
   </Target>
   <Target Name="CopyFilesToOutputDirectory">
     <Message Text="Copying files to output dir..." Importance="high" />
-    <Copy SourceFiles="@(Content)" DestinationFiles="@(Content->'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(GeneratedJavascript->'%(Identity)')" DestinationFiles="@(GeneratedJavascript-&gt;'%(Identity)'-&gt;'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(Content)" DestinationFiles="@(Content->'$(OutputPath)$([MSBuild]::MakeRelative($(MSBuildProjectDirectory),'%(FullPath)'))')" />
+    
   </Target>
   <Target Name="CoreCompile">
     <!--<Message Text="'$(MSBuildToolsPath)'"></Message>-->

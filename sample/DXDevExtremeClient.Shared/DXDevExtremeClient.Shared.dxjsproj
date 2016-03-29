@@ -8,7 +8,7 @@
     <UploadPluginsToTheCourier>True</UploadPluginsToTheCourier>
     <Name>Shared</Name>
     <RootNamespace>DXDevExtremeClient</RootNamespace>
-    <UpgradeNotifyShown>15.1.8</UpgradeNotifyShown>
+    <UpgradeNotifyShown>15.2.5</UpgradeNotifyShown>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -129,8 +129,8 @@
   </Target>
   <Target Name="CopyFilesToOutputDirectory">
     <Message Text="Copying files to output dir..." Importance="high" />
-    <Copy SourceFiles="@(Content)" DestinationFiles="@(Content->'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(GeneratedJavascript->'%(Identity)')" DestinationFiles="@(GeneratedJavascript-&gt;'%(Identity)'-&gt;'$(OutputPath)%(RelativeDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(Content)" DestinationFiles="@(Content->'$(OutputPath)$([MSBuild]::MakeRelative($(MSBuildProjectDirectory),'%(FullPath)'))')" />
+    
     <Message Text="Copying source JavaScript files to [$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source')) ]..." Importance="high" />
     <Copy SourceFiles="js\dx.webapi.client.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source\js'))" />
     <Copy SourceFiles="js\dx.webapi.client.oauth.complete.js" DestinationFolder="$([System.IO.Path]::GetFullPath('$(OutputPath)..\..\..\..\source\js'))" />

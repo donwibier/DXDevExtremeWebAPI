@@ -95,7 +95,11 @@
                     }
                 };
             if (dataObj) {
-                ajaxObj = $.extend(ajaxObj, { data: JSON.stringify(dataObj) });
+                if (method == 'GET') {
+                    ajaxObj = $.extend(ajaxObj, { data: dataObj }); // ok con get options ma no con PUT
+                } else {
+                    ajaxObj = $.extend(ajaxObj, { data: JSON.stringify(dataObj) });
+                }
             }
 
             $.ajax(ajaxObj)
@@ -264,70 +268,70 @@
     DX.WebAPI.DXStore.prototype = {
         load: function (options) {
             var d = $.Deferred();
-            this.owner.client.get(this.owner.controller, this.owner.listAction, null,
+            this.owner.client.get(this.owner.controller, this.owner.listAction, options,
                 function (data) {
                     d.resolve(data);
                 },
                 function (err, sender) {
                     d.reject(err);
                     if (!sender.authorizeError(err)) {
-                        sender.dispatchEvents([sender.events.datasourceError], { sender: this.owner, args: err });
+                        sender.dispatchEvents([sender.events.datasourceError], { sender: this, args: err });
                     }
                 });
             return d.promise();
         },
         byKey: function (key) {
             var d = $.Deferred();
-            this.owner.client.get(this.owner.controller, DX.Utils.join([this.owner.byKeyAction, encodeURIComponent(key)], '/', true), null,
+            this.client.get(this.controller, DX.Utils.join([this.byKeyAction, encodeURIComponent(key)], '/', true), null,
                 function (data) {
                     d.resolve(data);
                 },
                 function (err, sender) {
                     d.reject(err);
                     if (!sender.authorizeError(err)) {
-                        sender.dispatchEvents([sender.events.datasourceError], { sender: this.owner, args: err });
+                        sender.dispatchEvents([sender.events.datasourceError], { sender: this, args: err });
                     }
                 });
             return d.promise();
         },
         insert: function (values) {
             var d = $.Deferred();
-            this.owner.client.post(this.owner.controller, this.owner.insertAction, values,
+            this.client.post(this.controller, this.insertAction, values,
                 function (data) {
                     d.resolve(data);
                 },
                 function (err, sender) {
                     d.reject(err);
                     if (!sender.authorizeError(err)) {
-                        sender.dispatchEvents([sender.events.datasourceError], { sender: this.owner, args: err });
+                        sender.dispatchEvents([sender.events.datasourceError], { sender: this, args: err });
                     }
                 });
             return d.promise();
         },
         update: function (key, values) {
             var d = $.Deferred();
-            this.owner.client.put(this.owner.controller, DX.Utils.join([this.owner.updateAction, encodeURIComponent(key)], '/', true), values,
+            this.client.put(this.controller, DX.Utils.join([this.updateAction, encodeURIComponent(key)], '/', true), values,
                 function (data) {
                     d.resolve(data);
                 },
                 function (err, sender) {
                     d.reject(err);
                     if (!sender.authorizeError(err)) {
-                        sender.dispatchEvents([sender.events.datasourceError], { sender: this.owner, args: err });
+                        sender.dispatchEvents([sender.events.datasourceError], { sender: this, args: err });
                     }
                 });
             return d.promise();
         },
         remove: function (key) {
             var d = $.Deferred();
-            this.owner.client.del(this.owner.controller, DX.Utils.join([this.owner.removeAction, encodeURIComponent(key)], '/', true), null,
+            this.client.del(this.controller, DX.Utils.join([this.removeAction, encodeURIComponent(key)], '/', true), null,
                 function (data) {
                     d.resolve(data);
                 },
                 function (err, sender) {
                     d.reject(err);
                     if (!sender.authorizeError(err)) {
-                        sender.dispatchEvents([sender.events.datasourceError], { sender: this.owner, args: err });
+                        sender.dispatchEvents([sender.events.datasourceError], { sender: this, args: err });
                     }
                 });
             return d.promise();
